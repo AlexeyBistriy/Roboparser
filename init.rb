@@ -1,5 +1,6 @@
 # Парсим сайт www.aliexpress.com
 require "watir-webdriver"
+require 'nokogiri'
 require_relative "Parser"
 watirff= Watir::Browser.new :ff
 watirff.goto "www.aliexpress.com"
@@ -8,7 +9,7 @@ ali=Parser.new
 
 # ----------------------------  1
 #startTime=Time.new.to_f
-#parser_as=ali.links(watirff)
+#parser_as=ali.watri_links(watirff)
 #parser_as.each do |link|
 #  puts link
 #end
@@ -18,7 +19,17 @@ ali=Parser.new
 
 # ----------------------------- 2
 #puts startTime=Time.new.to_f
-#parser_as=ali.links2(watirff)
+#parser_as=ali.reg_links(watirff)
+#parser_as.each do |link|
+#  puts link
+#  puts ali.href(link)
+#end
+#puts parser_as.size
+#
+#puts (Time.new.to_f-startTime)
+# ----------------------------------- 3
+#puts startTime=Time.new.to_f
+#parser_as=ali.watir_imgs(watirff)
 #parser_as.each do |link|
 #  puts link
 #  puts ali.href(link)
@@ -27,15 +38,20 @@ ali=Parser.new
 #
 #puts (Time.new.to_f-startTime)
 
-puts startTime=Time.new.to_f
-parser_as=ali.imgs(watirff)
+startTime=Time.new.to_f
+parser_as=ali.nokogiri_links(watirff)
 parser_as.each do |link|
-  puts link
-  puts ali.href(link)
+  puts link #parser_as
 end
-puts parser_as.size
+  puts parser_as.size
 
 puts (Time.new.to_f-startTime)
+
+
+
+
+
+
 #step=1
 #  File.open('sleep'+"#{step}"+'.txt', 'w'){ |file| file.write watirff.html }
 #step+=1

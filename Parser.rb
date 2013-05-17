@@ -1,24 +1,29 @@
 class Parser
-  def links (watir)
+  def watir_links (watir)
     links=[]
     watir.as.each{|a| links.push(a.html)}
     links
   end
-
-  def links2(watir)
+  def reg_links(watir)
     html=watir.html
     html.scan(/<a\b(?:(?:"[^"]*"|'[^']*'|[^'">])*)>(?:.*?)<\/a>/)
   end
-  def href(link)
+  def nokogiri_links(watir)
+    links=[]
+    html=watir.html
+    page = Nokogiri::HTML(html)
+    page.css("a").each{|a| a.display}
+  end
+  def reg_href(link)
     /href\s*=\s*(?:["'](?<hrf>[^"']*)["']|(?<hrf>\S+))/.match(link)
     Regexp.last_match(:hrf)
   end
-  def divs(watir)
+  def watri_divs(watir)
     divs=[]
     watir.divs.each{|div| divs.push(div.html)}
     divs
   end
-  def imgs(watir)
+  def watir_imgs(watir)
     imgs=[]
     watir.imgs.each{|img| imgs.push(img.html)}
     imgs
