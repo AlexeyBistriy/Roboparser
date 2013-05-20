@@ -8,11 +8,24 @@ class Parser
     html=watir.html
     html.scan(/<a\b(?:(?:"[^"]*"|'[^']*'|[^'">])*)>(?:.*?)<\/a>/)
   end
-  def nokogiri_links(watir)
-    links=[]
-    html=watir.html
+  def kind_href(href,base,hrefs)
+    if href.scan(base).empty?
+      "banner"
+    elsif hrefs.include?(href)
+      "navigate"
+    else
+      "new"
+    end
+
+  end
+  def nokogiri_hrefs(html,level)
     page = Nokogiri::HTML(html)
-    page.css("a").each{|a| a.display}
+    page.css("a").each do |a|
+      link=Hash.new
+      link['href']=a['href']
+      link['text']= a.content
+      link['level']=level
+      end
   end
   def reg_href(link)
     /href\s*=\s*(?:["'](?<hrf>[^"']*)["']|(?<hrf>\S+))/.match(link)

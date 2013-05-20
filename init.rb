@@ -39,9 +39,12 @@ ali=Parser.new
 #puts (Time.new.to_f-startTime)
 
 startTime=Time.new.to_f
-parser_as=ali.nokogiri_links(watirff)
+html=watirff.html
+parser_as=ali.nokogiri_hrefs(html,0)
 parser_as.each do |link|
-  puts link #parser_as
+  puts link["href"]
+  puts link["text"] #parser_as
+  puts link["level"]
 end
   puts parser_as.size
 
