@@ -43,7 +43,7 @@ html=watirff.html
 parser_as=ali.nokogiri_hrefs(html,0)
 parser_as.each do |link|
   puts link["href"]
-  puts link["text"] #parser_as
+  puts link["content"] #parser_as
   puts link["level"]
 end
   puts parser_as.size
