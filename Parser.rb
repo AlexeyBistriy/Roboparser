@@ -4,9 +4,14 @@ class Parser
     watir.as.each{|a| links.push(a.html)}
     links
   end
-  def reg_links(watir)
-    html=watir.html
+  def reg_links(html)
     html.scan(/<a\b(?:(?:"[^"]*"|'[^']*'|[^'">])*)>(?:.*?)<\/a>/)
+  end
+  def nokogiri_links(html)
+    links=[]
+    page = Nokogiri::HTML(html)
+    page.css("a").each{|node| links.push(node.to_s)}
+    links
   end
   def kind_href(href,base,hrefs)
     if href.scan(base).empty?
