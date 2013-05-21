@@ -20,17 +20,32 @@ class Parser
   end
   def nokogiri_hrefs(html,level)
     page = Nokogiri::HTML(html)
+    @nokogiri_hrefs=[]
     page.css("a").each do |a|
       link=Hash.new
       link['href']=a['href']
-      link['text']= a.content
+      link['text']= a.text
+      link['content']= a.content
       link['level']=level
-      end
+      @nokogiri_hrefs.push(link)
+    end
+    @nokogiri_hrefs
   end
   def reg_href(link)
     /href\s*=\s*(?:["'](?<hrf>[^"']*)["']|(?<hrf>\S+))/.match(link)
     Regexp.last_match(:hrf)
   end
+  def reg_hrefs(html)
+    @reg_hrefs=[]
+    html.scan(/<a\b(?:(?:"[^"]*"|'[^']*'|[^'">])*)>(?:.*?)<\/a>/).each do |reg|
+    link=Hash.new
+    /href\s*=\s*(?:["'](?<hrf>[^"']*)["']|(?<hrf>\S+))/.match(reg)
+    link["href"]=Regexp.last_match(:hrf)
+
+    @reg_hrefs.push(link)
+
+    end
+   end
   def watri_divs(watir)
     divs=[]
     watir.divs.each{|div| divs.push(div.html)}
