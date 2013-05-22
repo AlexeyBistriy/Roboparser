@@ -28,9 +28,9 @@ class Parser
     page = Nokogiri::HTML(html)
     page.css("a").each do |a|
       link=Hash.new
-      link['href']=a['href']
-      link['content']= a.content
-      link['level']=level
+      link[:href]=a['href']
+      link[:content]= a.content
+      link[:level]=level
       refs.push(link)
     end
     refs
@@ -42,8 +42,8 @@ class Parser
     /href\s*=\s*(?:["'](?<hrf>[^"']*)["']|(?<hrf>\S+))/.match(refer)
     link["href"]=Regexp.last_match(:hrf)
     /<a\b(?:(?:"[^"]*"|'[^']*'|[^'">])*)>(?<cnt>.*?)<\/a>/.match(refer)
-    link["content"]= Regexp.last_match(:cnt)
-    link["level"]=level
+    link[:content]= Regexp.last_match(:cnt)
+    link[:level]=level
     refs.push(link)
     end
   refs
