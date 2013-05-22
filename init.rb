@@ -8,14 +8,15 @@ watirff.goto "www.aliexpress.com"
 ali=Parser.new
 
 # ----------------------------  1
-#startTime=Time.new.to_f
-#parser_as=ali.watri_links(watirff)
-#parser_as.each do |link|
-#  puts link
-#end
-#  puts parser_as.size
-#
-#puts (Time.new.to_f-startTime)
+startTime=Time.new.to_f
+html=watirff.html
+parser_as=ali.nokogiri_links(html)
+parser_as.each do |link|
+  puts link
+end
+  puts parser_as.size
+
+puts (Time.new.to_f-startTime)
 
 # ----------------------------- 2
 #puts startTime=Time.new.to_f
@@ -37,18 +38,18 @@ ali=Parser.new
 #puts parser_as.size
 #
 #puts (Time.new.to_f-startTime)
-
-startTime=Time.new.to_f
-html=watirff.html
-parser_as=ali.nokogiri_hrefs(html,0)
-parser_as.each do |link|
-  puts link["href"]
-  puts link["text"] #parser_as
-  puts link["level"]
-end
-  puts parser_as.size
-
-puts (Time.new.to_f-startTime)
+#
+#startTime=Time.new.to_f
+#html=watirff.html
+#parser_as=ali.nokogiri_hrefs(html,0)
+#parser_as.each do |link|
+#  puts link[:href]
+#  puts link[:content] #parser_as
+#  puts link[:level]
+#end
+#  puts parser_as.size
+#
+#puts (Time.new.to_f-startTime)
 
 
 
