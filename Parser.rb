@@ -31,6 +31,10 @@ class Parser
       link[:href]=a['href']
       link[:content]= a.content
       link[:level]=level
+      link[:xpath]= a.path
+      link[:attributes]=a.attributes
+      link[:keys]=a.keys
+      link[:valies]=a.values
       refs.push(link)
     end
     refs
