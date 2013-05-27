@@ -31,6 +31,10 @@ class Parser
       link[:href]=a['href']
       link[:content]= a.content
       link[:level]=level
+      link[:xpath]= a.path
+      link[:attributes]=a.attributes
+      link[:keys]=a.keys
+      link[:valies]=a.values
       refs.push(link)
     end
     refs
@@ -40,7 +44,7 @@ class Parser
     html.scan(/<a\b(?:(?:"[^"]*"|'[^']*'|[^'">])*)>(?:.*?)<\/a>/).each do |refer|
     link=Hash.new
     /href\s*=\s*(?:["'](?<hrf>[^"']*)["']|(?<hrf>\S+))/.match(refer)
-    link[:href]=Regexp.last_match(:hrf)
+    link["href"]=Regexp.last_match(:hrf)
     /<a\b(?:(?:"[^"]*"|'[^']*'|[^'">])*)>(?<cnt>.*?)<\/a>/.match(refer)
     link[:content]= Regexp.last_match(:cnt)
     link[:level]=level
@@ -62,14 +66,27 @@ class Parser
     watir.imgs.each{|img| imgs.push(img.html)}
     imgs
   end
+  def navigate_xpath (html,xpath)
+    refs=[]
+    page = Nokogiri::HTML(html)
+    page.xpath(xpath).each do |a|
+      link=Hash.new
+      link[:href]=a['href']
+      link[:content]= a.content
+      link[:xpath]= a.path
+      link[:attributes]=a.attributes
+      link[:keys]=a.keys
+      link[:valies]=a.values
+      refs.push(link)
+    end
+    refs
+  end
   def variables
-
   end
   def to_html
 
   end
   def compare
-
   end
   def base_href
 
