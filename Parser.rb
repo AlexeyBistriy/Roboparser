@@ -74,14 +74,16 @@ class Parser
       link[:href]=a['href']
       link[:content]= a.content
       link[:xpath]= a.path
-      link[:attributes]=a.attributes
+      #link[:attributes]=a.attributes
       link[:keys]=a.keys
       link[:valies]=a.values
       refs.push(link)
     end
     refs
   end
-  def variables
+  def table(html)
+    page = Nokogiri::HTML(html)
+
   end
   def to_html
 
