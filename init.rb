@@ -112,8 +112,6 @@ page.css(".list-item").each do |li|
     item[:free]=tmp[0][:content]
   end
 
-
-
   data.push(item)
 end
 if debug

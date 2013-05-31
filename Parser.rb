@@ -96,7 +96,6 @@ class Parser
     end
     refs
   end
-
   def table(html)
     page = Nokogiri::HTML(html)
 
