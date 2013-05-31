@@ -19,6 +19,7 @@
 #  File.open('sleep'+"#{step}"+'.txt', 'w'){ |file| file.write watirff.as}
 
 
+
 require "watir-webdriver"
 require 'nokogiri'
 require_relative "Parser"
