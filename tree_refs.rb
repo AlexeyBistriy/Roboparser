@@ -9,7 +9,7 @@ class TreeRefs
   end
   def add_brenches
   end
-  def cut_brences
+  def init
 
   end
   def puts_array_hashes(array)

@@ -81,6 +81,22 @@ class Parser
     end
     refs
   end
+  def navigate_css (html,css)
+    refs=[]
+    page = Nokogiri::HTML(html)
+    page.css(css+" a").each do |a|
+      link=Hash.new
+      link[:href]=a['href']
+      link[:content]= a.content
+      link[:xpath]= a.path
+      #link[:attributes]=a.attributes
+      link[:keys]=a.keys
+      link[:valies]=a.values
+      refs.push(link)
+    end
+    refs
+  end
+
   def table(html)
     page = Nokogiri::HTML(html)
 

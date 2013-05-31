@@ -38,7 +38,12 @@ html=watirff.html
 # xpatb для ссылок "//html/body/div[1]/div[3]/div[1]/div[1]/div/div[1]/div[1]/div/dl/dd/dl/dd/a"
 tree_menu=TreeRefs.new
 start_page=Parser.new
-menu=start_page.navigate_xpath(html,"//html/body/div[1]/div[3]/div[1]/div[1]/div/div[1]/div[1]/div/dl/dd/dl/dd/a")
+if  watirff.url=="http://www.aliexpress.com/homeRu.htm"
+  menu=start_page.navigate_css(html,".cate-list-item")
+elsif watirff.url=="http://www.aliexpress.com/"
+  menu=start_page.navigate_xpath(html,"//html/body/div[1]/div[3]/div[1]/div[1]/div/div[1]/div[1]/div/dl/dd/dl/dd/a")
+end
+
 if debug
   tree_menu.puts_array_hashes(menu)
 end
@@ -58,16 +63,55 @@ page = Nokogiri::HTML(html)
 data=[]
 page.css(".list-item").each do |li|
   item=Hash.new
-  item[:href_img] = li.css(".img a")[0][:href]
-  item[:src_img]=li.css(".img img")[0][:src]
-  item[:href_item]=li.css(".detail .history-item")[0][:href]
-  item[:context_item]=li.css(".detail .history-item")[0].content
-  item[:title_item]=li.css(".detail .history-item")[0][:title]
-  item[:brief_item]=li.css(".detail .brief")[0].content
-  item[:rate_item]=li.css("span[itemprop='ratingValue']")[0][:content]
-  item[:rate_review]=li.css("span[itemprop='reviewCount']")[0][:content]
-  item[:rate_feedback]=li.css(".rate-num")[0][:content]
-  item[:rate_orders]=li.css("em[title='Total Orders']")[0][:content]
+  unless (tmp=li.css(".img a")).empty?
+    item[:href_img] = tmp[0][:href]
+  end
+  unless (tmp=li.css(".img img")).empty?
+    item[:src_img]=tmp[0][:src]
+  end
+  unless (tmp=li.css(".history-item")).empty?
+    item[:href_item]=tmp[0][:href]
+    item[:context_item]=tmp[0].content
+    item[:title_item]=tmp[0][:title]
+  end
+  unless (tmp=li.css(".brief")).empty?
+    item[:brief_item]=tmp[0].content
+  end
+  unless (tmp=li.css("span[itemprop='ratingValue']")).empty?
+    item[:rate_item]=tmp[0][:content]
+  end
+  unless (tmp=li.css("span[itemprop='reviewCount']")).empty?
+    item[:rate_review]=tmp[0][:content]
+  end
+  unless (tmp=li.css(".rate-num")).empty?
+    item[:rate_feedback]=tmp[0][:content]
+  end
+
+  unless (tmp=li.css("em[title='Total Orders']")).empty?
+    item[:rate_orders]=tmp[0][:content]
+  end
+  unless (tmp=li.css(".price-m .currency")).empty?
+    item[:currency]=tmp[0][:content]
+  end
+  unless (tmp=li.css(".price-m .value")).empty?
+    item[:price]=tmp[0][:content]
+  end
+  unless (tmp=li.css(".price-m .unit")).empty?
+    item[:unit]=tmp[0][:content]
+  end
+  unless (tmp=li.css(".pnl-shipping .currency")).empty?
+    item[:cur]=tmp[0][:content]
+  end
+  unless (tmp=li.css(".price .value")).empty?
+    item[:sheeping]=tmp[0][:content]
+  end
+  unless (tmp=li.css(".price .unit")).empty?
+    item[:un]=tmp[0][:content]
+  end
+  unless (tmp=li.css(".free-s")).empty?
+    item[:free]=tmp[0][:content]
+  end
+
 
 
   data.push(item)
