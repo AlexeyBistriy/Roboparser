@@ -40,7 +40,7 @@ tree_menu=TreeRefs.new
 start_page=Parser.new
 menu=start_page.navigate_xpath(html,"//html/body/div[1]/div[3]/div[1]/div[1]/div/div[1]/div[1]/div/dl/dd/dl/dd/a")
 if debug
-  tree_menu.puts_links(menu)
+  tree_menu.puts_array_hashes(menu)
 end
 
 #переход на
@@ -51,4 +51,27 @@ end
 #end
 
 watirff.goto menu[3][:href]
+
 html=watirff.html
+puts "<<<<<<<<<<<<<<<<<<<<<<<<<"+menu[3][:href]+">>>>>>>>>>>>>>>>>>>>>>>>>>"
+page = Nokogiri::HTML(html)
+data=[]
+page.css(".list-item").each do |li|
+  item=Hash.new
+  item[:href_img] = li.css(".img a")[0][:href]
+  item[:src_img]=li.css(".img img")[0][:src]
+  item[:href_item]=li.css(".detail .history-item")[0][:href]
+  item[:context_item]=li.css(".detail .history-item")[0].content
+  item[:title_item]=li.css(".detail .history-item")[0][:title]
+  item[:brief_item]=li.css(".detail .brief")[0].content
+  item[:rate_item]=li.css("span[itemprop='ratingValue']")[0][:content]
+  item[:rate_review]=li.css("span[itemprop='reviewCount']")[0][:content]
+  item[:rate_feedback]=li.css(".rate-num")[0][:content]
+  item[:rate_orders]=li.css("em[title='Total Orders']")[0][:content]
+
+
+  data.push(item)
+end
+if debug
+  tree_menu.puts_array_hashes(data)
+end

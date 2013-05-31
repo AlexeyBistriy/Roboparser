@@ -12,8 +12,8 @@ class TreeRefs
   def cut_brences
 
   end
-  def puts_links(links)
-    links.each do |link|
+  def puts_array_hashes(array)
+    array.each do |link|
       puts "=========================================="
       keys=link.keys
       keys.each do |key|
