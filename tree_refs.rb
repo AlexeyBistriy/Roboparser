@@ -1,22 +1,26 @@
 class TreeRefs
-  def initialize(refs)
-    @navigate=[]
-    @tree=Hash.new
-    refs.each do |ref|
-      if ref[:href].any?
-        @tree[ref[:href]]=ref[:level]
-      end
-    end
+  def initialize
+
   end
 
-    @navigate
+
   def root
 
   end
   def add_brenches
 
-  end
-  def cut_brences
 
+  end
+  def init
+
+  end
+  def puts_array_hashes(array)
+    array.each do |link|
+      puts "=========================================="
+      keys=link.keys
+      keys.each do |key|
+        puts link[key]
+      end
+    end
   end
 end

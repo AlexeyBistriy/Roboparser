@@ -66,14 +66,45 @@ class Parser
     watir.imgs.each{|img| imgs.push(img.html)}
     imgs
   end
-  def variables
+  def navigate_xpath (html,xpath)
+    refs=[]
+    page = Nokogiri::HTML(html)
+    page.xpath(xpath).each do |a|
+      link=Hash.new
+      link[:href]=a['href']
+      link[:content]= a.content
+      link[:xpath]= a.path
+      #link[:attributes]=a.attributes
+      link[:keys]=a.keys
+      link[:valies]=a.values
+      refs.push(link)
+    end
+    refs
+  end
+  def navigate_css (html,css)
+    refs=[]
+    page = Nokogiri::HTML(html)
+    page.css(css+" a").each do |a|
+      link=Hash.new
+      link[:href]=a['href']
+      link[:content]= a.content
+      link[:xpath]= a.path
+      #link[:attributes]=a.attributes
+      link[:keys]=a.keys
+      link[:valies]=a.values
+      refs.push(link)
+    end
+    refs
+  end
+  def table(html)
+    page = Nokogiri::HTML(html)
 
   end
   def to_html
 
+
   end
   def compare
-
   end
   def base_href
 
