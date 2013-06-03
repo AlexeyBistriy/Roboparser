@@ -26,7 +26,17 @@ require_relative "Parser"
 require_relative "tree_refs"
 
 debug=true
-
+def css_no_nil(css,p_in)
+  unless css[0].nil?
+    if p_in == content
+      css[0].content
+    else
+      css[0][p_in]
+    end
+  else
+    ""
+  end
+end
 
 # запускаем стартовую страницу и читаем ее HTML код
 client = Selenium::WebDriver::Remote::Http::Default.new
@@ -64,12 +74,21 @@ page = Nokogiri::HTML(html)
 data=[]
 page.css(".list-item").each do |li|
   item=Hash.new
-  unless (tmp=li.css(".img a")).empty?
-    item[:href_img] = tmp[0][:href]
+
+  css=li.css(".img a")
+  unless css[0].nil?
+    item[:href_img] = css[0][:href]
+  else
+    item[:href_img]=""
   end
-  unless (tmp=li.css(".img img")).empty?
+
+  css=li.css(".img img")
+  unless css[0].nil?
     item[:src_img]=tmp[0][:src]
+  else
+    item[:src_img]=""
   end
+
   unless (tmp=li.css(".history-item")).empty?
     item[:href_item]=tmp[0][:href]
     item[:context_item]=tmp[0].content
