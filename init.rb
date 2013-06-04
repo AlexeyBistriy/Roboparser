@@ -26,12 +26,21 @@ require_relative "Parser"
 require_relative "tree_refs"
 
 debug=true
+
 def css_no_nil(li,css_in,attribute_in)
   css=li.css(css_in)
   unless css[0].nil?
     if attribute_in == "content"
+      puts "attribute_in=content"
+      puts attribute_in
+      #puts css[0].methods
+      puts css.size
+      puts css[0].to_s
       css[0].content
     else
+      puts "attribute_in<>content"
+      puts attribute_in
+      puts css[0][attribute_in]
       css[0][attribute_in]
     end
   else
@@ -42,7 +51,7 @@ end
 
 # запускаем стартовую страницу и читаем ее HTML код
 client = Selenium::WebDriver::Remote::Http::Default.new
-client.timeout = 180
+client.timeout = 380
 watirff = Watir::Browser.new :ff, :http_client => client
 watirff.goto "www.aliexpress.com"
 html=watirff.html
@@ -57,9 +66,9 @@ elsif watirff.url=="http://www.aliexpress.com/"
   menu=start_page.navigate_xpath(html,"//html/body/div[1]/div[3]/div[1]/div[1]/div/div[1]/div[1]/div/dl/dd/dl/dd/a")
 end
 
-if debug
-  tree_menu.puts_array_hashes(menu)
-end
+#if debug
+#  tree_menu.puts_array_hashes(menu)
+#end
 
 #переход на
 
