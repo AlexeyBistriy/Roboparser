@@ -26,17 +26,19 @@ require_relative "Parser"
 require_relative "tree_refs"
 
 debug=true
-def css_no_nil(css,p_in)
+def css_no_nil(li,css_in,attribute_in)
+  css=li.css(css_in)
   unless css[0].nil?
-    if p_in == content
+    if attribute_in == "content"
       css[0].content
     else
-      css[0][p_in]
+      css[0][attribute_in]
     end
   else
     ""
   end
 end
+
 
 # запускаем стартовую страницу и читаем ее HTML код
 client = Selenium::WebDriver::Remote::Http::Default.new
@@ -74,62 +76,24 @@ page = Nokogiri::HTML(html)
 data=[]
 page.css(".list-item").each do |li|
   item=Hash.new
-  css=li.css(".img a")
-  unless css[0].nil?
-    item[:href_img] = css[0][:href]
-  else
-    item[:href_img]=""
-  end
-
-  css=li.css(".img img")
-  unless css[0].nil?
-    item[:src_img]=tmp[0][:src]
-  else
-    item[:src_img]=""
-  end
-
-  unless (tmp=li.css(".history-item")).empty?
-    item[:href_item]=tmp[0][:href]
-    item[:context_item]=tmp[0].content
-    item[:title_item]=tmp[0][:title]
-  end
-  unless (tmp=li.css(".brief")).empty?
-    item[:brief_item]=tmp[0].content
-  end
-  unless (tmp=li.css("span[itemprop='ratingValue']")).empty?
-    item[:rate_item]=tmp[0][:content]
-  end
-  unless (tmp=li.css("span[itemprop='reviewCount']")).empty?
-    item[:rate_review]=tmp[0][:content]
-  end
-  unless (tmp=li.css(".rate-num")).empty?
-    item[:rate_feedback]=tmp[0][:content]
-  end
-
-  unless (tmp=li.css("em[title='Total Orders']")).empty?
-    item[:rate_orders]=tmp[0][:content]
-  end
-  unless (tmp=li.css(".price-m .currency")).empty?
-    item[:currency]=tmp[0][:content]
-  end
-  unless (tmp=li.css(".price-m .value")).empty?
-    item[:price]=tmp[0][:content]
-  end
-  unless (tmp=li.css(".price-m .unit")).empty?
-    item[:unit]=tmp[0][:content]
-  end
-  unless (tmp=li.css(".pnl-shipping .currency")).empty?
-    item[:cur]=tmp[0][:content]
-  end
-  unless (tmp=li.css(".price .value")).empty?
-    item[:sheeping]=tmp[0][:content]
-  end
-  unless (tmp=li.css(".price .unit")).empty?
-    item[:un]=tmp[0][:content]
-  end
-  unless (tmp=li.css(".free-s")).empty?
-    item[:free]=tmp[0][:content]
-  end
+  puts "{{{{{{{{{{{{{{{{{{{{{{{{{{"
+  puts  item[:href_img]=css_no_nil(li,".img a",:href)
+  puts  item[:src_img]=css_no_nil(li,".img img",:src)
+  puts  item[:href_item]=css_no_nil(li,".history-item",:href)
+  puts  item[:content_item]=css_no_nil(li,".history-item","content")
+  puts  item[:title_item]=css_no_nil(li,".history-item",:title)
+  puts  item[:brief_item]=css_no_nil(li,".brief","content")
+  puts  item[:rate_item]=css_no_nil(li,"span[itemprop='ratingValue']","content")
+  puts  item[:rate_review]=css_no_nil(li,"span[itemprop='reviewCount']","content")
+  puts  item[:rate_feedback]=css_no_nil(li,".rate-num","content")
+  puts  item[:rate_orders]=css_no_nil(li,"em[title='Total Orders']","content")
+  puts  item[:currency]=css_no_nil(li,".price-m .currency","content")
+  puts  item[:price]=css_no_nil(li,".price-m .value","content")
+  puts  item[:unit]=css_no_nil(li,".price-m .unit","content")
+  puts  item[:sheeping]=css_no_nil(li,".price .value","content")
+  puts  item[:un]=css_no_nil(li,".price .unit","content")
+  puts  item[:free]=css_no_nil(li,".free-s","content")
+  puts ")))))))))))))))))))))))))))))))"
 
   data.push(item)
 end
