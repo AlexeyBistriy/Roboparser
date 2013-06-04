@@ -74,7 +74,6 @@ page = Nokogiri::HTML(html)
 data=[]
 page.css(".list-item").each do |li|
   item=Hash.new
-
   css=li.css(".img a")
   unless css[0].nil?
     item[:href_img] = css[0][:href]
