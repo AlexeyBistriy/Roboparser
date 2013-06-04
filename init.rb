@@ -26,6 +26,9 @@ require_relative "tree_refs"
 
 debug=true
 
+def nil(var)
+  var.nil? ? var : ""
+end
 
 # запускаем стартовую страницу и читаем ее HTML код
 client = Selenium::WebDriver::Remote::Http::Default.new
@@ -58,12 +61,12 @@ page = Nokogiri::HTML(html)
 data=[]
 page.css(".list-item").each do |li|
   item=Hash.new
-  item[:href_img] = li.css(".img a")[0][:href]
+  item[:href_img] = li.css(".img a")[0][href]
   item[:src_img]=li.css(".img img")[0][:src]
-  item[:href_item]=li.css(".detail .history-item")[0][:href]
-  item[:context_item]=li.css(".detail .history-item")[0].content
-  item[:title_item]=li.css(".detail .history-item")[0][:title]
-  item[:brief_item]=li.css(".detail .brief")[0].content
+  item[:href_item]=li.css(".history-item")[0][:href]
+  item[:context_item]=li.css(".history-item")[0].content
+  item[:title_item]=li.css(".history-item")[0][:title]
+  item[:brief_item]=li.css(".brief")[0].content
   item[:rate_item]=li.css("span[itemprop='ratingValue']")[0][:content]
   item[:rate_review]=li.css("span[itemprop='reviewCount']")[0][:content]
   item[:rate_feedback]=li.css(".rate-num")[0][:content]
