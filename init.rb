@@ -31,16 +31,16 @@ def css_no_nil(li,css_in,attribute_in)
   css=li.css(css_in)
   unless css[0].nil?
     if attribute_in == "content"
-      puts "attribute_in=content"
-      puts attribute_in
+      #puts "attribute_in=content"
+      #puts attribute_in
       #puts css[0].methods
-      puts css.size
-      puts css[0].to_s
+      #puts css.size
+      #puts css.to_s
       css[0].content
     else
-      puts "attribute_in<>content"
-      puts attribute_in
-      puts css[0][attribute_in]
+      #puts "attribute_in<>content"
+      #puts attribute_in
+      #puts css[0][attribute_in]
       css[0][attribute_in]
     end
   else
@@ -86,22 +86,24 @@ data=[]
 page.css(".list-item").each do |li|
   item=Hash.new
   puts "{{{{{{{{{{{{{{{{{{{{{{{{{{"
-  puts  item[:href_img]=css_no_nil(li,".img a",:href)
-  puts  item[:src_img]=css_no_nil(li,".img img",:src)
-  puts  item[:href_item]=css_no_nil(li,".history-item",:href)
-  puts  item[:content_item]=css_no_nil(li,".history-item","content")
-  puts  item[:title_item]=css_no_nil(li,".history-item",:title)
-  puts  item[:brief_item]=css_no_nil(li,".brief","content")
-  puts  item[:rate_item]=css_no_nil(li,"span[itemprop='ratingValue']","content")
-  puts  item[:rate_review]=css_no_nil(li,"span[itemprop='reviewCount']","content")
-  puts  item[:rate_feedback]=css_no_nil(li,".rate-num","content")
-  puts  item[:rate_orders]=css_no_nil(li,"em[title='Total Orders']","content")
-  puts  item[:currency]=css_no_nil(li,".price-m .currency","content")
-  puts  item[:price]=css_no_nil(li,".price-m .value","content")
-  puts  item[:unit]=css_no_nil(li,".price-m .unit","content")
-  puts  item[:sheeping]=css_no_nil(li,".price .value","content")
-  puts  item[:un]=css_no_nil(li,".price .unit","content")
-  puts  item[:free]=css_no_nil(li,".free-s","content")
+  puts "="+item[:href_img]=css_no_nil(li,".img a",:href)
+  puts "="+item[:src_img]=css_no_nil(li,".img img",:src)
+  puts "="+item[:href_item]=css_no_nil(li,".product",:href)
+  puts "="+ item[:content_item]=css_no_nil(li,".product","content")
+  puts  "="+item[:title_item]=css_no_nil(li,".product",:title)
+  puts  "="+item[:brief_item]=css_no_nil(li,".brief","content")
+  puts  "="+item[:rate_item]=css_no_nil(li,"span[itemprop='ratingValue']","content")
+  puts "="+ item[:rate_review]=css_no_nil(li,"span[itemprop='reviewCount']","content")
+  puts  "="+item[:rate_feedback]=css_no_nil(li,".rate-num","content")
+  puts  "="+item[:rate_orders]=css_no_nil(li,"em[title='Total Orders']","content")
+  puts  "="+item[:currency]=css_no_nil(li,".price-m span[itemprop='priceCurrency']","content")
+  puts  "="+item[:price]=css_no_nil(li,".price-m span[itemprop='price']","content")
+  puts  "="+item[:unit]=css_no_nil(li,".price-m .unit","content")
+  #puts  "="+item[:cur]=css_no_nil(li,".pnl-shipping .unit","content")
+  puts  "="+item[:sheeping]=css_no_nil(li,".pnl-shipping .price .value","content")
+  puts  "="+item[:un]=css_no_nil(li,".pnl-shipping .price .unit","content")
+  puts  "="+item[:free]=css_no_nil(li,".free-s","content")
+  puts  "="+item[:via]=css_no_nil(li,".pnl-shipping .price","content")
   puts ")))))))))))))))))))))))))))))))"
 
   data.push(item)
