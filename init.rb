@@ -31,22 +31,18 @@ def css_no_nil(li,css_in,attribute_in)
   css=li.css(css_in)
   unless css[0].nil?
     if attribute_in == "content"
-      #puts "attribute_in=content"
-      #puts attribute_in
-      #puts css[0].methods
-      #puts css.size
-      #puts css.to_s
-      css[0].content
+
+        puts css[0].to_s
+
+      css[0].content.gsub(/$\n?/," ")
     else
-      #puts "attribute_in<>content"
-      #puts attribute_in
-      #puts css[0][attribute_in]
-      css[0][attribute_in]
+      css[0][attribute_in].gsub(/$\n?/," ")
     end
   else
     ""
   end
 end
+
 
 
 # запускаем стартовую страницу и читаем ее HTML код
@@ -77,12 +73,17 @@ end
 #
 #end
 
-watirff.goto menu[3][:href]
+next_href=menu[3][:href]
+
+while next_href!=""
+
+watirff.goto  next_href
 
 html=watirff.html
 puts "<<<<<<<<<<<<<<<<<<<<<<<<<"+menu[3][:href]+">>>>>>>>>>>>>>>>>>>>>>>>>>"
 page = Nokogiri::HTML(html)
-data=[]
+
+#data=[]
 page.css(".list-item").each do |li|
   item=Hash.new
   puts "{{{{{{{{{{{{{{{{{{{{{{{{{{"
@@ -105,8 +106,15 @@ page.css(".list-item").each do |li|
   puts  "="+item[:free]=css_no_nil(li,".free-s","content")
   puts  "="+item[:via]=css_no_nil(li,".pnl-shipping .price","content")
   puts ")))))))))))))))))))))))))))))))"
+  # сохранение в масив
+  #data.push(item)
+  #запись в файл разделитель;
 
-  data.push(item)
+  File.open('sleep1.txt', 'a'){|file| file.write item.values.join(";")+"\n"}
+
+end
+
+next_href=css_no_nil(page,".page-next",:href)
 end
 if debug
   tree_menu.puts_array_hashes(data)
