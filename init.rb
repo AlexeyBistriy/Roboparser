@@ -31,12 +31,14 @@ def css_no_nil(li,css_in,attribute_in)
   css=li.css(css_in)
   unless css[0].nil?
     if attribute_in == "content"
-
-        puts css[0].to_s
-
-      css[0].content.gsub(/$\n?/," ")
+      attribute=css[0].content
     else
-      css[0][attribute_in].gsub(/$\n?/," ")
+      attribute=css[0][attribute_in]
+    end
+    unless attribute.nil?
+      attribute.gsub(/$\n?/," ")
+    else
+      ""
     end
   else
     ""
@@ -58,8 +60,10 @@ tree_menu=TreeRefs.new
 start_page=Parser.new
 if  watirff.url=="http://www.aliexpress.com/homeRu.htm"
   menu=start_page.navigate_css(html,".cate-list-item")
+   version=1
 elsif watirff.url=="http://www.aliexpress.com/"
   menu=start_page.navigate_xpath(html,"//html/body/div[1]/div[3]/div[1]/div[1]/div/div[1]/div[1]/div/dl/dd/dl/dd/a")
+  version=2
 end
 
 #if debug
@@ -87,6 +91,7 @@ page = Nokogiri::HTML(html)
 page.css(".list-item").each do |li|
   item=Hash.new
   puts "{{{{{{{{{{{{{{{{{{{{{{{{{{"
+  puts "="+item[:qrdata]=li[:qrdata]
   puts "="+item[:href_img]=css_no_nil(li,".img a",:href)
   puts "="+item[:src_img]=css_no_nil(li,".img img",:src)
   puts "="+item[:href_item]=css_no_nil(li,".product",:href)
@@ -97,12 +102,20 @@ page.css(".list-item").each do |li|
   puts "="+ item[:rate_review]=css_no_nil(li,"span[itemprop='reviewCount']","content")
   puts  "="+item[:rate_feedback]=css_no_nil(li,".rate-num","content")
   puts  "="+item[:rate_orders]=css_no_nil(li,"em[title='Total Orders']","content")
-  puts  "="+item[:currency]=css_no_nil(li,".price-m span[itemprop='priceCurrency']","content")
-  puts  "="+item[:price]=css_no_nil(li,".price-m span[itemprop='price']","content")
-  puts  "="+item[:unit]=css_no_nil(li,".price-m .unit","content")
+  case version
+  when 1
+    puts  "="+item[:currency]=css_no_nil(li,".price-m .currency","content")
+    puts  "="+item[:price]=css_no_nil(li,".price-m .value","content")
+    puts  "="+item[:unit]=css_no_nil(li,".price-m .unit","content")
+  when 2
+    puts  "="+item[:currency]=css_no_nil(li,".price-m span[itemprop='priceCurrency']","content")
+    puts  "="+item[:price]=css_no_nil(li,".price-m span[itemprop='price']","content")
+    puts  "="+item[:unit]=css_no_nil(li,".price-m .unit","content")
+  end
   #puts  "="+item[:cur]=css_no_nil(li,".pnl-shipping .unit","content")
   puts  "="+item[:sheeping]=css_no_nil(li,".pnl-shipping .price .value","content")
   puts  "="+item[:un]=css_no_nil(li,".pnl-shipping .price .unit","content")
+
   puts  "="+item[:free]=css_no_nil(li,".free-s","content")
   puts  "="+item[:via]=css_no_nil(li,".pnl-shipping .price","content")
   puts ")))))))))))))))))))))))))))))))"
@@ -110,12 +123,13 @@ page.css(".list-item").each do |li|
   #data.push(item)
   #запись в файл разделитель;
 
-  File.open('sleep1.txt', 'a'){|file| file.write item.values.join(";")+"\n"}
+  File.open('sleep2.txt', 'a'){|file| file.write item.values.join(";")+"\n"}
 
 end
 
 next_href=css_no_nil(page,".page-next",:href)
+next_href=""
 end
-if debug
-  tree_menu.puts_array_hashes(data)
-end
+#if debug
+#  tree_menu.puts_array_hashes(data)
+#end
