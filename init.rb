@@ -15,7 +15,7 @@ require_relative "parser"
 require_relative "parserwatir"
 require_relative "tree_refs"
 
-debug=true
+#debug=true
 
 parser=Parser.new
 parser.goto("http://www.aliexpress.com/")
