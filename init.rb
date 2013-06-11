@@ -11,7 +11,7 @@
 require 'open-uri'
 require 'nokogiri'
 require "watir-webdriver"
-require_relative "Parser"
+require_relative "parser"
 require_relative "parserwatir"
 require_relative "tree_refs"
 
