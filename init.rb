@@ -15,7 +15,9 @@ require_relative "parser"
 require_relative "parserwatir"
 
 
-#debug=true
+
+debug=true
+
 parser=Parser.new
 parser.goto("http://www.aliexpress.com/")
 menu=parser.css_a(".cate-list-item")
@@ -31,7 +33,14 @@ menu.each_index do |index|
   end
 
   while next_href!=""
+    if debug
+      puts next_href
+      puts parser.dump
+      puts index
+      puts link[:content].gsub(/\&/," ")
+    end
     parser.dump = index
+
     parser.goto(next_href)
     #data=[]
     parser.page.css(".list-item").each do |li|
