@@ -16,7 +16,6 @@ require_relative "parserwatir"
 require_relative "tree_refs"
 
 #debug=true
-
 parser=Parser.new
 parser.goto("http://www.aliexpress.com/")
 menu=parser.css_a(".cate-list-item")
