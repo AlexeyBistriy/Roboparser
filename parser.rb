@@ -3,14 +3,17 @@ class Parser
     @page=nil
     @url=nil
     @dump=0
+    @no_error=true
   end
+  attr_accessor :no_error?
   attr_accessor :dump
   attr_accessor :url
   attr_reader :page
   def goto(url)
-    @url=url
     @page=Nokogiri::HTML(open(url))
+    @url=url
   rescue
+    @no_error?=false
     self.save_to_dump
   end
   def go
@@ -29,12 +32,14 @@ class Parser
   end
   def css_a (css)
     refs=[]
-    @page.css(css+" a").each do |a|
+    unless @page.nil?
+      @page.css(css+" a").each do |a|
       link=Hash.new
       link[:href]=a['href']
       link[:content]= a.content
       link[:xpath]= a.path
       refs.push(link)
+      end
     end
     refs
   end
@@ -47,7 +52,7 @@ class Parser
         attribute=css[0][attribute_in]
       end
       unless attribute.nil?
-        attribute.gsub(/$\n?/," ")
+        attribute.gsub(/$\n?|\r/," ")
       else
         ""
       end
@@ -56,14 +61,14 @@ class Parser
     end
   end
   def save_to_dump
-    File.open('error.txt', 'a'){|file| file.write "error: no download URL= #{@url}"}
-    File.open('dump.txt', 'w'){|file| file.write "#{@dump}\n#{@url}\n#"}
+    File.open('error.txt', 'a'){|file| file.write "error: no download URL= #{@url}\n"}
+    File.open('dump.txt', 'a'){|file| file.write "#{@dump}\n#{@url}\n"}
   end
   def read_from_dump
     dump=File.readlines("dump.txt")
     unless dump.empty?
-      @dump=dump[0].chomp.to_i
-      @url=dump[1].chomp
+      @dump=dump[-2].chomp.to_i
+      @url=dump[-1].chomp
     end
   end
 
