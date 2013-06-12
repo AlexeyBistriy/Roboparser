@@ -22,9 +22,14 @@ menu=parser.css_a(".cate-list-item")
 parser.read_from_dump
 
 menu.each_index do |index|
-  link=menu[index]
-  next_href=link[:href]
   next if index < parser.dump
+  link=menu[index]
+  if parser.no_error
+    next_href=link[:href]
+  else
+    next_href=parser.dump_url
+  end
+
   while next_href!=""
     parser.dump = index
     parser.goto(next_href)
@@ -58,11 +63,11 @@ menu.each_index do |index|
       item[:score]=parser.css_no_nil(li,".score-icon",:feedbackscore)
 
 
-      File.open("./data/#{link[:content].gsub(/\&/," ")}.txt", 'a'){|file| file.write item.values.join("	")+"\n"}  if parser.no_error?
+      File.open("./data/#{link[:content].gsub(/\&/," ")}.txt", 'a'){|file| file.write item.values.join("	")+"\n"}  if parser.no_error
 
     end
 
-    next_href=parser.css_no_nil(parser.page,".page-next",:href)
+    next_href=parser.css_no_nil(parser.page,".page-next",:href) if parser.no_error
     #next_href=""
   end
 end

@@ -5,15 +5,17 @@ class Parser
     @dump=0
     @no_error=true
   end
-  attr_accessor :no_error?
+  attr_reader :no_error
   attr_accessor :dump
+  attr_reader :dump_url
   attr_accessor :url
   attr_reader :page
   def goto(url)
+    @no_error=true
     @page=Nokogiri::HTML(open(url))
     @url=url
   rescue
-    @no_error?=false
+    @no_error=false
     self.save_to_dump
   end
   def go
@@ -68,7 +70,8 @@ class Parser
     dump=File.readlines("dump.txt")
     unless dump.empty?
       @dump=dump[-2].chomp.to_i
-      @url=dump[-1].chomp
+      @dump_url=dump[-1].chomp
+      @no_error=false
     end
   end
 
