@@ -2,25 +2,24 @@ class Parser
   def initialize
     @page=nil
     @url=nil
-    @dump=0
+    @dump_index=0
     @no_error=true
+    @no_dump=true
   end
   attr_reader :no_error
-  attr_accessor :dump
-  attr_reader :dump_url
+  attr_reader :no_dump
+  attr_accessor :dump_index
+  attr_accessor :dump_url
   attr_accessor :url
   attr_reader :page
   def goto(url)
-    @no_error=true
-    @page=Nokogiri::HTML(open(url))
-    @url=url
-  rescue
-    @no_error=false
-    self.save_to_dump
+      @no_error=true
+      @dump_url=url
+      @page=Nokogiri::HTML(open(url))
+    rescue
+      self.log
   end
-  def go
-    self.goto(@url)
-  end
+
   def xpath_a(xpath)
     refs=[]
     @page.xpath(xpath).each do |a|
@@ -62,16 +61,24 @@ class Parser
       ""
     end
   end
+  def log
+    @no_error=false
+    File.open('error.txt', 'a'){|file| file.write "error: dump_index=#{@dump_index} no download URL= #{@dump_url}\n"}
+  end
   def save_to_dump
-    File.open('error.txt', 'a'){|file| file.write "error: no download URL= #{@url}\n"}
-    File.open('dump.txt', 'a'){|file| file.write "#{@dump}\n#{@url}\n"}
+    File.open('dump.txt', 'w'){|file| file.write "#{@dump_index}\n#{@dump_url}\n"}
   end
   def read_from_dump
-    dump=File.readlines("dump.txt")
-    unless dump.empty?
-      @dump=dump[-2].chomp.to_i
+    unless File.zero?("dump.txt")
+      dump=File.readlines("dump.txt")
+      @dump_index=dump[-2].chomp.to_i
       @dump_url=dump[-1].chomp
-      @no_error=false
+      @no_dump=false
+      puts "unless"
+      File.open('dump.txt', 'w'){|file| file.write ""}
+    else
+      puts "else"
+      @no_dump=true
     end
   end
 
