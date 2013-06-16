@@ -1,10 +1,12 @@
 class Parser
   def initialize
     @page=nil
-    @url=nil
+    @dump_url=nil
     @dump_index=0
     @no_error=true
     @no_dump=true
+    @count_error=0
+    @MaxCountError=5
   end
   attr_reader :no_error
   attr_reader :no_dump
@@ -12,12 +14,24 @@ class Parser
   attr_accessor :dump_url
   attr_accessor :url
   attr_reader :page
+  def save_to_error
+    File.open('error.txt', 'a'){|file| file.write "error: dump_index=#{@dump_index} no download URL= #{@dump_url}\n"}
+  end
   def goto(url)
-      @no_error=true
-      @dump_url=url
-      @page=Nokogiri::HTML(open(url))
-    rescue
-      self.log
+    @dump_url=url
+    while @count_error < @MaxCountError
+      begin
+        @page=Nokogiri::HTML(open(url))
+        @count_error=@MaxCountError
+        @no_error=true
+        rescue
+          @no_error=false
+          @count_error+=1
+          self.save_to_error
+       end
+    end
+    @count_error=0
+    @no_error
   end
 
   def xpath_a(xpath)
@@ -61,9 +75,8 @@ class Parser
       ""
     end
   end
-  def log
-    @no_error=false
-    File.open('error.txt', 'a'){|file| file.write "error: dump_index=#{@dump_index} no download URL= #{@dump_url}\n"}
+  def save_to_log
+    File.open('log.txt', 'a'){|file| file.write "#{@dump_index}=#{@dump_url}\n"}
   end
   def save_to_dump
     File.open('dump.txt', 'w'){|file| file.write "#{@dump_index}\n#{@dump_url}\n"}
@@ -74,10 +87,8 @@ class Parser
       @dump_index=dump[-2].chomp.to_i
       @dump_url=dump[-1].chomp
       @no_dump=false
-      puts "unless"
       File.open('dump.txt', 'w'){|file| file.write ""}
     else
-      puts "else"
       @no_dump=true
     end
   end
