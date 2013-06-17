@@ -5,19 +5,28 @@ class Parser
     @dump_index=0
     @no_error=true
     @no_dump=true
+    @count_error=0
   end
-  attr_reader :no_error
-  attr_reader :no_dump
+  attr_accessor :no_error
+  attr_accessor :count_error
+  attr_accessor :no_dump
   attr_accessor :dump_index
   attr_accessor :dump_url
-  attr_accessor :url
   attr_reader :page
   def goto(url)
+      if @dump_url==url
+        @count_error+=1
+      else
+        @count_error=0
+      end
+
       @no_error=true
       @dump_url=url
       @page=Nokogiri::HTML(open(url))
+      self.save_to_log
     rescue
-      self.log
+      @no_error=false
+      self.save_to_error
   end
 
   def xpath_a(xpath)
@@ -61,8 +70,10 @@ class Parser
       ""
     end
   end
-  def log
-    @no_error=false
+  def save_to_log
+    File.open('log.txt', 'a'){|file| file.write "#{@dump_index} = #{@dump_url}\n"}
+  end
+  def save_to_error
     File.open('error.txt', 'a'){|file| file.write "error: dump_index=#{@dump_index} no download URL= #{@dump_url}\n"}
   end
   def save_to_dump
