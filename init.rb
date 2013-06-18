@@ -24,7 +24,8 @@ parser.read_from_dump
 
   menu.each_index do |index|
     next if index < parser.dump_index
-      link=menu[index]
+     parser.dump_index=index
+     link=menu[index]
     if parser.no_dump
       next_href=link[:href]
     else
