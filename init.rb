@@ -15,31 +15,31 @@ require_relative "parser"
 require_relative "parserwatir"
 
 debug=true
+OS='Windows'
 
 parser=Parser.new
 parser.goto("http://www.aliexpress.com/")
 menu=parser.css_a(".cate-list-item")
 parser.read_from_dump
-begin
+
   menu.each_index do |index|
     next if index < parser.dump_index
-    link=menu[index]
+      link=menu[index]
     if parser.no_dump
       next_href=link[:href]
     else
       next_href=parser.dump_url
+      parser.no_dump=true
     end
 
     while next_href!=""
-      if debug
-        puts next_href
-        puts parser.dump_index
-        puts index
-        puts link[:content].gsub(/\&/," ")
+      if parser.goto(next_href)
+        next_href=parser.css_no_nil(parser.page,".page-next",:href)
+      else
+        next_href=""
+        next
       end
-      parser.dump_index = index
-      parser.goto(next_href)
-      next unless parser.no_error
+      parser.save_to_log
       #data=[]
       parser.page.css(".list-item").each do |li|
         item=Hash.new
@@ -69,15 +69,15 @@ begin
         item[:positive]=parser.css_no_nil(li,".score-icon",:sellerpositivefeedbackpercentage)
         item[:score]=parser.css_no_nil(li,".score-icon",:feedbackscore)
 
-
-        File.open("./data/#{link[:content].gsub(/\&/," ")}.txt", 'a'){|file| file.write item.values.join("	")+"\n"}
+        case OS
+        when "Windows"
+          File.open("./data/#{link[:content].gsub(/\&/," ")}.txt", 'a'){|file| file.write item.values.join("	")+"\n"}
+        when "Unix"
+          File.open("./data/#{link[:content].gsub(/\&/," ").encode('KOI8-R')}.txt", 'a'){|file| file.write item.values.join("	")+"\n"}
+        end
 
       end
 
-      next_href=parser.css_no_nil(parser.page,".page-next",:href)
-      #next_href=""
     end
   end
-rescue
-  parser.save_to_dump
-end
+
