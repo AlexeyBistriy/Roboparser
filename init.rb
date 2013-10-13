@@ -1,4 +1,5 @@
-# Парсим сайт www.aliexpress.com с помощью связки Nokogiri&Watir
+# coding: utf-8
+# Парсим сайт Free-lance
 
 #startTime=Time.new.to_f
 
@@ -11,74 +12,59 @@
 require 'open-uri'
 require 'nokogiri'
 require "watir-webdriver"
+require 'rubygems'
+require 'net/smtp'
 require_relative "parser"
 require_relative "parserwatir"
 
 debug=true
 OS='Windows'
+key_word=["ruby","парсер","парсить"]
+parser=ParserWatir.new
+parser.goto("https://www.fl.ru/")
+#menu=parser.page.css("div#projects-list").xpath('./div')
+#menu=parser.page.css("div#projects-list div").find_all{|div| div["id"]=~/project-item\d+/}
 
-parser=Parser.new
-parser.goto("http://www.aliexpress.com/")
-menu=parser.css_a(".cate-list-item")
-parser.read_from_dump
-
-  menu.each_index do |index|
-    next if index < parser.dump_index
-     parser.dump_index=index
-     link=menu[index]
-    if parser.no_dump
-      next_href=link[:href]
-    else
-      next_href=parser.dump_url
-      parser.no_dump=true
-    end
-
-    while next_href!=""
-      if parser.goto(next_href)
-        next_href=parser.css_no_nil(parser.page,".page-next",:href)
-      else
-        next_href=""
-        next
-      end
-      parser.save_to_log
-      #data=[]
-      parser.page.css(".list-item").each do |li|
-        item=Hash.new
-
-        item[:qrdata]=li[:qrdata]
-        item[:href_img]=parser.css_no_nil(li,".img a",:href)
-        item[:src_img]=parser.css_no_nil(li,".img img",:src)
-        item[:href_item]=parser.css_no_nil(li,".product",:href)
-        item[:content_item]=parser.css_no_nil(li,".product","content")
-        item[:title_item]=parser.css_no_nil(li,".product",:title)
-        item[:brief_item]=parser.css_no_nil(li,".brief","content")
-        item[:rate_item]=parser.css_no_nil(li,"span[itemprop='ratingValue']","content")
-        item[:rate_review]=parser.css_no_nil(li,"span[itemprop='reviewCount']","content")
-        item[:rate_feedback]=parser.css_no_nil(li,".rate-num","content")
-        item[:rate_orders]=parser.css_no_nil(li,"em[title='Total Orders']","content")
-        item[:currency]=parser.css_no_nil(li,".price-m span[itemprop='priceCurrency']","content")
-        item[:price]=parser.css_no_nil(li,".price-m span[itemprop='price']","content")
-        item[:unit]=parser.css_no_nil(li,".price-m .unit","content")
-        item[:sheeping]=parser.css_no_nil(li,".pnl-shipping .price .value","content")
-        item[:un]=parser.css_no_nil(li,".pnl-shipping .price .unit","content")
-        item[:free]=parser.css_no_nil(li,".free-s","content")
-        item[:via]=parser.css_no_nil(li,".pnl-shipping .price","content")
-        item[:min_order]=parser.css_no_nil(li,".min-order","content")
-        item[:store]=parser.css_no_nil(li,".store","content")
-        item[:store_href]=parser.css_no_nil(li,".store",:href)
-        item[:score_href]=parser.css_no_nil(li,".score-dot",:href)
-        item[:positive]=parser.css_no_nil(li,".score-icon",:sellerpositivefeedbackpercentage)
-        item[:score]=parser.css_no_nil(li,".score-icon",:feedbackscore)
-
-        case OS
-        when "Windows"
-          File.open("./data/#{link[:content].gsub(/\&/," ")}.txt", 'a'){|file| file.write item.values.join("	")+"\n"}
-        when "Unix"
-          File.open("./data/#{link[:content].gsub(/\&/," ").encode('KOI8-R')}.txt", 'a'){|file| file.write item.values.join("	")+"\n"}
-        end
-
-      end
-
-    end
+projects=parser.page.css('div:psevdoclass("project-item\d+")', Class.new{
+  def psevdoclass node_set, regex
+    node_set.find_all{|node| node["id"]=~/#{regex}/}
   end
+}.new)
+projects.each do |job|
+  task=Hash.new
+  job["id"]=~/project-item(\d+)/
+  task[:id]= Regexp.last_match[1]
+  task[:price]= job.css(".b-post__price")[0].content
+  task[:title]= job.css(".b-post__title a")[0].content
+  task[:href]= job.css(".b-post__title a")[0][:href]
+  task[:content]= job.css(".b-post__body")[0].content
+
+  if task[:content]=~/ruby|парсер|парсить|программист/
+      puts "++++++++++++++++++++++++++++++++++++++++++"
+      puts task[:id]
+      puts task[:price]
+      puts task[:title]
+      puts task[:href]
+      puts task[:content]
+
+      from = 'newsvin@ukr.net'
+      to = 'alexeybistriy@gmail.com'
+      theme = task[:href]
+      text=task[:content]
+      message=""
+      message<<"From: ot kogo <#{from}>\n"
+      message<<"To: #{to}\n"
+      message<<"Subject: #{theme}\n"
+      message<<text
+      smtp=Net::SMTP.new('smtp.ukr.net',465)
+      smtp.enable_tls
+      smtp.start('localhost','newsvin@ukr.net','xxxxxxxxx',:plain) do |smtp|
+        smtp.send_message message, from, to
+      end
+      #to_  sms(task[:href])
+  end
+end
+
+
+
 

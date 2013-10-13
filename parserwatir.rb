@@ -1,18 +1,17 @@
 class ParserWatir < Parser
   def initialize
     client = Selenium::WebDriver::Remote::Http::Default.new
-    client.timeout = 380
+    client.timeout = 300
     @watirff = Watir::Browser.new :ff, :http_client => client
     @html=nil
     @page=nil
     @url=nil
     @dump=0
-
   end
   def goto(url)
     @watirff.goto url
     @url=@watirff.url
-    @html=html=@watirff.html
+    @html=@watirff.html
     @page=Nokogiri::HTML(@html)
   rescue Timeout::Error
     @url=url

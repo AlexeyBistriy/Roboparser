@@ -92,5 +92,7 @@ class Parser
       @no_dump=true
     end
   end
-
+  def to_sms (sms)
+    sms
+  end
 end
