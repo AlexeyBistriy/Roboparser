@@ -21,7 +21,7 @@ class Parser
     @dump_url=url
     while @count_error < @MaxCountError
       begin
-        @page=Nokogiri::HTML(open(url))
+        @page=Nokogiri::HTML(open(url,"User-Agent" => "Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1"))
         @count_error=@MaxCountError
         @no_error=true
         rescue
@@ -58,13 +58,13 @@ class Parser
     end
     refs
   end
-  def css_no_nil(li,css_in,attribute_in)
+  def css_no_nil(li,css_in,attribute_in,node_number)
     css=li.css(css_in)
-    unless css[0].nil?
+    unless css[node_number].nil?
       if attribute_in == "content"
-        attribute=css[0].content
+        attribute=css[node_number].content
       else
-        attribute=css[0][attribute_in]
+        attribute=css[node_number][attribute_in]
       end
       unless attribute.nil?
         attribute.gsub(/$\n?|\r/," ")
@@ -75,6 +75,7 @@ class Parser
       ""
     end
   end
+
   def save_to_log
     File.open('log.txt', 'a'){|file| file.write "#{@dump_index}=#{@dump_url}\n"}
   end
@@ -92,7 +93,9 @@ class Parser
       @no_dump=true
     end
   end
-  def to_sms (sms)
-    sms
+  def script_to_nodeset (script)
+    html=script.gsub('\"','"')
+    Nokogiri::HTML(html)
   end
 end
+
