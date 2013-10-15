@@ -85,7 +85,7 @@ projects.each do |job|
       message<<text
       smtp=Net::SMTP.new('smtp.ukr.net',465)
       smtp.enable_tls
-      smtp.start('localhost','newsvin@ukr.net','1976',:plain) do |smtp|
+      smtp.start('localhost','newsvin@ukr.net','VVVVVV',:plain) do |smtp|
         smtp.send_message message, from, to
       end
   end
