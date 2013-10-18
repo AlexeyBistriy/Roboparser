@@ -16,7 +16,6 @@ require 'nokogiri'
 require "watir-webdriver"
 require 'rubygems'
 require 'net/smtp'
-require "pony"
 #require 'openssl'
 require_relative "parser"
 require_relative "parserwatir"
@@ -24,7 +23,8 @@ require_relative "parserwatir"
 DEBUG=true
 OS='Windows'
 WATIR_PARSER=false
-key_word=["ruby","парсер","парсить","программист","перевод"].join("|")
+key_word=["","парсер","парсить","VBA","нужен"].join("|")
+url="https://www.fl.ru/?page=2&kind=5"
 
 if WATIR_PARSER
   parser=ParserWatir.new
@@ -40,7 +40,7 @@ end
 
 
 
-parser.goto("https://www.fl.ru/")
+parser.goto(url)
 
 #ПРимер
 # menu=parser.page.css("div#projects-list").xpath('./div')
@@ -57,7 +57,7 @@ projects.each do |job|
   job["id"]=~/project-item(\d+)/
   task[:id]= Regexp.last_match[1]
 
-  task[:title]= parser.css_no_nil(job,"script .b-post__title a","content",0)
+  task[:title]= parser.css_no_nil(job,".b-post__title a","content",0)
   task[:href]= parser.css_no_nil(job,".b-post__title a",:href,0)
   script=parser.css_no_nil(job,"script","content",0)
   newjob=parser.script_to_nodeset(script)
@@ -66,46 +66,35 @@ projects.each do |job|
   newjob=parser.script_to_nodeset(script)
   task[:content]=parser.css_no_nil(newjob,".b-post__body","content",0)
 
-  if task[:content]=~/#{key_word}/
+  #puts "============================================"
+  #puts task[:id]
+  #puts task[:price]
+  #puts task[:title]
+  #puts task[:href]
+  #puts task[:content]
+
+
+  if task[:title]+task[:content]=~/#{key_word}/ui
       if DEBUG
-        puts "++++++++++++++++++++++++++++++++++++++++++"
+        puts "+++++++++++++++++++++++++++++++++++++++++++++"
         puts task[:id]
         puts task[:price]
         puts task[:title]
         puts task[:href]
         puts task[:content]
       end
-      Pony.mail(:to => 'alexeybistriy@gmail.com',
-                :from=> 'newsvin@ukr.net',
-                :subject=>task[:href],
-                #:headers=>headers,
-                :body=>task[:content],
-                :charset=>'utf-8',
-                :via=>:smtp,
-                :via_options=>{:address=>'smtp.ukr.net',
-                               :port=>'465',
-                               #:enable_starttls_auto => true,
-                               #:openssl_verify_mode    => OpenSSL::SSL::VERIFY_NONE,
-                               :enable_starttls_auto   => false,
-                               :user_name=>'newsvin@ukr.net',
-                               :password=>'ммммм',
-                               :authentificaton=>:plain,
-                               :domain=>'ukr.net'
-                }
-      )
-
-      #from = 'newsvin@ukr.net'
-      #to = 'alexeybistriy@gmail.com'
-      #theme = task[:href]
-      #text=task[:content]
-      #message=""
-      #message<<"From: ot kogo <#{from}>\n"
-      #message<<"To: #{to}\n"
-      #message<<"Subject: #{theme}\n"
-      #message<<text
-      #smtp=Net::SMTP.new('smtp.ukr.net',465)
-      #smtp.enable_tls
-      #smtp.start('localhost','newsvin@ukr.net','1976',:plain) do |smtp|
+      from = 'newsvin@ukr.net'
+      to = 'alexeybistriy@gmail.com'
+      theme = task[:href]
+      text=task[:title]+task[:content]
+      message=""
+      message<<"From: My Rorbo <#{from}>\n"
+      message<<"To: Alexey Bistriy <#{to}>\n"
+      message<<"Subject: #{theme}\n"
+      message<<text
+      smtp=Net::SMTP.new('smtp.ukr.net',465)
+      smtp.enable_tls
+      #smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
       #  smtp.send_message message, from, to
       #end
   end
