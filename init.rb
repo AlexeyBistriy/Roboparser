@@ -16,6 +16,7 @@ require 'nokogiri'
 require "watir-webdriver"
 require 'rubygems'
 require 'net/smtp'
+require "pony"
 #require 'openssl'
 require_relative "parser"
 require_relative "parserwatir"
@@ -74,20 +75,39 @@ projects.each do |job|
         puts task[:href]
         puts task[:content]
       end
-      from = 'newsvin@ukr.net'
-      to = 'alexeybistriy@gmail.com'
-      theme = task[:href]
-      text=task[:content]
-      message=""
-      message<<"From: ot kogo <#{from}>\n"
-      message<<"To: #{to}\n"
-      message<<"Subject: #{theme}\n"
-      message<<text
-      smtp=Net::SMTP.new('smtp.ukr.net',465)
-      smtp.enable_tls
-      smtp.start('localhost','newsvin@ukr.net','1976',:plain) do |smtp|
-        smtp.send_message message, from, to
-      end
+      Pony.mail(:to => 'alexeybistriy@gmail.com',
+                :from=> 'newsvin@ukr.net',
+                :subject=>task[:href],
+                #:headers=>headers,
+                :body=>task[:content],
+                :charset=>'utf-8',
+                :via=>:smtp,
+                :via_options=>{:address=>'smtp.ukr.net',
+                               :port=>'465',
+                               #:enable_starttls_auto => true,
+                               #:openssl_verify_mode    => OpenSSL::SSL::VERIFY_NONE,
+                               :enable_starttls_auto   => false,
+                               :user_name=>'newsvin@ukr.net',
+                               :password=>'ммммм',
+                               :authentificaton=>:plain,
+                               :domain=>'ukr.net'
+                }
+      )
+
+      #from = 'newsvin@ukr.net'
+      #to = 'alexeybistriy@gmail.com'
+      #theme = task[:href]
+      #text=task[:content]
+      #message=""
+      #message<<"From: ot kogo <#{from}>\n"
+      #message<<"To: #{to}\n"
+      #message<<"Subject: #{theme}\n"
+      #message<<text
+      #smtp=Net::SMTP.new('smtp.ukr.net',465)
+      #smtp.enable_tls
+      #smtp.start('localhost','newsvin@ukr.net','1976',:plain) do |smtp|
+      #  smtp.send_message message, from, to
+      #end
   end
 end
 
