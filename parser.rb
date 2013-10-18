@@ -21,7 +21,8 @@ class Parser
     @dump_url=url
     while @count_error < @MaxCountError
       begin
-        @page=Nokogiri::HTML(open(url,"User-Agent" => "Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1"))
+        @page=Nokogiri::HTML(open(url,"User-Agent" => "Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1").read.encode("UTF-8","Windows-1251"))
+        #@page=Nokogiri::HTML(open(url,"User-Agent" => "Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1"))
         @count_error=@MaxCountError
         @no_error=true
         rescue
