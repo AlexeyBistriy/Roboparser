@@ -120,8 +120,7 @@ module Robot
       @encoding=Encoding.default_external unless verify_encoding?(encoding)
     end
     def go(url)
-      @html=open(url,"User-Agent" => \
-      "Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1").read
+      @html=open(url,"User-Agent"=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1").read
       @error_loader[url]=nil
     rescue
       @html=""
@@ -177,26 +176,83 @@ module Robot
 
   class NokoParser
     def initialize
-      @type_element_out=nil  # page, block, variable, script
-      @methods_parse=nil  #css, xparse
+      @page=nil
+      #@type_element_out=nil  # page, block, variable, script
+      #@methods_parse=nil  #css, xparse
     end
-    def xpath(xpath,type_out,)
-      refs=[]
-      @page.xpath(xpath).each do |a|
-        link=Hash.new
-        link[:href]=a['href']
-        link[:content]= a.content
-        link[:xpath]= a.path
-        refs.push(link)
+    def xpath(node,key)
+       node.xpath(key)
+    end
+    def css(node,key)
+       node.css(key)
+    end
+    def parse_page(html)
+      @page=Nokogiri::HTML(html)
+    end
+    def parse_html(html)
+      Nokogiri::HTML(html)
+    end
+    def blocks(node,record)
+      case record.method
+        when "css"
+          nodeset=node.css(record.key)
+        when "xpath"
+          nodeset=node.xpath(record.key)
       end
-      refs
+    end
+    def by_record(node,record)
+       case record.method
+        when "css"
+          nodeset=node.css(record.key)
+        when "xpath"
+          nodeset=node.xpath(record.key)
+       end
+       if index?(nodeset,record.index)&& attr?(nodeset[record.index],record.attribute)
+         attr(nodeset[index],record.attribute)
+       else
+       ""
+       end
+    end
+    def by_data(block,data)
+       data=data
+       data.each!{|record| record.value=by_record(block,record)}
+       data
+    end
+    def attr(node,attribute)
+      if attribute=="content"
+        node.content
+      else
+        node[attribute.to_s]
+      end
+    end
+    def attr?(node,attribute)
+      if attribute=="content"
+        node.content.nil?
+      else
+        node[attribute.to_s].nil?
+      end
+    end
+    def index?(node,index)
+       node.[index].nil?
+    end
+    def by_data
+
+    end
+    def regex(node,attribute,regex)
+      node.find_all{|element| element[attribute]=~/#{regex}/}
+    end
+    def no_script(html)
+      html.gsub('\"','"')
     end
   end
 
   class Block
-    def initialize(Setting)
-      @size
-      @count_variable
+    def initialize(node)
+      @node=node
+    end
+    def script_to_nodeset (script)
+      html=script.gsub('\"','"')
+      Nokogiri::HTML(html)
     end
   end
 
@@ -213,21 +269,33 @@ module Robot
     def initialize
       @data={}
     end
-    def add (name,record)
-      @data[name]=record
+    def add (name,parse_method,key_parse,attribute,element_index=0)
+      new_record=Record.new
+      new_record.name=name
+      new_record.method=parse_method
+      new_record.key=key_parse
+      new_record.attribute=attribute
+      new_record.index=element_index
+      @data[new_record.name]=new_record if new_record.valid?
     end
   end
   class Record
     def initialize
-      @css=nil
+      @name=nil
+      @method=nil
+      @key=nil
       @index=nil
       @attribute=nil
+      @value=""
     end
-    attr_accessor :css
-    attr_accessor :index
+    attr_accessor :name
+    attr_accessor :method
+    attr_accessor :key
     attr_accessor :attribute
+    attr_accessor :index
+    attr_accessor :value
     def valid?
-      unless @css.nil?||@index.nil?||@attribute.nil?
+      unless @name.nil?||@method.nil?||key.nil?||@attribute.nil?||||@index.nil?
         true
       else
         false
