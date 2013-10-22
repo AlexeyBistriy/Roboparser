@@ -1,3 +1,4 @@
+# coding: utf-8
 module Robot
 
   class Parser
@@ -103,7 +104,7 @@ module Robot
 
 
   class Setting
-    def initialize(url,)
+    def initialize(url)
       @url=url
       @attribute_block_css=nil
       @attribute_param_css=[]
@@ -112,13 +113,14 @@ module Robot
   end
 
   class Loader
-    def initialize(encoding=nil)
+    def initialize(encoding="UTF-8")
       @url=nil
       @html=nil
       @error_loader={}
       @encoding=encoding
-      @encoding=Encoding.default_external unless verify_encoding?(encoding)
+      @encoding="UTF-8" unless verify_encoding?(encoding)
     end
+    attr_reader :html
     def go(url)
       @html=open(url,"User-Agent"=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1").read
       @error_loader[url]=nil
@@ -129,13 +131,16 @@ module Robot
     end
     def goto(url)
       error_count=0
+      @error_loader[url]="загрузка"
       begin
         go(url)
         error_count+=1
       end until @error_loader[url].nil? || error_count==5
-      if @html.encoding<>@encoding
+      puts  @html.encoding
+      puts  @encoding
+      if @html.encoding!=@encoding
          @html.encode!(@encoding,@html.encoding)
-         @html.encoding=@encoding
+         puts @html.encoding
       end
     end
     def verify_encoding?(encoding)
@@ -180,6 +185,7 @@ module Robot
       #@type_element_out=nil  # page, block, variable, script
       #@methods_parse=nil  #css, xparse
     end
+    attr_reader :page
     def xpath(node,key)
        node.xpath(key)
     end
@@ -192,7 +198,7 @@ module Robot
     def parse_html(html)
       Nokogiri::HTML(html)
     end
-    def blocks(node,record)
+    def cut_blocks(node,record)
       case record.method
         when "css"
           nodeset=node.css(record.key)
@@ -213,10 +219,9 @@ module Robot
        ""
        end
     end
-    def by_data(block,data)
-       data=data
-       data.each!{|record| record.value=by_record(block,record)}
-       data
+
+    def by_data(block,data_in)
+       data_in.data.each{|record| record.value=by_record(block,record)}
     end
     def attr(node,attribute)
       if attribute=="content"
@@ -233,10 +238,7 @@ module Robot
       end
     end
     def index?(node,index)
-       node.[index].nil?
-    end
-    def by_data
-
+       node[index].nil?
     end
     def regex(node,attribute,regex)
       node.find_all{|element| element[attribute]=~/#{regex}/}
@@ -256,10 +258,10 @@ module Robot
     end
   end
 
-  class Page (url,page_encoding)
-  def initialize
+  class Page
+  def initialize(url,page_encoding)
     @url=url
-    @page_encoding
+    @page_encoding=page_encoding
     @html=nil
     @loader=nil       # Watir, Open-Uri, file
   end
@@ -267,8 +269,9 @@ module Robot
 
   class Data
     def initialize
-      @data={}
+      @data=[]
     end
+    attr_reader :data
     def add (name,parse_method,key_parse,attribute,element_index=0)
       new_record=Record.new
       new_record.name=name
@@ -276,7 +279,12 @@ module Robot
       new_record.key=key_parse
       new_record.attribute=attribute
       new_record.index=element_index
-      @data[new_record.name]=new_record if new_record.valid?
+      @data.push(new_record) if new_record.valid?
+    end
+    def puts
+      @data.each do |record|
+        puts record.name+" => "+record.value
+      end
     end
   end
   class Record
@@ -295,7 +303,7 @@ module Robot
     attr_accessor :index
     attr_accessor :value
     def valid?
-      unless @name.nil?||@method.nil?||key.nil?||@attribute.nil?||||@index.nil?
+      unless @name.nil?||@method.nil?||key.nil?||@attribute.nil?||@index.nil?
         true
       else
         false
