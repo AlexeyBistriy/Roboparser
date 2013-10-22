@@ -47,6 +47,12 @@ loader=Loader.new
 loader.goto(url)
 parser=NokoParser.new
 parser.parse_page(loader.html)
+blocks=parser.cut_blocks(parser.page,block)
+blocks.each do |block|
+  data=parser.by_data(block,data)
+  data.puts
+end
+
 
 
 
