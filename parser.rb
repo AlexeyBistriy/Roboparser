@@ -136,11 +136,8 @@ module Robot
         go(url)
         error_count+=1
       end until @error_loader[url].nil? || error_count==5
-      puts  @html.encoding
-      puts  @encoding
       if @html.encoding!=@encoding
          @html.encode!(@encoding,@html.encoding)
-         puts @html.encoding
       end
     end
     def verify_encoding?(encoding)
@@ -207,44 +204,46 @@ module Robot
       end
     end
     def by_record(node,record)
-       case record.method
+      case record.method
         when "css"
           nodeset=node.css(record.key)
         when "xpath"
           nodeset=node.xpath(record.key)
-       end
-       if index?(nodeset,record.index)&& attr?(nodeset[record.index],record.attribute)
-         attr(nodeset[index],record.attribute)
-       else
-       ""
-       end
+      end
+      unless attribute?(nodeset,record.attribute,record.index)
+        attribute(nodeset,record.attribute,record.index)
+      else
+        ""
+      end
     end
+    def by_data(block,data)
+       data.each do|record|
+         record.value=by_record(block,record)
+       end
 
-    def by_data(block,data_in)
-       data_in.data.each{|record| record.value=by_record(block,record)}
     end
-    def attr(node,attribute)
+    def attribute(node,attribute="content",index=0)
       if attribute=="content"
-        node.content
+        node[index].content
       else
-        node[attribute.to_s]
+        node[index][attribute.to_sym]
       end
     end
-    def attr?(node,attribute)
+    def attribute?(node,attribute="content",index=0)
       if attribute=="content"
-        node.content.nil?
+       node.nil?||node.empty?||node[index].nil?||node[index].content.nil?
       else
-        node[attribute.to_s].nil?
+        node.nil?||node.empty?||node[index].nil?||node[index][attribute.to_sym].nil?
       end
-    end
-    def index?(node,index)
-       node[index].nil?
     end
     def regex(node,attribute,regex)
       node.find_all{|element| element[attribute]=~/#{regex}/}
     end
-    def no_script(html)
-      html.gsub('\"','"')
+    def no_script(node)
+      script=node.to_s
+      tt=script.gsub /<script[^>]*>\s*document.write\(\'(?<sc>[^']+)\'\);<\/script>/u, '\k<sc>'
+      html=tt.gsub('\"','"')
+      Nokogiri::HTML(html)
     end
   end
 
@@ -267,11 +266,11 @@ module Robot
   end
   end
 
-  class Data
+  class Data_set
     def initialize
       @data=[]
     end
-    attr_reader :data
+    attr_accessor :data
     def add (name,parse_method,key_parse,attribute,element_index=0)
       new_record=Record.new
       new_record.name=name
@@ -281,9 +280,11 @@ module Robot
       new_record.index=element_index
       @data.push(new_record) if new_record.valid?
     end
-    def puts
+    def data_puts
       @data.each do |record|
-        puts record.name+" => "+record.value
+        puts "======================="
+        puts record.name
+        puts record.value
       end
     end
   end

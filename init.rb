@@ -37,27 +37,48 @@ block=Record.new
   block.key="div#projects-list div"
   block.index=nil
   block.attribute=nil
-data=Data.new
-  data.add("title","css",".b-post__title a","content")
-  data.add("link","css",".b-post__title a","href")
-  data.add("price","css",".b-post__price","content")
-  data.add("task","css",".b-post__body","content")
+dset=Data_set.new
+dset.add("title","css",".b-post__title a","content")
+dset.add("link","css",".b-post__title a","href")
+dset.add("price","css",".b-post__price","content")
+dset.add("task","css",".b-post__body","content")
 
 loader=Loader.new
 loader.goto(url)
 parser=NokoParser.new
 parser.parse_page(loader.html)
 blocks=parser.cut_blocks(parser.page,block)
+blocks=parser.regex(blocks,"id",/project-item\d+/)
 blocks.each do |block|
-  data=parser.by_data(block,data)
-  data.puts
+  dset.data=parser.by_data(parser.no_script(block),dset.data)
+
+  if task[:title]+task[:content]=~/#{key_word}/ui
+    if DEBUG
+      puts "+++++++++++++++++++++++++++++++++++++++++++++"
+      puts task[:id]
+      puts task[:price]
+      puts task[:title]
+      puts task[:href]
+      puts task[:content]
+    end
+    from = 'newsvin@ukr.net'
+    to = 'alexeybistriy@gmail.com'
+    theme = task[:href]
+    text=task[:title]+task[:content]
+    message=""
+    message<<"From: My Rorbo <#{from}>\n"
+    message<<"To: Alexey Bistriy <#{to}>\n"
+    message<<"Subject: #{theme}\n"
+    message<<text
+    smtp=Net::SMTP.new('smtp.ukr.net',465)
+    smtp.enable_tls
+    #smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
+    #  smtp.send_message message, from, to
+    #end
+  end
 end
 
-
-
-
-
-
+end
 
 end
 
