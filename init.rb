@@ -51,8 +51,9 @@ blocks=parser.cut_blocks(parser.page,block)
 blocks=parser.regex(blocks,"id",/project-item\d+/)
 blocks.each do |block|
   dset.data=parser.by_data(parser.no_script(block),dset.data)
+  dset.data.each do |record|
 
-  if task[:title]+task[:content]=~/#{key_word}/ui
+    if =~/#{key_word}/ui
     if DEBUG
       puts "+++++++++++++++++++++++++++++++++++++++++++++"
       puts task[:id]
