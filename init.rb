@@ -33,7 +33,7 @@ module Robot
   #name,parse_method,key_parse,attribute,element_index=0
   file_output="baza.cvs"
   url="https://www.fl.ru/?page=2&kind=5"
-
+  key_word=["парсер","парсить","программист"].join("|")
   block=Record.new
     block.name="block"
     block.method="css"
@@ -53,38 +53,12 @@ module Robot
   blocks=parser.cut_blocks(parser.page,block)
   blocks=parser.regex(blocks,"id",/project-item\d+/)
   blocks.each do |block|
-    dset.data_puts
     dset.data=parser.by_data(parser.no_script(block),dset.data)
-    dset.data_puts
     dset.save_to_file(file_output)
-    dset.send_to_mail(dsat.data[],body,email)
-
-    #if task[:title]+task[:content]=~/#{key_word}/ui
-    #  if DEBUG
-    #    puts "+++++++++++++++++++++++++++++++++++++++++++++"
-    #    puts task[:id]
-    #    puts task[:price]
-    #    puts task[:title]
-    #    puts task[:href]
-    #    puts task[:content]
-    #  end
-    #  from = 'newsvin@ukr.net'
-    #  to = 'alexeybistriy@gmail.com'
-    #  theme = task[:href]
-    #  text=task[:title]+task[:content]
-    #  message=""
-    #  message<<"From: My Rorbo <#{from}>\n"
-    #  message<<"To: Alexey Bistriy <#{to}>\n"
-    #  message<<"Subject: #{theme}\n"
-    #  message<<text
-    #  smtp=Net::SMTP.new('smtp.ukr.net',465)
-    #  smtp.enable_tls
-    #  #smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
-    #  #  smtp.send_message message, from, to
-    #  #end
-    #end
+    # puts dset.data[0].value+dset.data[3].value
+    if (dset.data[0].value+dset.data[3].value)=~/#{key_word}/ui
+      dset.send_to_mail(dset.data[1].value,dset.data[0].value+dset.data[3].value)
+      dset.data_puts
+    end
   end
-
 end
-#
-#end

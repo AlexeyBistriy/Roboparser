@@ -289,17 +289,17 @@ module Robot
     def data_puts
       puts @data.map{|record| record.value}.join(" ")+"\n"
     end
-    def send_to_mail(theme,body,email="alexeybistriy@gmail.com",from="newsvin@ukr.net")
+    def send_to_mail(theme,body,email_to="alexeybistriy@gmail.com",email_from="newsvin@ukr.net")
         message=""
-        message<<"From: My Rorbo <#{from}>\n"
-        message<<"To: Alexey Bistriy <#{email}>\n"
+        message<<"From: My Rorbo <#{email_from}>\n"
+        message<<"To: Alexey Bistriy <#{email_to}>\n"
         message<<"Subject: #{theme}\n"
         message<<body
-        smtp=Net::SMTP.new('smtp.ukr.net',465)
-        smtp.enable_tls
-        smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
-          smtp.send_message message, from, to
-        end
+        #smtp=Net::SMTP.new('smtp.ukr.net',465)
+        #smtp.enable_tls
+        #smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
+        #  smtp.send_message message, from, to
+        #end
 
 
     end
