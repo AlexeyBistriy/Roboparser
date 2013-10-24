@@ -280,12 +280,28 @@ module Robot
       new_record.index=element_index
       @data.push(new_record) if new_record.valid?
     end
-    def data_puts
-      @data.each do |record|
-        puts "======================="
-        puts record.name
-        puts record.value
+    def save_to_file (file_output,encoding="UTF-8")
+      CSV.open(file_output, "a:"+encoding)do |line|
+         line << @data.map{|record| record.value}
       end
+      #File.open(file_output, append){|file| file.write @data.map{|record| record.value}.join(" ")+"\n"}
+    end
+    def data_puts
+      puts @data.map{|record| record.value}.join(" ")+"\n"
+    end
+    def send_to_mail(theme,body,email="alexeybistriy@gmail.com",from="newsvin@ukr.net")
+        message=""
+        message<<"From: My Rorbo <#{from}>\n"
+        message<<"To: Alexey Bistriy <#{email}>\n"
+        message<<"Subject: #{theme}\n"
+        message<<body
+        smtp=Net::SMTP.new('smtp.ukr.net',465)
+        smtp.enable_tls
+        smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
+          smtp.send_message message, from, to
+        end
+
+
     end
   end
   class Record

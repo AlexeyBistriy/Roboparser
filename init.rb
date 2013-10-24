@@ -16,6 +16,7 @@ require 'nokogiri'
 require "watir-webdriver"
 require 'rubygems'
 require 'net/smtp'
+require "csv"
 require_relative "parser"
 require_relative "parserwatir"
 
@@ -25,135 +26,65 @@ module OpenSSL
   end
 end
 OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
 module Robot
 
-#name,parse_method,key_parse,attribute,element_index=0
 
-url="https://www.fl.ru/?page=2&kind=5"
+  #name,parse_method,key_parse,attribute,element_index=0
+  file_output="baza.cvs"
+  url="https://www.fl.ru/?page=2&kind=5"
 
-block=Record.new
-  block.name="block"
-  block.method="css"
-  block.key="div#projects-list div"
-  block.index=nil
-  block.attribute=nil
-dset=Data_set.new
-dset.add("title","css",".b-post__title a","content")
-dset.add("link","css",".b-post__title a","href")
-dset.add("price","css",".b-post__price","content")
-dset.add("task","css",".b-post__body","content")
+  block=Record.new
+    block.name="block"
+    block.method="css"
+    block.key="div#projects-list div"
+    block.index=nil
+    block.attribute=nil
+  dset=Data_set.new
+  dset.add("title","css",".b-post__title a","content")
+  dset.add("link","css",".b-post__title a","href")
+  dset.add("price","css",".b-post__price","content")
+  dset.add("task","css",".b-post__body","content")
+  dset.data_puts
+  loader=Loader.new
+  loader.goto(url)
+  parser=NokoParser.new
+  parser.parse_page(loader.html)
+  blocks=parser.cut_blocks(parser.page,block)
+  blocks=parser.regex(blocks,"id",/project-item\d+/)
+  blocks.each do |block|
+    dset.data_puts
+    dset.data=parser.by_data(parser.no_script(block),dset.data)
+    dset.data_puts
+    dset.save_to_file(file_output)
+    dset.send_to_mail(dsat.data[],body,email)
 
-loader=Loader.new
-loader.goto(url)
-parser=NokoParser.new
-parser.parse_page(loader.html)
-blocks=parser.cut_blocks(parser.page,block)
-blocks=parser.regex(blocks,"id",/project-item\d+/)
-blocks.each do |block|
-  dset.data=parser.by_data(parser.no_script(block),dset.data)
-
-  if task[:title]+task[:content]=~/#{key_word}/ui
-    if DEBUG
-      puts "+++++++++++++++++++++++++++++++++++++++++++++"
-      puts task[:id]
-      puts task[:price]
-      puts task[:title]
-      puts task[:href]
-      puts task[:content]
-    end
-    from = 'newsvin@ukr.net'
-    to = 'alexeybistriy@gmail.com'
-    theme = task[:href]
-    text=task[:title]+task[:content]
-    message=""
-    message<<"From: My Rorbo <#{from}>\n"
-    message<<"To: Alexey Bistriy <#{to}>\n"
-    message<<"Subject: #{theme}\n"
-    message<<text
-    smtp=Net::SMTP.new('smtp.ukr.net',465)
-    smtp.enable_tls
-    #smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
-    #  smtp.send_message message, from, to
+    #if task[:title]+task[:content]=~/#{key_word}/ui
+    #  if DEBUG
+    #    puts "+++++++++++++++++++++++++++++++++++++++++++++"
+    #    puts task[:id]
+    #    puts task[:price]
+    #    puts task[:title]
+    #    puts task[:href]
+    #    puts task[:content]
+    #  end
+    #  from = 'newsvin@ukr.net'
+    #  to = 'alexeybistriy@gmail.com'
+    #  theme = task[:href]
+    #  text=task[:title]+task[:content]
+    #  message=""
+    #  message<<"From: My Rorbo <#{from}>\n"
+    #  message<<"To: Alexey Bistriy <#{to}>\n"
+    #  message<<"Subject: #{theme}\n"
+    #  message<<text
+    #  smtp=Net::SMTP.new('smtp.ukr.net',465)
+    #  smtp.enable_tls
+    #  #smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
+    #  #  smtp.send_message message, from, to
+    #  #end
     #end
   end
-end
 
 end
-
-end
-
-#  DEBUG=true
-#  OS='Windows'
-#  WATIR_PARSER=false
-#  key_word=["","парсер","парсить","VBA","нужен"].join("|")
-#  url="https://www.fl.ru/?page=2&kind=5"
 #
-#  if WATIR_PARSER
-#    parser=ParserWatir.new
-#  else
-#
-#    parser=Parser.new
-#  end
-#
-#
-#  parser.goto(url)
-#
-#  #ПРимер
-#  # menu=parser.page.css("div#projects-list").xpath('./div')
-#  # Пример использования псевдокласса CSS с регулярнім выражением
-#  #projects=parser.page.css('div:psevdoclass("project-item\d+")', Class.new{
-#  #  def psevdoclass node_set, regex
-#  #    node_set.find_all{|node| node["id"]=~/#{regex}/}
-#  #  end
-#  #}.new)
-#
-#  projects=parser.page.css("div#projects-list div").find_all{|div| div["id"]=~/project-item\d+/}
-#  projects.each do |job|
-#    task=Hash.new
-#    job["id"]=~/project-item(\d+)/
-#    task[:id]= Regexp.last_match[1]
-#
-#    task[:title]= parser.css_no_nil(job,".b-post__title a","content",0)
-#    task[:href]= parser.css_no_nil(job,".b-post__title a",:href,0)
-#    script=parser.css_no_nil(job,"script","content",0)
-#    newjob=parser.script_to_nodeset(script)
-#    task[:price]=parser.css_no_nil(newjob,".b-post__price","content",0)
-#    script=parser.css_no_nil(job,"script","content",1)
-#    newjob=parser.script_to_nodeset(script)
-#    task[:content]=parser.css_no_nil(newjob,".b-post__body","content",0)
-#
-#    #puts "============================================"
-#    #puts task[:id]
-#    #puts task[:price]
-#    #puts task[:title]
-#    #puts task[:href]
-#    #puts task[:content]
-#
-#
-#    if task[:title]+task[:content]=~/#{key_word}/ui
-#        if DEBUG
-#          puts "+++++++++++++++++++++++++++++++++++++++++++++"
-#          puts task[:id]
-#          puts task[:price]
-#          puts task[:title]
-#          puts task[:href]
-#          puts task[:content]
-#        end
-#        from = 'newsvin@ukr.net'
-#        to = 'alexeybistriy@gmail.com'
-#        theme = task[:href]
-#        text=task[:title]+task[:content]
-#        message=""
-#        message<<"From: My Rorbo <#{from}>\n"
-#        message<<"To: Alexey Bistriy <#{to}>\n"
-#        message<<"Subject: #{theme}\n"
-#        message<<text
-#        smtp=Net::SMTP.new('smtp.ukr.net',465)
-#        smtp.enable_tls
-#        #smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
-#        #  smtp.send_message message, from, to
-#        #end
-#    end
-#  end
 #end
-#
