@@ -12,7 +12,6 @@ require 'open-uri'
 require 'nokogiri'
 require "watir-webdriver"
 require_relative "parser"
-require_relative "parserwatir"
 
 debug=true
 OS='Windows'

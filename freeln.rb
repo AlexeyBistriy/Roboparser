@@ -9,7 +9,7 @@ require 'rubygems'
 require 'net/smtp'
 require "csv"
 require_relative "parser"
-require_relative "parserwatir"
+
 
 module OpenSSL
   module SSL

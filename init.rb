@@ -21,31 +21,99 @@ OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 module Robot
   #name,parse_method,key_parse,attribute,element_index=0
   file_output="baza.cvs"
-  url="https://www.fl.ru/?page=2&kind=5"
-  key_word=["парсер","парсить","программист"].join("|")
-  block=Record.new
-    block.name="block"
-    block.method="css"
-    block.key="div#projects-list div"
-    block.index=nil
-    block.attribute=nil
-  dset=Data_set.new
-  dset.add("title","css",".b-post__title a","content")
-  dset.add("link","css",".b-post__title a","href")
-  dset.add("price","css",".b-post__price","content")
-  dset.add("task","css",".b-post__body","content")
-  dset.data_puts
+  url="http://www.aliexpress.com/"
+  #key_word=["парсер","парсить","программист"].join("|")
+
+ #Selector page Menu
+  menu_record=Record.new
+    menu_record.name="menu"
+    menu_record.method="css"
+    menu_record.key=".cate-list-item a"
+    menu_record.index=nil
+    menu_record.attribute=nil
+
+  menu_set=Data_set.new
+    menu_set.add("title","css",".cate-list-item a","content")
+    menu_set.add("link","css",".cate-list-item a","href")
+
+ # selector next page
+  next_page=Record.new
+    menu_record.name="Next"
+    menu_record.method="css"
+    menu_record.key=".page-next"
+    menu_record.index=0
+    menu_record.attribute="href"
+
+  # Tree menu
+  ali_menu=Menu.new
+
+ # page data
+
+  block_record=Record.new
+  block_record.name="block"
+  block_record.method="css"
+  block_record.key=".list-item"
+  block_record.index=nil
+  block_record.attribute=nil
+
+  d_set=Data_set.new
+    d_set.add("qrdata","css",".list-item","qrdata")
+    d_set.add("href_img","css",".img a","href")
+    d_set.add("src_img","css",".img img","src")
+    d_set.add("href_item","css",".product","href")
+    d_set.add("content_item","css",".product","content")
+    d_set.add("title_item","css",".product","title")
+    d_set.add("brief_item","css",".brief","content")
+    d_set.add("rate_item","css","span[itemprop='ratingValue']","content")
+    d_set.add("rate_review","css","span[itemprop='reviewCount']","content")
+    d_set.add("rate_feedback","css",".rate-num","content")
+    d_set.add("rate_orders","css","em[title='Total Orders']","content")
+    d_set.add("currency","css",".price-m span[itemprop='priceCurrency']","content")
+    d_set.add("price","css",".price-m span[itemprop='price']","content")
+    d_set.add("unit","css",".price-m .unit","content")
+
+    d_set.add("sheeping","css",".pnl-shipping .price .value","content")
+    d_set.add("un","css",".pnl-shipping .price .unit","content")
+    d_set.add("free","css",".free-s","content")
+    d_set.add("via","css",".pnl-shipping .price","content")
+
+    d_set.add("min_order","css",".free-s","content")
+    d_set.add("store","css",".store","content")
+    d_set.add("store_href","css",".store","href")
+    d_set.add("score_href","css",".score-dot","href")
+    d_set.add("positive","css",".score-icon","sellerpositivefeedbackpercentage")
+    d_set.add("scoref","css",".score-icon","feedbackscore")
+
   loader=Loader.new
   loader.goto(url)
   parser=NokoParser.new
   parser.parse_page(loader.html)
-  blocks=parser.cut_blocks(parser.page,block)
-  blocks=parser.regex(blocks,"id",/project-item\d+/)
-  blocks.each do |block|
-    dset.data=parser.by_data(parser.no_script(block),dset.data)
-    dset.save_to_file(file_output)
-    if (dset.data[0].value+dset.data[3].value)=~/#{key_word}/ui
-      dset.send_to_mail(dset.data[1].value,dset.data[0].value+dset.data[3].value)
+  menu_blocks=parser.cut_blocks(parser.page,menu_record)
+
+  menu_blocks.each do |menu|
+    menu_set=parser.by_data(menu,menu_set)
+    ali_menu.add(menu_set[1].value,menu_set[0].value)
+  end
+
+  ali_menu.tree.each do |item|
+    loader.goto(item[:href])
+    parser.parse_page(loader.html)
+    next_url=parser.by_record(parser.page,next_page)
+    blocks=parser.cut_blocks(parser.page,block_record)
+    blocks.each do |block|
+       d_set.data=parser.by_data(block,d_set.data)
+       d_set.save_to_file(item[:title])
+    end
+
+    while next_url!=""
+         loader.goto(next_url)
+         parser.parse_page(loader.html)
+         next_url=parser.by_record(parser.page,next_page)
+         blocks=parser.cut_blocks(parser.page,block_record)
+         blocks.each do |block|
+           d_set.data=parser.by_data(block,d_set.data)
+           d_set.save_to_file(item[:title])
+         end
     end
   end
 end

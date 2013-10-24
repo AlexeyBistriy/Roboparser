@@ -108,7 +108,6 @@ module Robot
        data.each do|record|
          record.value=by_record(block,record)
        end
-
     end
     def attribute(node,attribute="content",index=0)
       if attribute=="content"
@@ -135,23 +134,14 @@ module Robot
     end
   end
 
-  class Block
-    def initialize(node)
-      @node=node
+  class Menu
+    def initialize
+      @tree=[]
     end
-    def script_to_nodeset (script)
-      html=script.gsub('\"','"')
-      Nokogiri::HTML(html)
+    attr_reader :tree
+    def add(href,title="baza")
+       @tree.push({:href=>href,:title=>title})
     end
-  end
-
-  class Page
-  def initialize(url,page_encoding)
-    @url=url
-    @page_encoding=page_encoding
-    @html=nil
-    @loader=nil       # Watir, Open-Uri, file
-  end
   end
 
   class Data_set
@@ -183,13 +173,11 @@ module Robot
         message<<"To: Alexey Bistriy <#{email_to}>\n"
         message<<"Subject: #{theme}\n"
         message<<body
-        #smtp=Net::SMTP.new('smtp.ukr.net',465)
-        #smtp.enable_tls
-        #smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
-        #  smtp.send_message message, from, to
-        #end
-
-
+        smtp=Net::SMTP.new('smtp.ukr.net',465)
+        smtp.enable_tls
+        smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
+          smtp.send_message message, from, to
+        end
     end
   end
   class Record
@@ -207,6 +195,7 @@ module Robot
     attr_accessor :attribute
     attr_accessor :index
     attr_accessor :value
+
     def valid?
       unless @name.nil?||@method.nil?||key.nil?||@attribute.nil?||@index.nil?
         true
