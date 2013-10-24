@@ -1,117 +1,5 @@
 # coding: utf-8
 module Robot
-
-  class Parser
-    def initialize
-      @page=nil
-      @dump_url=nil
-      @dump_index=0
-      @no_error=true
-      @no_dump=true
-      @count_error=0
-      @MaxCountError=5
-    end
-    attr_reader :no_error
-    attr_reader :no_dump
-    attr_accessor :dump_index
-    attr_accessor :dump_url
-    attr_accessor :url
-    attr_reader :page
-    def save_to_error
-      File.open('error.txt', 'a'){|file| file.write "error: dump_index=#{@dump_index} no download URL= #{@dump_url}\n"}
-    end
-    def goto(url)
-      @dump_url=url
-      while @count_error < @MaxCountError
-        begin
-          @page=Nokogiri::HTML(open(url,"User-Agent" => "Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1").read.encode("UTF-8","Windows-1251"))
-          @count_error=@MaxCountError
-          @no_error=true
-          rescue
-            @no_error=false
-            @count_error+=1
-            self.save_to_error
-         end
-      end
-      @count_error=0
-      @no_error
-    end
-
-    def xpath_a(xpath)
-      refs=[]
-      @page.xpath(xpath).each do |a|
-        link=Hash.new
-        link[:href]=a['href']
-        link[:content]= a.content
-        link[:xpath]= a.path
-        refs.push(link)
-      end
-      refs
-    end
-    def css_a (css)
-      refs=[]
-      unless @page.nil?
-        @page.css(css+" a").each do |a|
-        link=Hash.new
-        link[:href]=a['href']
-        link[:content]= a.content
-        link[:xpath]= a.path
-        refs.push(link)
-        end
-      end
-      refs
-    end
-    def css_no_nil(li,css_in,attribute_in,node_number)
-      css=li.css(css_in)
-      unless css[node_number].nil?
-        if attribute_in == "content"
-          attribute=css[node_number].content
-        else
-          attribute=css[node_number][attribute_in]
-        end
-        unless attribute.nil?
-          attribute.gsub(/$\n?|\r/," ")
-        else
-          ""
-        end
-      else
-        ""
-      end
-    end
-
-    def save_to_log
-      File.open('log.txt', 'a'){|file| file.write "#{@dump_index}=#{@dump_url}\n"}
-    end
-    def save_to_dump
-      File.open('dump.txt', 'w'){|file| file.write "#{@dump_index}\n#{@dump_url}\n"}
-    end
-    def read_from_dump
-      unless File.zero?("dump.txt")
-        dump=File.readlines("dump.txt")
-        @dump_index=dump[-2].chomp.to_i
-        @dump_url=dump[-1].chomp
-        @no_dump=false
-        File.open('dump.txt', 'w'){|file| file.write ""}
-      else
-        @no_dump=true
-      end
-    end
-    def script_to_nodeset (script)
-      html=script.gsub('\"','"')
-      Nokogiri::HTML(html)
-    end
-  end
-
-
-  class Setting
-    def initialize(url)
-      @url=url
-      @attribute_block_css=nil
-      @attribute_param_css=[]
-
-    end
-  end
-
   class Loader
     def initialize(encoding="UTF-8")
       @url=nil
@@ -280,12 +168,28 @@ module Robot
       new_record.index=element_index
       @data.push(new_record) if new_record.valid?
     end
-    def data_puts
-      @data.each do |record|
-        puts "======================="
-        puts record.name
-        puts record.value
+    def save_to_file (file_output,encoding="UTF-8")
+      CSV.open(file_output, "a:"+encoding)do |line|
+         line << @data.map{|record| record.value}
       end
+      #File.open(file_output, append){|file| file.write @data.map{|record| record.value}.join(" ")+"\n"}
+    end
+    def data_puts
+      puts @data.map{|record| record.value}.join(" ")+"\n"
+    end
+    def send_to_mail(theme,body,email_to="alexeybistriy@gmail.com",email_from="newsvin@ukr.net")
+        message=""
+        message<<"From: My Rorbo <#{email_from}>\n"
+        message<<"To: Alexey Bistriy <#{email_to}>\n"
+        message<<"Subject: #{theme}\n"
+        message<<body
+        #smtp=Net::SMTP.new('smtp.ukr.net',465)
+        #smtp.enable_tls
+        #smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
+        #  smtp.send_message message, from, to
+        #end
+
+
     end
   end
   class Record
