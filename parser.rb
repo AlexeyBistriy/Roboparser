@@ -1,25 +1,25 @@
 # coding: utf-8
 module Robot
   class Loader
-    def initialize(encoding="UTF-8")
+    def initialize(encoding='UTF-8')
       @url=nil
       @html=nil
       @error_loader={}
       @encoding=encoding
-      @encoding="UTF-8" unless verify_encoding?(encoding)
+      @encoding='UTF-8' unless verify_encoding?(encoding)
     end
     attr_reader :html
     def go(url)
-      @html=open(url,"User-Agent"=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1").read
+      @html=open(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1").read
       @error_loader[url]=nil
     rescue
-      @html=""
+      @html=''
       @error_loader[url]=url
       save_to_log(url)
     end
     def goto(url)
       error_count=0
-      @error_loader[url]="загрузка"
+      @error_loader[url]='загрузка'
       begin
         go(url)
         error_count+=1
@@ -58,7 +58,7 @@ module Robot
       @error_loader[url]=nil
       @url
     rescue
-      @html=""
+      @html=''
       @error_loader[url]=url
       save_to_log(url)
     end
@@ -85,23 +85,23 @@ module Robot
     end
     def cut_blocks(node,record)
       case record.method
-        when "css"
+        when 'css'
           nodeset=node.css(record.key)
-        when "xpath"
+        when 'xpath'
           nodeset=node.xpath(record.key)
       end
     end
     def by_record(node,record)
       case record.method
-        when "css"
+        when 'css'
           nodeset=node.css(record.key)
-        when "xpath"
+        when 'xpath'
           nodeset=node.xpath(record.key)
       end
       unless attribute?(nodeset,record.attribute,record.index)
         attribute(nodeset,record.attribute,record.index)
       else
-        ""
+        ''
       end
     end
     def by_data(block,data)
@@ -109,15 +109,15 @@ module Robot
          record.value=by_record(block,record)
        end
     end
-    def attribute(node,attribute="content",index=0)
-      if attribute=="content"
+    def attribute(node,attribute='content',index=0)
+      if attribute=='content'
         node[index].content
       else
         node[index][attribute.to_sym]
       end
     end
-    def attribute?(node,attribute="content",index=0)
-      if attribute=="content"
+    def attribute?(node,attribute='content',index=0)
+      if attribute=='content'
        node.nil?||node.empty?||node[index].nil?||node[index].content.nil?
       else
         node.nil?||node.empty?||node[index].nil?||node[index][attribute.to_sym].nil?
@@ -139,7 +139,7 @@ module Robot
       @tree=[]
     end
     attr_reader :tree
-    def add(href,title="baza")
+    def add(href,title='baza')
        @tree.push({:href=>href,:title=>title})
     end
   end
@@ -158,16 +158,16 @@ module Robot
       new_record.index=element_index
       @data.push(new_record) if new_record.valid?
     end
-    def save_to_file (file_output,encoding="UTF-8")
-      CSV.open(file_output, "a:"+encoding)do |line|
+    def save_to_file (file_output,encoding='UTF-8')
+      CSV.open(file_output, 'a:'+encoding)do |line|
          line << @data.map{|record| record.value}
       end
       #File.open(file_output, append){|file| file.write @data.map{|record| record.value}.join(" ")+"\n"}
     end
     def data_puts
-      puts @data.map{|record| record.value}.join(" ")+"\n"
+      puts @data.map{|record| record.value}.join(' ')+"\n"
     end
-    def send_to_mail(theme,body,email_to="alexeybistriy@gmail.com",email_from="newsvin@ukr.net")
+    def send_to_mail(theme,body,email_to='alexeybistriy@gmail.com',email_from='newsvin@ukr.net')
         message=""
         message<<"From: My Rorbo <#{email_from}>\n"
         message<<"To: Alexey Bistriy <#{email_to}>\n"
@@ -187,7 +187,7 @@ module Robot
       @key=nil
       @index=nil
       @attribute=nil
-      @value=""
+      @value=''
     end
     attr_accessor :name
     attr_accessor :method
