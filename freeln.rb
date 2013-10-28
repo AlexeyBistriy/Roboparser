@@ -42,7 +42,7 @@ module Robot
   blocks=parser.cut_blocks(parser.page,block)
   blocks=parser.regex(blocks,'id',/project-item\d+/)
   blocks.each do |block|
-    dset.data=parser.by_data(parser.no_script(block),dset.data)
+    dset.data=parser.by_data(parser.no_script(block),dset)
     dset.save_to_file(file_output)
     if (dset.data[0].value+dset.data[3].value)=~/#{key_word}/ui
       dset.send_to_mail(dset.data[1].value,dset.data[0].value+dset.data[3].value)

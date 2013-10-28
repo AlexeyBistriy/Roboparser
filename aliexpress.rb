@@ -73,7 +73,7 @@ menu.each_index do |index|
         when "Windows"
           File.open("./data/#{link[:content].gsub(/\&/," ")}.txt", 'a'){|file| file.write item.values.join("	")+"\n"}
         when "Unix"
-          File.open("./data/#{link[:content].gsub(/\&/," ").encode('KOI8-R')}.txt", 'a'){|file| file.write item.values.join("	")+"\n"}
+          File.open("./data/#{link[:content].gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"/," ").encode('KOI8-R')}.txt", 'a'){|file| file.write item.values.join("	")+"\n"}
       end
 
     end

@@ -4,32 +4,31 @@ module Robot
     def initialize(encoding='UTF-8')
       @url=nil
       @html=nil
-      @error_loader={}
+      @load=nil
       @encoding=encoding
       @encoding='UTF-8' unless verify_encoding?(encoding)
     end
     attr_reader :html
     def go(url)
       @html=open(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1").read
-      @error_loader[url]=nil
+      true
     rescue
       @html=''
-      @error_loader[url]=url
       save_to_log(url)
+      false
     end
     def goto(url)
       error_count=0
-      @error_loader[url]='загрузка'
-      begin
-        go(url)
+      @load=false
+      until @load || error_count==5
+        @load=go(url)
         error_count+=1
-      end until @error_loader[url].nil? || error_count==5
-      if @html.encoding!=@encoding
-         @html.encode!(@encoding,@html.encoding)
       end
+      @html.encode!(@encoding,@html.encoding) unless @html.encoding==@encoding
+      @load
     end
     def verify_encoding?(encoding)
-      # пока проверяем на nil? позже надо дописать include? в список известных руби кодировок
+      #TODO пока проверяем на nil? позже надо дописать include? в список известных руби кодировок
       if encoding.nil?
         true
       else
@@ -55,12 +54,11 @@ module Robot
     def go(url)
       @watirff.goto url
       @html=@watirff.html
-      @error_loader[url]=nil
-      @url
+      true
     rescue
       @html=''
-      @error_loader[url]=url
       save_to_log(url)
+      false
     end
   end
 
@@ -77,50 +75,66 @@ module Robot
     def css(node,key)
        node.css(key)
     end
-    def parse_page(html)
+    def document(html)
       @page=Nokogiri::HTML(html)
     end
     def parse_html(html)
       Nokogiri::HTML(html)
     end
-    def cut_blocks(node,record)
+    def cut_blocks(document,record)
       case record.method
         when 'css'
-          nodeset=node.css(record.key)
+          document.css(record.key)
         when 'xpath'
-          nodeset=node.xpath(record.key)
+          document.xpath(record.key)
       end
     end
-    def by_record(node,record)
+
+    def parse_by_record(doc_or_node,record)
       case record.method
         when 'css'
-          nodeset=node.css(record.key)
+          doc_or_node.css(record.key)
         when 'xpath'
-          nodeset=node.xpath(record.key)
+          doc_or_node.xpath(record.key)
       end
-      unless attribute?(nodeset,record.attribute,record.index)
-        attribute(nodeset,record.attribute,record.index)
+    end
+    def by_record(node2,record)
+      case record.method
+        when 'css'
+          nodeset2=node2.css(record.key)
+        when 'xpath'
+          nodeset2=node2.xpath(record.key)
+      end
+      unless attribute?(nodeset2,record.attribute,record.index)
+        attribute(nodeset2,record.attribute,record.index)
       else
         ''
       end
     end
-    def by_data(block,data)
-       data.each do|record|
-         record.value=by_record(block,record)
+    def by_data(block,dataset)
+       dataset.records.map do|record|
+         by_record(block,record)
        end
     end
-    def attribute(node,attribute='content',index=0)
+    def attribute(node3,attribute='content',index=0)
       if attribute=='content'
-        node[index].content
+        node3[index].content
       else
-        node[index][attribute.to_sym]
+        node3[index][attribute.to_sym]
       end
     end
-    def attribute?(node,attribute='content',index=0)
+    def attribute?(node4,attribute='content',index=0)
       if attribute=='content'
-       node.nil?||node.empty?||node[index].nil?||node[index].content.nil?
+
+        puts "============="
+        p node4.inspect
+        puts node4.nil?
+        puts node4.empty?
+        puts node4[index].nil?
+        puts node4[index].content.nil?
+        node4.nil?||node4.empty?||node4[index].nil?||node4[index].content.nil?
       else
-        node.nil?||node.empty?||node[index].nil?||node[index][attribute.to_sym].nil?
+        node4.nil?||node4.empty?||node4[index].nil?||node4[index][attribute.to_sym].nil?
       end
     end
     def regex(node,attribute,regex)
@@ -139,16 +153,26 @@ module Robot
       @tree=[]
     end
     attr_reader :tree
-    def add(href,title='baza')
-       @tree.push({:href=>href,:title=>title})
+    def add(nodeset_a)
+       nodeset_a.each do |element|
+         @tree.push([:content=>element.content,:href=>element[:href]]) if element.content&&element[:href]
+       end
+    end
+    def save_to_file (file_output,encoding='UTF-8')
+      CSV.open(file_output, 'a:'+encoding)do |line|
+        do
+          line << @tree
+        end
     end
   end
 
   class Data_set
     def initialize
-      @data=[]
+      @records=[]
+      @values=[]
     end
-    attr_accessor :data
+    attr_reader :records
+    attr_accessor :values
     def add (name,parse_method,key_parse,attribute,element_index=0)
       new_record=Record.new
       new_record.name=name
@@ -156,16 +180,26 @@ module Robot
       new_record.key=key_parse
       new_record.attribute=attribute
       new_record.index=element_index
-      @data.push(new_record) if new_record.valid?
+      if new_record.valid?
+        @records.push(new_record)
+        @values.push('')
+      end
     end
-    def save_to_file (file_output,encoding='UTF-8')
-      CSV.open(file_output, 'a:'+encoding)do |line|
-         line << @data.map{|record| record.value}
+    def head_save_to_file(path,name_file,encoding='UTF-8')
+      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"/," ")
+      CSV.open( path+file, 'a:'+encoding)do |line|
+         line << @records.map{|record| record.name}
+      end
+    end
+    def save_to_file (pats,name_file,encoding='UTF-8')
+      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"/," ")
+      CSV.open(path+file, 'a:'+encoding)do |line|
+         line << @values
       end
       #File.open(file_output, append){|file| file.write @data.map{|record| record.value}.join(" ")+"\n"}
     end
     def data_puts
-      puts @data.map{|record| record.value}.join(' ')+"\n"
+      puts @values.join(' ')+"\n"
     end
     def send_to_mail(theme,body,email_to='alexeybistriy@gmail.com',email_from='newsvin@ukr.net')
         message=""
@@ -187,15 +221,12 @@ module Robot
       @key=nil
       @index=nil
       @attribute=nil
-      @value=''
     end
     attr_accessor :name
     attr_accessor :method
     attr_accessor :key
     attr_accessor :attribute
     attr_accessor :index
-    attr_accessor :value
-
     def valid?
       unless @name.nil?||@method.nil?||key.nil?||@attribute.nil?||@index.nil?
         true
