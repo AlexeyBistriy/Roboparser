@@ -24,7 +24,7 @@ module Robot
         @load=go(url)
         error_count+=1
       end
-      @html.encode!(@encoding,@html.encoding) unless @html.encoding==@encoding
+      @html.encode!(@encoding,@html.encoding) if @html.respond_to?("encode") and @html.encoding!=@encoding
       @load
     end
     def verify_encoding?(encoding)
@@ -81,16 +81,7 @@ module Robot
     def parse_html(html)
       Nokogiri::HTML(html)
     end
-    def cut_blocks(document,record)
-      case record.method
-        when 'css'
-          document.css(record.key)
-        when 'xpath'
-          document.xpath(record.key)
-      end
-    end
-
-    def parse_by_record(doc_or_node,record)
+    def nodes_by_record(doc_or_node,record)
       case record.method
         when 'css'
           doc_or_node.css(record.key)
@@ -98,47 +89,50 @@ module Robot
           doc_or_node.xpath(record.key)
       end
     end
-    def by_record(node2,record)
+    def attribute_by_record(doc_or_node,record)
       case record.method
         when 'css'
-          nodeset2=node2.css(record.key)
+          nodeset=doc_or_node.css(record.key)
+          unless attribute?(nodeset,record)
+            attribute(nodeset,record)
+          else
+            ''
+          end
         when 'xpath'
-          nodeset2=node2.xpath(record.key)
-      end
-      unless attribute?(nodeset2,record.attribute,record.index)
-        attribute(nodeset2,record.attribute,record.index)
-      else
-        ''
-      end
+          nodeset=doc_or_node.xpath(record.key)
+          unless attribute?(nodeset,record)
+            attribute(nodeset,record)
+          else
+            ''
+          end
+        when "attribute"
+          unless doc_or_node[record.attribute].nil?
+            doc_or_node[record.attribute]
+          end
+        end
+
     end
-    def by_data(block,dataset)
+    def attribute_by_data(doc_or_node,dataset)
        dataset.records.map do|record|
-         by_record(block,record)
+         attribute_by_record(doc_or_node,record)
        end
     end
-    def attribute(node3,attribute='content',index=0)
-      if attribute=='content'
-        node3[index].content
+    def attribute(nodeset,record)
+      if record.attribute=='content'
+        nodeset[record.index].content
       else
-        node3[index][attribute.to_sym]
+        nodeset[record.index][record.attribute.to_sym]
       end
     end
-    def attribute?(node4,attribute='content',index=0)
-      if attribute=='content'
-
-        puts "============="
-        p node4.inspect
-        puts node4.nil?
-        puts node4.empty?
-        puts node4[index].nil?
-        puts node4[index].content.nil?
-        node4.nil?||node4.empty?||node4[index].nil?||node4[index].content.nil?
+    def attribute?(nodeset,record)
+      if record.attribute=='content'
+        nodeset.nil?||nodeset.empty?||nodeset[record.index].nil?||nodeset[record.index].content.nil?
       else
-        node4.nil?||node4.empty?||node4[index].nil?||node4[index][attribute.to_sym].nil?
+        nodeset.nil?||nodeset.empty?||nodeset[record.index].nil?||nodeset[record.index][record.attribute.to_sym].nil?
       end
     end
-    def regex(node,attribute,regex)
-      node.find_all{|element| element[attribute]=~/#{regex}/}
+    def regex(nodeset,attribute,regex)
+      nodeset.find_all{|element| element[attribute]=~/#{regex}/}
     end
     def no_script(node)
       script=node.to_s
@@ -153,16 +147,26 @@ module Robot
       @tree=[]
     end
     attr_reader :tree
-    def add(nodeset_a)
+    def add(nodeset_a,regexp='')
        nodeset_a.each do |element|
-         @tree.push([:content=>element.content,:href=>element[:href]]) if element.content&&element[:href]
+         if element.content&&element[:href]&&!element[:href].empty?&& url?(element[:href],regexp)
+          @tree.push({:content=>element.content,:href=>element[:href]})
+         end
        end
+    end
+    def url?(url,regexp)
+     if url=~/#{regexp}/
+       true
+     else
+       false
+     end
     end
     def save_to_file (file_output,encoding='UTF-8')
       CSV.open(file_output, 'a:'+encoding)do |line|
-        do
-          line << @tree
+        @tree.map do |item|
+        line << [item[:content],item[:href]]
         end
+      end
     end
   end
 
@@ -186,12 +190,12 @@ module Robot
       end
     end
     def head_save_to_file(path,name_file,encoding='UTF-8')
-      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"/," ")
+      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"/," ").gsub(/\s\s/,'')
       CSV.open( path+file, 'a:'+encoding)do |line|
          line << @records.map{|record| record.name}
       end
     end
-    def save_to_file (pats,name_file,encoding='UTF-8')
+    def save_to_file (path,name_file,encoding='UTF-8')
       file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"/," ")
       CSV.open(path+file, 'a:'+encoding)do |line|
          line << @values
@@ -209,9 +213,9 @@ module Robot
         message<<body
         smtp=Net::SMTP.new('smtp.ukr.net',465)
         smtp.enable_tls
-        smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
-          smtp.send_message message, from, to
-        end
+        #smtp.start('localhost','newsvin@ukr.net','VVVVV',:plain) do |smtp|
+        #  smtp.send_message message, from, to
+        #end
     end
   end
   class Record
