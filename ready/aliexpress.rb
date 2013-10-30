@@ -1,5 +1,5 @@
 # coding: utf-8
-#http://www.rsdn.ru/article/ruby/ruby_edges.xml
+#"http://www.aliexpress.com/"
 require 'net/https'
 require 'net/http'
 require 'open-uri'
