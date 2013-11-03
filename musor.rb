@@ -175,6 +175,10 @@ class ParserWatir < Musor
     @watirff.imgs.each{|img| imgs.push(img.html)}
     imgs
   end
-
+  def simple1
+    #hrefs = row.css("td a").map{ |a|
+    #  a['href'] if a['href'].match("/wiki/")
+    #}.compact.uniq
+  end
 
 end

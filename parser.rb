@@ -38,6 +38,7 @@ module Robot
     def save_to_log (error)
       File.open('log.txt', 'a'){|file| file.write "Страница #{error} не доступна."}
     end
+
   end
 
   class LoaderWatir < Loader
@@ -60,6 +61,7 @@ module Robot
       save_to_log(url)
       false
     end
+
   end
 
   class NokoParser
@@ -140,6 +142,14 @@ module Robot
       html=tt.gsub('\"','"')
       Nokogiri::HTML(html)
     end
+    def redirect?(title_regexp)
+      text_title=page.css('title').text
+      if text_title =~ /#{title_regexp}/
+        true
+      else
+        false
+      end
+    end
   end
 
   class Menu
@@ -164,7 +174,7 @@ module Robot
     def save_to_file (file_output,encoding='UTF-8')
       CSV.open(file_output, 'a:'+encoding)do |line|
         @tree.map do |item|
-        line << [item[:content],item[:href]]
+        line << [item[:content].strip,item[:href]]
         end
       end
     end
@@ -226,11 +236,7 @@ module Robot
       @index=nil
       @attribute=nil
     end
-    attr_accessor :name
-    attr_accessor :method
-    attr_accessor :key
-    attr_accessor :attribute
-    attr_accessor :index
+    attr_accessor :name, :method, :key, :attribute, :index
     def valid?
       unless @name.nil?||@method.nil?||key.nil?||@attribute.nil?||@index.nil?
         true
