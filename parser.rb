@@ -4,13 +4,16 @@ module Robot
     def initialize(encoding='UTF-8')
       @url=nil
       @html=nil
+      @header=nil
       @load=nil
       @encoding=encoding
       @encoding='UTF-8' unless verify_encoding?(encoding)
     end
     attr_reader :html
     def go(url)
-      @html=open(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1").read
+      l=open(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
+      @html=l.read
+      @header=l.meta
       true
     rescue
       @html=''
@@ -24,8 +27,42 @@ module Robot
         @load=go(url)
         error_count+=1
       end
+      case @header['content-type']
+        when /windows-1251/i
+          @html.force_encoding('Windows-1251')
+        when /cp1251/i
+          @html.force_encoding('Windows-1251')
+        when /utf-8/i
+          @html.force_encoding('UTF-8')
+        when  /koi8-r/i
+          @html.force_encoding('KOI8-R')
+        else
+          puts @header['content-type']
+          if @html=~/charset=([a-z0-9\-]*)/i
+            cp=Regexp.last_match(1)
+            cp=alias_cp(cp)
+            puts cp
+            @html.force_encoding(cp)
+
+          end
+
+
+     end
       @html.encode!(@encoding,@html.encoding) if @html.respond_to?("encode") and @html.encoding!=@encoding
       @load
+    end
+    def alias_cp(cp)
+      case cp.upcace
+        when 'UTF8', 'UTF-8'
+          'UTF-8'
+        when 'CP1251' , 'CP-1251' , 'WINDOWS1251' , 'WINDOWS-1251'
+          'Windows-1251'
+        when 'KOI8R' , 'KOI8-R'
+          'KOI8-R'
+        when 'KOI8U' , 'KOI8-U'
+          'KOI8-U'
+      end
+
     end
     def verify_encoding?(encoding)
       #TODO пока проверяем на nil? позже надо дописать include? в список известных руби кодировок
@@ -111,7 +148,7 @@ module Robot
           unless doc_or_node[record.attribute].nil?
             doc_or_node[record.attribute]
           end
-        end
+      end
 
     end
     def attribute_by_data(doc_or_node,dataset)
