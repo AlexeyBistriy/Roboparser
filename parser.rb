@@ -21,49 +21,41 @@ module Robot
       false
     end
     def goto(url)
-      error_count=0
       @load=false
-      until @load || error_count==5
-        @load=go(url)
-        error_count+=1
+
+      5.times do
+        break if @load=go(url)
       end
+
+      puts @header['content-type']
       case @header['content-type']
-        when /windows-1251/i
-          @html.force_encoding('Windows-1251')
-        when /cp1251/i
-          @html.force_encoding('Windows-1251')
-        when /utf-8/i
-          @html.force_encoding('UTF-8')
-        when  /koi8-r/i
-          @html.force_encoding('KOI8-R')
+        when /windows(:?-)?1251/i
+          cp='Windows-1251'
+        when /cp(:?-)?1251/i
+          cp='Windows-1251'
+        when /utf(:?-)?8/i
+          cp='UTF-8'
+        when  /koi8(:?-)?r/i
+          cp='KOI8-R'
+        when  /koi8(:?-)?u/i
+          cp='KOI8-U'
         else
-          puts @header['content-type']
-          if @html=~/charset=([a-z0-9\-]*)/i
-            cp=Regexp.last_match(1)
-            cp=alias_cp(cp)
-            puts cp
-            @html.force_encoding(cp)
-
+          if utf8?(@html)
+            cp='UTF-8'
+            puts "else UTF"
+          else
+            cp='Windows-1251'
+            puts "else Win"
           end
-
-
-     end
-      @html.encode!(@encoding,@html.encoding) if @html.respond_to?("encode") and @html.encoding!=@encoding
+      end
+      @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
       @load
     end
-    def alias_cp(cp)
-      case cp.upcace
-        when 'UTF8', 'UTF-8'
-          'UTF-8'
-        when 'CP1251' , 'CP-1251' , 'WINDOWS1251' , 'WINDOWS-1251'
-          'Windows-1251'
-        when 'KOI8R' , 'KOI8-R'
-          'KOI8-R'
-        when 'KOI8U' , 'KOI8-U'
-          'KOI8-U'
-      end
-
+    def utf8?(string)
+      string.unpack('U*') rescue return false
+      true
     end
+
     def verify_encoding?(encoding)
       #TODO пока проверяем на nil? позже надо дописать include? в список известных руби кодировок
       if encoding.nil?

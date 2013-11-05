@@ -8,15 +8,8 @@ require 'watir-webdriver'
 require 'rubygems'
 require 'net/smtp'
 require 'csv'
+require_relative 'constants'
 require_relative 'parser'
-
-
-module OpenSSL
-  module SSL
-    remove_const :VERIFY_PEER
-  end
-end
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 module Robot
   #name,parse_method,key_parse,attribute,element_index=0
