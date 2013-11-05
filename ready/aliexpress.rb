@@ -1,13 +1,6 @@
 # coding: utf-8
 #"http://www.aliexpress.com/"
-require 'net/https'
-require 'net/http'
-require 'open-uri'
-require 'nokogiri'
-require 'watir-webdriver'
-require 'rubygems'
-require 'net/smtp'
-require 'csv'
+
 require_relative 'constants'
 require_relative 'parser'
 

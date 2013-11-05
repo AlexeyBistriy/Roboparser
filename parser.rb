@@ -10,8 +10,12 @@ module Robot
       @encoding='UTF-8' unless verify_encoding?(encoding)
     end
     attr_reader :html
-    def go(url)
+    def go(url_)
+      url=Addressable::URI.parse(url_)
+      url=url.normalize
       l=open(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
+      puts l.status
+      puts l.base_uri
       @html=l.read
       @header=l.meta
       true
@@ -21,12 +25,9 @@ module Robot
       false
     end
     def goto(url)
-      @load=false
-
-      5.times do
-        break if @load=go(url)
+      fail_trys=TRY_COUNT_LOAD.times do
+        break if go(url)
       end
-
       puts @header['content-type']
       case @header['content-type']
         when /windows(:?-)?1251/i
@@ -49,7 +50,11 @@ module Robot
           end
       end
       @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
-      @load
+      unless fail_trys
+        true
+      else
+        false
+      end
     end
     def utf8?(string)
       string.unpack('U*') rescue return false
@@ -81,9 +86,15 @@ module Robot
       @encoding=encoding
       @encoding=Encoding.default_external unless verify_encoding?(encoding)
     end
-    def go(url)
+    def go(url_)
+      url=Addressable::URI.parse(url_)
+      url=url.normalize
       @watirff.goto url
       @html=@watirff.html
+      puts @watirff.title
+
+      @header=@watirff.header
+      puts @header
       true
     rescue
       @html=''
@@ -121,6 +132,9 @@ module Robot
       end
     end
     def attribute_by_record(doc_or_node,record)
+      #puts '_______________________________'
+      #puts doc_or_node.inspect
+      #puts '_____________________________________'
       case record.method
         when 'css'
           nodeset=doc_or_node.css(record.key)

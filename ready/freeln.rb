@@ -1,14 +1,6 @@
 # coding: utf-8
 #"https://www.fl.ru/"
 
-require 'net/https'
-require 'net/http'
-require 'open-uri'
-require 'nokogiri'
-require 'watir-webdriver'
-require 'rubygems'
-require 'net/smtp'
-require 'csv'
 require_relative 'constants'
 require_relative 'parser'
 

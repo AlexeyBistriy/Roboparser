@@ -1,14 +1,7 @@
 # coding: utf-8
 #"https://www.fl.ru/"
 
-require 'net/https'
-require 'net/http'
-require 'open-uri'
-require 'nokogiri'
-require 'watir-webdriver'
-require 'rubygems'
-require 'net/smtp'
-require 'csv'
+
 require_relative 'constants'
 require_relative 'parser'
 
@@ -53,15 +46,21 @@ module Robot
   end
 
   urls.each do  |href|
-    loader.goto(href)
+    if href=='http://www.23crew.info/'
+    puts loader.go(href)
     parser.document(loader.html)
     page=parser.page
+    puts page.to_s
+    puts '-----------------------------'
+    puts page.meta_encoding
+    puts page.title
+    puts '------------------------------'
     title=parser.attribute_by_record(page,title_record)
     puts href
     puts title
     puts '++++++++++++++++++++++++++'
     titles.push(title)
-
+    end
   end
 
 
