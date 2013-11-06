@@ -5,7 +5,6 @@ module Robot
       @url=nil
       @html=nil
       @header=nil
-      @load=nil
       @encoding=encoding
       @encoding='UTF-8' unless verify_encoding?(encoding)
     end
@@ -14,8 +13,6 @@ module Robot
       url=Addressable::URI.parse(url_)
       url=url.normalize
       l=open(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
-      puts l.status
-      puts l.base_uri
       @html=l.read
       @header=l.meta
       true
@@ -46,7 +43,7 @@ module Robot
             puts "else UTF"
           else
             cp='Windows-1251'
-            puts "else Win"
+            puts 'else WI'
           end
       end
       @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
@@ -79,21 +76,18 @@ module Robot
     def initialize(encoding=nil)
       @url=nil
       @html=nil
+      @header=nil
       client = Selenium::WebDriver::Remote::Http::Default.new
       client.timeout = 300
       @watirff = Watir::Browser.new :ff, :http_client => client
-      @error_loader={}
       @encoding=encoding
       @encoding=Encoding.default_external unless verify_encoding?(encoding)
     end
     def go(url_)
-      url=Addressable::URI.parse(url_)
-      url=url.normalize
-      @watirff.goto url
+      #url=Addressable::URI.parse(url_)
+      #url=url.normalize
+      @watirff.goto url_
       @html=@watirff.html
-      puts @watirff.title
-
-      @header=@watirff.header
       puts @header
       true
     rescue
@@ -101,7 +95,25 @@ module Robot
       save_to_log(url)
       false
     end
+    def goto(url)
+      fail_trys=TRY_COUNT_LOAD.times do
+        break if go(url)
+      end
+      if utf8?(@html)
+        cp='UTF-8'
+        puts "else UTF"
+      else
+        cp='Windows-1251'
+        puts "else Win"
+      end
 
+      @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
+      unless fail_trys
+        true
+      else
+        false
+      end
+    end
   end
 
   class NokoParser
