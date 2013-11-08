@@ -6,7 +6,6 @@ module Robot
       @html=nil
       @header=nil
       @encoding=encoding
-      @encoding='UTF-8' unless verify_encoding?(encoding)
     end
     attr_reader :html
     def go(url_)
@@ -47,24 +46,11 @@ module Robot
           end
       end
       @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
-      unless fail_trys
-        true
-      else
-        false
-      end
+      !fail_trys
     end
     def utf8?(string)
       string.unpack('U*') rescue return false
       true
-    end
-
-    def verify_encoding?(encoding)
-      #TODO пока проверяем на nil? позже надо дописать include? в список известных руби кодировок
-      if encoding.nil?
-        true
-      else
-        false
-      end
     end
     def save_to_log (error)
       File.open('log.txt', 'a'){|file| file.write "Страница #{error} не доступна."}
@@ -73,7 +59,7 @@ module Robot
   end
 
   class LoaderWatir < Loader
-    def initialize(encoding=nil)
+    def initialize(encoding='UTF-8')
       @url=nil
       @html=nil
       @header=nil
@@ -81,14 +67,14 @@ module Robot
       client.timeout = 300
       @watirff = Watir::Browser.new :ff, :http_client => client
       @encoding=encoding
-      @encoding=Encoding.default_external unless verify_encoding?(encoding)
+
     end
     def go(url_)
       #url=Addressable::URI.parse(url_)
       #url=url.normalize
       @watirff.goto url_
       @html=@watirff.html
-      puts @header
+
       true
     rescue
       @html=''
@@ -101,10 +87,10 @@ module Robot
       end
       if utf8?(@html)
         cp='UTF-8'
-        puts "else UTF"
+
       else
         cp='Windows-1251'
-        puts "else Win"
+
       end
 
       @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
@@ -293,11 +279,7 @@ module Robot
     end
     attr_accessor :name, :method, :key, :attribute, :index
     def valid?
-      unless @name.nil?||@method.nil?||key.nil?||@attribute.nil?||@index.nil?
-        true
-      else
-        false
-      end
+      !(@name.nil?||@method.nil?||key.nil?||@attribute.nil?||@index.nil?)
     end
   end
 end
