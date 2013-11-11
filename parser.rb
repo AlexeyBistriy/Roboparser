@@ -1,6 +1,12 @@
 # coding: utf-8
 module Robot
+  module MyFile
+    def file_name_valid name_file
+      name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"|\n|\r|/u,"").strip
+    end
+  end
   class Loader
+    include MyFile
     def initialize(encoding='UTF-8')
       @url=nil
       @html=nil
@@ -9,8 +15,7 @@ module Robot
     end
     attr_reader :html
     def go(url_)
-      url=Addressable::URI.parse(url_)
-      url=url.normalize
+      url=Addressable::URI.parse(url_).normalize.to_str
       l=open(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
       @html=l.read
       @header=l.meta
@@ -24,7 +29,6 @@ module Robot
       fail_trys=TRY_COUNT_LOAD.times do
         break if go(url)
       end
-      puts @header['content-type']
       case @header['content-type']
         when /windows(:?-)?1251/i
           cp='Windows-1251'
@@ -39,10 +43,8 @@ module Robot
         else
           if utf8?(@html)
             cp='UTF-8'
-            puts "else UTF"
           else
             cp='Windows-1251'
-            puts 'else WI'
           end
       end
       @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
@@ -55,7 +57,13 @@ module Robot
     def save_to_log (error)
       File.open('log.txt', 'a'){|file| file.write "Страница #{error} не доступна."}
     end
-
+    def response_to_file (path,name_file,encoding='UTF-8')
+      file=file_name_valid(name_file)
+      w= encoding.nil? ? 'w' : 'w:'+encoding
+      File.open(path+file, w) do |f|
+        f.write(RestClient.get(url))
+      end
+    end
   end
 
   class LoaderWatir < Loader
@@ -101,7 +109,27 @@ module Robot
       end
     end
   end
+  class LoaderRest <Loader
+    def initialize
+      super
+      @code=nil
+      @cookies=nil
+    end
+    def go(url_)
+      url=Addressable::URI.parse(url_).normalize.to_str
+      rest=RestClient.get(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
+      @html=rest.body
+      @header=rest.headers
+      @code=rest.code
+      @cookies=rest.cookies
+      true
+    rescue
+      @html=''
+      save_to_log(url)
+      false
+    end
 
+  end
   class NokoParser
     def initialize
       @page=nil
@@ -194,12 +222,14 @@ module Robot
   end
 
   class Menu
+    include MyFile
     def initialize
       @tree=[]
     end
     attr_reader :tree
     def add(nodeset_a,regexp='')
-       nodeset_a.each do |element|
+      nodeset_a.each do |element|
+         p element.inspect
          if element.content&&element[:href]&&!element[:href].empty?&& url?(element[:href],regexp)
           @tree.push({:content=>element.content,:href=>element[:href]})
          end
@@ -212,8 +242,9 @@ module Robot
        false
      end
     end
-    def save_to_file (file_output,encoding='UTF-8')
-      CSV.open(file_output, 'a:'+encoding)do |line|
+    def save_to_file (path,file_output,encoding='UTF-8')
+      file=file_name_valid(file_output)
+      CSV.open(path+file, 'a:'+encoding)do |line|
         @tree.map do |item|
         line << [item[:content].strip,item[:href]]
         end
@@ -222,6 +253,7 @@ module Robot
   end
 
   class Data_set
+    include MyFile
     def initialize
       @records=[]
       @values=[]
@@ -241,13 +273,13 @@ module Robot
       end
     end
     def head_save_to_file(path,name_file,encoding='UTF-8')
-      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"/," ").gsub(/\s\s/,'')
+      file=file_name_valid(name_file)
       CSV.open( path+file, 'a:'+encoding)do |line|
          line << @records.map{|record| record.name}
       end
     end
     def save_to_file (path,name_file,encoding='UTF-8')
-      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"/," ")
+      file=file_name_valid(name_file)
       CSV.open(path+file, 'a:'+encoding)do |line|
          line << @values
       end
@@ -282,4 +314,5 @@ module Robot
       !(@name.nil?||@method.nil?||key.nil?||@attribute.nil?||@index.nil?)
     end
   end
+
 end

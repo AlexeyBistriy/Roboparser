@@ -80,7 +80,7 @@ module Robot
     page=parser.page
     menu_nodes=parser.nodes_by_record(page,menu_record)
     menu.add(menu_nodes,/\/category\//)
-    menu.save_to_file('menu.csv')
+    menu.save_to_file(path,'menu.csv')
 
     menu.tree.each do |item|
       loader.goto(item[:href])

@@ -1,34 +1,82 @@
-require 'rubygems'
-require 'nokogiri'
-require 'open-uri'
+# coding: utf-8
+#"http://www.kbb.com/"
 
-urls = []
+require_relative 'constants'
+require_relative 'parser'
 
-#pass the search terms here
-search_list = ["football", "manchester united", "amazing tennis", "radical something", "Just for Laugh"]
+module Robot
+  #name,parse_method,key_parse,attribute,element_index=0
+  file_output='baza.cvs'
+  url="http://www.kbb.com/car-pictures/"
+  path="./data/"
+  #key_word=["парсер","парсить","программист"].join("|")
 
-search_list.each do |search_term|
-  list_url = "http://www.youtube.com/results?search_query=#{search_term.split(' ').join('+')}"
+  menu=Menu.new
 
-  page = Nokogiri::HTML(open (list_url))
-  p '-------------------------------------------------------------------------'
-  p "finding videos for #{search_term}"
+  #Selector page Menu
+  menu_record=Record.new
+  menu_record.name='menu'
+  menu_record.method='css'
+  menu_record.key='p.description a'
+  menu_record.index=nil
+  menu_record.attribute=nil
 
-  div_elements = page.css('li.yt-lockup2 a')
+  #menu_set=Data_set.new
+  #menu_set.add('title','css','a','content')
+  #menu_set.add('link','css','a','href')
 
-  div_elements.each do |d|
-    watch_code = d.attributes['href'].value
-    urls << "http://www.youtube.com" + watch_code if watch_code.include?('watch')
-  end
+  # selector next page
+  next_page=Record.new
+  next_page.name='Next'
+  next_page.method='css'
+  next_page.key='a.pager-next'
+  next_page.index=0
+  next_page.attribute='href'
 
-  p 'the links are'
-  p urls
-  p 'total videos found'
-  p urls.count
+  block_record=Record.new
+  block_record.name='block'
+  block_record.method='css'
+  block_record.key='img.thumbImage'
+  block_record.index=nil
+  block_record.attribute=nil
 
-  p '---------------download start -----------------------------------------------'
-  urls.each do |link_to_video|
-    system("youtube-dl -t #{link_to_video}")
-  end
-  p '---------------download completed-------------------------------------------'
+  img=Record.new
+  img.name='img'
+  img.method='attribute'
+  img.key=nil
+  img.index=nil
+  img.attribute='href'
+
+
+  loader=Loader.new
+  loader.goto(url)
+  parser=NokoParser.new
+  parser.document(loader.html)
+    page=parser.page
+    menu_nodes=parser.nodes_by_record(page,menu_record)
+    menu.add(menu_nodes)
+    menu.save_to_file(path,'model.csv')
+    next_url=parser.attribute_by_record(page,next_page)
+  #  while next_url
+  #    loader.goto(next_url)
+  #    parser.document(loader.html)
+  #    page=parser.page
+  #    menu_nodes=parser.nodes_by_record(page,menu_record)
+  #    menu.add(menu_nodes)
+  #    menu.save_to_file(path,'model.csv')
+  #    next_url=parser.attribute_by_record(page,next_page)
+  #  end
+  #
+  #menu.tree.each do |item|
+  #    loader.goto(item[:href])
+  #    parser.document(loader.html)
+  #    page=parser.page
+  #    nodesblocks=parser.nodes_by_record(page,block_record)
+  #    nodesblocks.each do |nodesblock|
+  #      img=parser.attribute_by_record(nodesblock,d_set)
+  #      img.gsub!(/96x72/,'640x480')
+  #      response_to_file(path,item[:content]+'/'+img,nil)
+  #    end
+  # end
 end
+
