@@ -1,30 +1,36 @@
 # coding: utf-8
 module Robot
+  module MyFile
+    def file_name_valid name_file, os='Windows'
+      if os=='Windows'
+        name=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"|\n|\r|\:/u,' ').strip
+      end
+    end
+  end
   class Loader
+    include MyFile
     def initialize(encoding='UTF-8')
-      @url=nil
+      @uri=nil
       @html=nil
       @header=nil
       @encoding=encoding
     end
-    attr_reader :html
+    attr_reader :uri,:html,:header
     def go(url_)
-      url=Addressable::URI.parse(url_)
-      url=url.normalize
-      l=open(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
+      @uri=Addressable::URI.parse(url_).normalize
+      l=open(@uri,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
       @html=l.read
       @header=l.meta
       true
     rescue
       @html=''
-      save_to_log(url)
+      save_to_log(url_)
       false
     end
     def goto(url)
       fail_trys=TRY_COUNT_LOAD.times do
         break if go(url)
       end
-      puts @header['content-type']
       case @header['content-type']
         when /windows(:?-)?1251/i
           cp='Windows-1251'
@@ -39,10 +45,8 @@ module Robot
         else
           if utf8?(@html)
             cp='UTF-8'
-            puts "else UTF"
           else
             cp='Windows-1251'
-            puts 'else WI'
           end
       end
       @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
@@ -55,12 +59,18 @@ module Robot
     def save_to_log (error)
       File.open('log.txt', 'a'){|file| file.write "Страница #{error} не доступна."}
     end
-
+    def response_to_file (path,name_file,url,encoding='UTF-8')
+      file=file_name_valid(name_file)
+      w= encoding.nil? ? 'wb' : 'w:'+encoding
+      File.open(path+file, w) do |f|
+        f.write(RestClient.get(url))
+      end
+    end
   end
 
   class LoaderWatir < Loader
     def initialize(encoding='UTF-8')
-      @url=nil
+      @uri=nil
       @html=nil
       @header=nil
       client = Selenium::WebDriver::Remote::Http::Default.new
@@ -72,12 +82,13 @@ module Robot
     def go(url_)
       #url=Addressable::URI.parse(url_)
       #url=url.normalize
+      @uri=Addressable::URI.parse(url_).normalize
       @watirff.goto url_
       @html=@watirff.html
       true
     rescue
       @html=''
-      save_to_log(url)
+      save_to_log(url_)
       false
     end
     def goto(url)
@@ -86,10 +97,13 @@ module Robot
       end
       if utf8?(@html)
         cp='UTF-8'
-       else
+
+      else
         cp='Windows-1251'
-       end
-       @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
+
+      end
+
+      @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
       unless fail_trys
         true
       else
@@ -97,21 +111,27 @@ module Robot
       end
     end
   end
-  class LoaderRest < Loader
+  class LoaderRest <Loader
+    def initialize
+      super
+      @code=nil
+      @cookies=nil
+    end
     def go(url_)
-      url=Addressable::URI.parse(url_)
-      url=url.normalize
-      l=open(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
-      @html=l.read
-      @header=l.meta
+      @uri=Addressable::URI.parse(url_).normalize
+      rest=RestClient.get(@uri.to_str,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
+      @html=rest.body
+      @header=rest.headers
+      @code=rest.code
+      @cookies=rest.cookies
       true
     rescue
       @html=''
-      save_to_log(url)
+      save_to_log(url_)
       false
     end
-  end
 
+  end
   class NokoParser
     def initialize
       @page=nil
@@ -193,36 +213,49 @@ module Robot
       html=tt.gsub('\"','"')
       Nokogiri::HTML(html)
     end
-    #def redirect?(title_regexp)
-    #  text_title=page.css('title').text
-    #  text_title =~ /#{title_regexp}/
-    #end
+    def redirect?(title_regexp)
+      text_title=page.css('title').text
+      if text_title =~ /#{title_regexp}/
+        true
+      else
+        false
+      end
+    end
   end
+
   class Menu
+    include MyFile
     def initialize
       @tree=[]
     end
     attr_reader :tree
-    def add(nodeset_a,regexp='')
-       nodeset_a.each do |element|
+    def add(nodeset_a,uri,regexp='')
+      nodeset_a.each do |element|
+         p element.inspect
          if element.content&&element[:href]&&!element[:href].empty?&& url?(element[:href],regexp)
-          @tree.push({:content=>element.content,:href=>element[:href]})
+           @tree.push({:content=>element.content,:href=>uri.join(element[:href])})
          end
        end
     end
     def url?(url,regexp)
-     url=~/#{regexp}/
+     if url=~/#{regexp}/
+       true
+     else
+       false
+     end
     end
-    def save_to_file (file_output,encoding='UTF-8')
-      CSV.open(file_output, 'a:'+encoding)do |line|
+    def save_to_file (path,file_output,encoding='UTF-8')
+      file=file_name_valid(file_output)
+      CSV.open(path+file, 'a:'+encoding)do |line|
         @tree.map do |item|
-        line << [item[:content].strip,item[:href]]
+        line << [item[:content].sub(/\r|\n|/,' ').strip,item[:href]]
         end
       end
     end
   end
 
   class Data_set
+    include MyFile
     def initialize
       @records=[]
       @values=[]
@@ -242,13 +275,13 @@ module Robot
       end
     end
     def head_save_to_file(path,name_file,encoding='UTF-8')
-      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"|\n|\r|/," ").strip
+      file=file_name_valid(name_file)
       CSV.open( path+file, 'a:'+encoding)do |line|
          line << @records.map{|record| record.name}
       end
     end
     def save_to_file (path,name_file,encoding='UTF-8')
-      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"|\n|\r|/," ").strip
+      file=file_name_valid(name_file)
       CSV.open(path+file, 'a:'+encoding)do |line|
          line << @values
       end
@@ -283,4 +316,5 @@ module Robot
       !(@name.nil?||@method.nil?||key.nil?||@attribute.nil?||@index.nil?)
     end
   end
+
 end

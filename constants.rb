@@ -8,6 +8,8 @@ require 'rubygems'
 require 'net/smtp'
 require 'csv'
 require 'addressable/uri'
+require 'rest-client'
+require 'fileutils'
 
 module OpenSSL
   module SSL
