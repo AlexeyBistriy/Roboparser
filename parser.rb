@@ -74,7 +74,6 @@ module Robot
       #url=url.normalize
       @watirff.goto url_
       @html=@watirff.html
-
       true
     rescue
       @html=''
@@ -87,18 +86,29 @@ module Robot
       end
       if utf8?(@html)
         cp='UTF-8'
-
-      else
+       else
         cp='Windows-1251'
-
-      end
-
-      @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
+       end
+       @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
       unless fail_trys
         true
       else
         false
       end
+    end
+  end
+  class LoaderRest < Loader
+    def go(url_)
+      url=Addressable::URI.parse(url_)
+      url=url.normalize
+      l=open(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
+      @html=l.read
+      @header=l.meta
+      true
+    rescue
+      @html=''
+      save_to_log(url)
+      false
     end
   end
 
@@ -183,16 +193,11 @@ module Robot
       html=tt.gsub('\"','"')
       Nokogiri::HTML(html)
     end
-    def redirect?(title_regexp)
-      text_title=page.css('title').text
-      if text_title =~ /#{title_regexp}/
-        true
-      else
-        false
-      end
-    end
+    #def redirect?(title_regexp)
+    #  text_title=page.css('title').text
+    #  text_title =~ /#{title_regexp}/
+    #end
   end
-
   class Menu
     def initialize
       @tree=[]
@@ -206,11 +211,7 @@ module Robot
        end
     end
     def url?(url,regexp)
-     if url=~/#{regexp}/
-       true
-     else
-       false
-     end
+     url=~/#{regexp}/
     end
     def save_to_file (file_output,encoding='UTF-8')
       CSV.open(file_output, 'a:'+encoding)do |line|
@@ -241,13 +242,13 @@ module Robot
       end
     end
     def head_save_to_file(path,name_file,encoding='UTF-8')
-      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"/," ").gsub(/\s\s/,'')
+      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"|\n|\r|/," ").strip
       CSV.open( path+file, 'a:'+encoding)do |line|
          line << @records.map{|record| record.name}
       end
     end
     def save_to_file (path,name_file,encoding='UTF-8')
-      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"/," ")
+      file=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"|\n|\r|/," ").strip
       CSV.open(path+file, 'a:'+encoding)do |line|
          line << @values
       end
