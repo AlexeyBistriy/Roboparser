@@ -1,22 +1,24 @@
 # coding: utf-8
 module Robot
   module MyFile
-    def file_name_valid name_file
-      name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"|\n|\r|/u,"").strip
+    def file_name_valid name_file, os='Windows'
+      if os=='Windows'
+        name=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"|\n|\r/u,' ').strip
+      end
     end
   end
   class Loader
     include MyFile
     def initialize(encoding='UTF-8')
-      @url=nil
+      @uri=nil
       @html=nil
       @header=nil
       @encoding=encoding
     end
     attr_reader :html
     def go(url_)
-      url=Addressable::URI.parse(url_).normalize.to_str
-      l=open(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
+      @uri=Addressable::URI.parse(url_).normalize
+      l=open(@uri,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
       @html=l.read
       @header=l.meta
       true
@@ -57,7 +59,7 @@ module Robot
     def save_to_log (error)
       File.open('log.txt', 'a'){|file| file.write "Страница #{error} не доступна."}
     end
-    def response_to_file (path,name_file,encoding='UTF-8')
+    def response_to_file (path,name_file,url,encoding='UTF-8')
       file=file_name_valid(name_file)
       w= encoding.nil? ? 'w' : 'w:'+encoding
       File.open(path+file, w) do |f|
@@ -68,7 +70,7 @@ module Robot
 
   class LoaderWatir < Loader
     def initialize(encoding='UTF-8')
-      @url=nil
+      @uri=nil
       @html=nil
       @header=nil
       client = Selenium::WebDriver::Remote::Http::Default.new
@@ -80,9 +82,9 @@ module Robot
     def go(url_)
       #url=Addressable::URI.parse(url_)
       #url=url.normalize
+      @uri=Addressable::URI.parse(url_).normalize
       @watirff.goto url_
       @html=@watirff.html
-
       true
     rescue
       @html=''
@@ -116,8 +118,8 @@ module Robot
       @cookies=nil
     end
     def go(url_)
-      url=Addressable::URI.parse(url_).normalize.to_str
-      rest=RestClient.get(url,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
+      @uri=Addressable::URI.parse(url_).normalize
+      rest=RestClient.get(@uri.to_str,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
       @html=rest.body
       @header=rest.headers
       @code=rest.code
@@ -246,7 +248,7 @@ module Robot
       file=file_name_valid(file_output)
       CSV.open(path+file, 'a:'+encoding)do |line|
         @tree.map do |item|
-        line << [item[:content].strip,item[:href]]
+        line << [item[:content].sub(/\r|\n|/,' ').strip,item[:href]]
         end
       end
     end

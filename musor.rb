@@ -180,5 +180,13 @@ class ParserWatir < Musor
     #  a['href'] if a['href'].match("/wiki/")
     #}.compact.uniq
   end
+  def parse_url(url)
+    url = "http://#{url}" unless url.match(/^http/)
+    URI.parse(url)
+  end
+  def href_to_uri(base_uri,href)
 
+     uri=URI.parse(href)
+     base_uri           unless uri.absolute?
+  end
 end

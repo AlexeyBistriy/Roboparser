@@ -67,16 +67,18 @@ module Robot
   #    next_url=parser.attribute_by_record(page,next_page)
   #  end
   #
-  #menu.tree.each do |item|
-  #    loader.goto(item[:href])
-  #    parser.document(loader.html)
-  #    page=parser.page
-  #    nodesblocks=parser.nodes_by_record(page,block_record)
-  #    nodesblocks.each do |nodesblock|
-  #      img=parser.attribute_by_record(nodesblock,d_set)
-  #      img.gsub!(/96x72/,'640x480')
-  #      response_to_file(path,item[:content]+'/'+img,nil)
-  #    end
-  # end
+  menu.tree.each do |item|
+
+      loader.goto(item[:href])
+      parser.document(loader.html)
+      page=parser.page
+      nodesblocks=parser.nodes_by_record(page,block_record)
+      nodesblocks.each do |nodesblock|
+        img_url=parser.attribute_by_record(nodesblock,d_set)
+        img_url.gsub!(/96x72/,'640x480')
+        uri=loader.uri.join(img_url)
+        response_to_file(path,item[:content]+'/'+img,uri,nil)
+      end
+  end
 end
 
