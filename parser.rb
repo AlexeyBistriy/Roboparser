@@ -59,11 +59,14 @@ module Robot
     def save_to_log (error)
       File.open('log.txt', 'a'){|file| file.write "Страница #{error} не доступна."}
     end
-    def response_to_file (path,name_file,url,encoding='UTF-8')
+    def response_to_file (path_dir,name_file,url,encoding='UTF-8')
       file=file_name_valid(name_file)
+      path=path_dir
+      path+='/' unless path=~/\/$/
+      uri=Addressable::URI.parse(url).normalize
       w= encoding.nil? ? 'wb' : 'w:'+encoding
       File.open(path+file, w) do |f|
-        f.write(RestClient.get(url))
+        f.write(RestClient.get(uri.to_str))
       end
     end
   end
@@ -231,7 +234,6 @@ module Robot
     attr_reader :tree
     def add(nodeset_a,uri,regexp='')
       nodeset_a.each do |element|
-         p element.inspect
          if element.content&&element[:href]&&!element[:href].empty?&& url?(element[:href],regexp)
            @tree.push({:content=>element.content,:href=>uri.join(element[:href])})
          end
@@ -244,8 +246,10 @@ module Robot
        false
      end
     end
-    def save_to_file (path,file_output,encoding='UTF-8')
+    def save_to_file (path_dir,file_output,encoding='UTF-8')
       file=file_name_valid(file_output)
+      path=path_dir
+      path+='/' unless path=~/\/$/
       CSV.open(path+file, 'a:'+encoding)do |line|
         @tree.map do |item|
         line << [item[:content].sub(/\r|\n|/,' ').strip,item[:href]]
@@ -274,14 +278,18 @@ module Robot
         @values.push('')
       end
     end
-    def head_save_to_file(path,name_file,encoding='UTF-8')
+    def head_save_to_file(path_dir,name_file,encoding='UTF-8')
       file=file_name_valid(name_file)
+      path=path_dir
+      path+='/' unless path=~/\/$/
       CSV.open( path+file, 'a:'+encoding)do |line|
          line << @records.map{|record| record.name}
       end
     end
-    def save_to_file (path,name_file,encoding='UTF-8')
+    def save_to_file (path_dir,name_file,encoding='UTF-8')
       file=file_name_valid(name_file)
+      path=path_dir
+      path+='/' unless path=~/\/$/
       CSV.open(path+file, 'a:'+encoding)do |line|
          line << @values
       end

@@ -57,27 +57,23 @@ module Robot
     menu.add(menu_nodes,loader.uri)
     menu.save_to_file(path,'model.csv')
     next_url=parser.attribute_by_record(page,next_page)
-    while next_url
-      loader.goto(next_url)
-      parser.document(loader.html)
-      page=parser.page
-      menu_nodes=parser.nodes_by_record(page,menu_record)
-      menu.add(menu_nodes,loader.uri)
-      menu.save_to_file(path,'model.csv')
-      next_url=parser.attribute_by_record(page,next_page)
-    end
+    #while next_url
+    #  loader.goto(next_url)
+    #  parser.document(loader.html)
+    #  page=parser.page
+    #  menu_nodes=parser.nodes_by_record(page,menu_record)
+    #  menu.add(menu_nodes,loader.uri)
+    #  menu.save_to_file(path,'model.csv')
+    #  next_url=parser.attribute_by_record(page,next_page)
+    #end
 
   menu.tree.each do |item|
-      p item[:href]
       loader.goto(item[:href])
       dirs=FileUtils.makedirs(path+item[:content].gsub(/[ ]+/,'/'))
       dir=dirs[0]
       links=loader.html.scan(/\"Url\":\"(http:\/\/file\.kelleybluebookimages\.com\/kbb\/\/[^"]*)"/)
       links.each_index do |index|
-        link=Addressable::URI.parse(links[index][0]).normalize.to_str
-        if link
-          loader.response_to_file(dir,index.to_s+'_'+links[index][0].gsub(/\s+|\.|\:|\?|\&/,'_')+'.jpg',link,nil)
-        end
+        loader.response_to_file(dir,index.to_s+'_'+links[index][0].gsub(/\s+|\.|\:|\?|\&/,'_')+'.jpg',links[index][0],nil)
       end
 
   end
