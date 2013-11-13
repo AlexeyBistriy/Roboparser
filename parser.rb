@@ -6,6 +6,7 @@ module Robot
         name=name_file.gsub(/\&|\/|\\|\<|\>|\||\*|\?|\"|\n|\r|\:/u,' ').strip
       end
     end
+
   end
   class Loader
     include MyFile
@@ -21,10 +22,11 @@ module Robot
       l=open(@uri,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
       @html=l.read
       @header=l.meta
+      save_to_log(url_)
       true
     rescue
       @html=''
-      save_to_log(url_)
+      error_to_log(url_)
       false
     end
     def goto(url)
@@ -56,8 +58,11 @@ module Robot
       string.unpack('U*') rescue return false
       true
     end
-    def save_to_log (error)
-      File.open('log.txt', 'a'){|file| file.write "Страница #{error} не доступна."}
+    def error_to_log (error)
+      File.open('log.txt', 'a'){|file| file.write "Страница #{error} не доступна.\n"}
+    end
+    def save_to_log (log_element)
+      File.open('log.txt', 'a'){|file| file.write "Страница #{log_element} загружена.\n"}
     end
     def response_to_file (path_dir,name_file,url,encoding='UTF-8')
       file=file_name_valid(name_file)
@@ -68,6 +73,10 @@ module Robot
       File.open(path+file, w) do |f|
         f.write(RestClient.get(uri.to_str))
       end
+    end
+    def url_valid (url)
+      uri=Addressable::URI.parse(url).normalize
+      @uri.join(uri.to_str)
     end
   end
 
@@ -88,10 +97,11 @@ module Robot
       @uri=Addressable::URI.parse(url_).normalize
       @watirff.goto url_
       @html=@watirff.html
+      save_to_log(url_)
       true
     rescue
       @html=''
-      save_to_log(url_)
+     error_to_log(url_)
       false
     end
     def goto(url)
@@ -127,10 +137,11 @@ module Robot
       @header=rest.headers
       @code=rest.code
       @cookies=rest.cookies
+      save_to_log(url_)
       true
     rescue
       @html=''
-      save_to_log(url_)
+      error_to_log(url_)
       false
     end
 
