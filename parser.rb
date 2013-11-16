@@ -59,10 +59,10 @@ module Robot
       true
     end
     def error_to_log (error)
-      File.open('log.txt', 'a'){|file| file.write "Страница #{error} не доступна.\n"}
+      File.open('log.txt', 'a'){|file| file.write "Ресур #{error} не доступен.\n"}
     end
     def save_to_log (log_element)
-      File.open('log.txt', 'a'){|file| file.write "Страница #{log_element} загружена.\n"}
+      File.open('log.txt', 'a'){|file| file.write "Ресурс #{log_element} загружен.\n"}
     end
     def response_to_file (path_dir,name_file,url,encoding='UTF-8')
       file=file_name_valid(name_file)
@@ -73,6 +73,8 @@ module Robot
       File.open(path+file, w) do |f|
         f.write(RestClient.get(uri.to_str))
       end
+    rescue
+      error_to_log(uri.to_str)
     end
     def url_valid (url)
       uri=Addressable::URI.parse(url).normalize
