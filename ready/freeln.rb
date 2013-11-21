@@ -9,7 +9,7 @@ module Robot
   path="./data/"
   file_output='baza.csv'
   url="https://www.fl.ru/?page=2&kind=5"
-  key_word=['парсер','парсить','программист'].join('|')
+  key_word=['парсе','парси','ruby'].join('|')
   block_record=Record.new
   block_record.name='block'
   block_record.method='css'

@@ -9,7 +9,7 @@ module Robot
   path="./data/"
   file_output='baza.csv'
   url="https://www.weblancer.net/projects/"
-  key_word=['парсe','парси','ruby','сайт'].join('|')
+  key_word=['парсe','парси','ruby'].join('|')
 
   block_record=Record.new
   block_record.name='block'
