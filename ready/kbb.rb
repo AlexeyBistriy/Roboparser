@@ -1,8 +1,7 @@
 # coding: utf-8
 #"http://www.kbb.com/"
 
-require_relative 'constants'
-require_relative 'parser'
+require_relative './lib/init'
 
 module Robot
   #name,parse_method,key_parse,attribute,element_index=0

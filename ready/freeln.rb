@@ -1,8 +1,7 @@
 # coding: utf-8
 #"https://www.fl.ru/"
 
-require_relative 'constants'
-require_relative 'parser'
+require_relative './lib/init'
 
 
 module Robot
@@ -34,7 +33,8 @@ module Robot
     dset.values=parser.attribute_by_data(parser.no_script(block),dset)
     #dset.save_to_file(path,file_output)
     if (dset.values[0]+dset.values[3])=~/#{key_word}/ui
-      dset.send_to_mail(dset.values[1],dset.values[0]+dset.values[3])
+      href=loader.url_valid(dset.values[1])
+      send_to_mail(href,dset.values[0]+dset.values[3])
     end
   end
 end

@@ -1,4 +1,4 @@
-
+# coding: utf-8
 require 'net/https'
 require 'net/http'
 require 'open-uri'
@@ -10,6 +10,10 @@ require 'csv'
 require 'addressable/uri'
 require 'rest-client'
 require 'fileutils'
+require_relative 'robot'
+require_relative 'loader'
+require_relative 'parser'
+require_relative 'dataformat'
 
 module OpenSSL
   module SSL

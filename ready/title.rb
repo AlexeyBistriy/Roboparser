@@ -1,7 +1,6 @@
 # coding: utf-8
 
-require_relative 'constants'
-require_relative 'parser'
+require_relative './lib/init'
 
 
 module Robot
