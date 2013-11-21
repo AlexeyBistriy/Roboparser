@@ -42,14 +42,9 @@ module Robot
   nodes_blocks=parser.nodes_by_record(page,block_record)
   nodes_blocks.each do |block|
     content=parser.attribute_by_record(block,content_record)
-    puts "-------------------------------------"
-    puts content
     if content=~/#{key_word}/ui
       href=parser.attribute_by_record(block,href_record)
       href=loader.url_valid(href)
-      puts '++++++++++++++++++++++++++++++++++++++++++'
-      puts href
-      puts '++++++++++++++++++++++++++++++++++++++++++'
       send_to_mail(href,content)
     end
   end
