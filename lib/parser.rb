@@ -1,5 +1,8 @@
 # coding: utf-8
 module Robot
+  #'Nokogiri::HTML::Document'
+  #'Nokogiri::XML::NodeSet'
+  #'Nokogiri::XML::Element'
   class NokoParser
     def initialize
       @page=nil
@@ -27,31 +30,50 @@ module Robot
           doc_or_node.xpath(record.key)
       end
     end
-    def attribute_by_record(doc_or_node,record)
-      #puts '_______________________________'
-      #puts doc_or_node.inspect
-      #puts '_____________________________________'
-      case record.method
-        when 'css'
-          nodeset=doc_or_node.css(record.key)
-          unless attribute?(nodeset,record)
-            attribute(nodeset,record)
+    def joiner_by_record(nodeset,record)
+      attributes=[]
+      atribute_empty=''
+      if nodeset&&nodeset.is_a?(Nokogiri::XML::NodeSet)
+        nodeset.each do |node|
+          if record.attribute=='content'
+            attributes.push(node.content) #if node.content
           else
-            ''
+            attributes.push(node[record.attribute.to_sym]) #if node[record.attribute.to_sym]
           end
-        when 'xpath'
-          nodeset=doc_or_node.xpath(record.key)
-          unless attribute?(nodeset,record)
-            attribute(nodeset,record)
-          else
-            ''
-          end
-        when "attribute"
-          unless doc_or_node[record.attribute].nil?
-            doc_or_node[record.attribute]
-          end
+        end
+        attributes.join(record.joiner)
+      else
+        atribute_empty
       end
-
+    end
+    def attribute_by_record(doc_or_node,record)
+      atribute_empty=''
+      if doc_or_node&&(doc_or_node.is_a?(Nokogiri::HTML::Document)||doc_or_node.is_a?(Nokogiri::XML::NodeSet)||doc_or_node.is_a?(Nokogiri::XML::Element))
+        case record.method
+          when 'css'
+            nodeset=doc_or_node.css(record.key)
+            attribute(nodeset,record)
+          when 'xpath'
+            nodeset=doc_or_node.xpath(record.key)
+            attribute(nodeset,record)
+          when "attribute"
+            if record.attribute=='content'
+              unless doc_or_node.content.nil?
+                doc_or_node.content
+              else
+                atribute_empty
+              end
+            else
+              unless doc_or_node[record.attribute].nil?
+                doc_or_node[record.attribute]
+              else
+                atribute_empty
+              end
+            end
+        end
+      else
+        atribute_empty
+      end
     end
     def attribute_by_data(doc_or_node,dataset)
        dataset.records.map do|record|
@@ -59,17 +81,35 @@ module Robot
        end
     end
     def attribute(nodeset,record)
-      if record.attribute=='content'
-        nodeset[record.index].content
+      attribute_empty=''
+      unless record.index.nil?
+        if nodeset&&nodeset.is_a?(Nokogiri::XML::NodeSet)
+          unless nodeset.empty?
+            unless nodeset[record.index].nil?
+              if record.attribute=='content'
+                 unless nodeset[record.index].content.nil?
+                   nodeset[record.index].content
+                 else
+                   attribute_empty
+                 end
+              else
+                unless nodeset[record.index].content.nil?
+                  nodeset[record.index][record.attribute.to_sym]
+                else
+                  attribute_empty
+                end
+              end
+            else
+              attribute_empty
+            end
+          else
+            attribute_empty
+          end
+        else
+          attribute_empty
+        end
       else
-        nodeset[record.index][record.attribute.to_sym]
-      end
-    end
-    def attribute?(nodeset,record)
-      if record.attribute=='content'
-        nodeset.nil?||nodeset.empty?||nodeset[record.index].nil?||nodeset[record.index].content.nil?
-      else
-        nodeset.nil?||nodeset.empty?||nodeset[record.index].nil?||nodeset[record.index][record.attribute.to_sym].nil?
+        joiner_by_record(nodeset,record)
       end
     end
     def regex(nodeset,attribute,regex)

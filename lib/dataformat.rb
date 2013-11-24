@@ -40,18 +40,21 @@ module Robot
     end
     attr_reader :records
     attr_accessor :values
-    def add (name,parse_method,key_parse,attribute,element_index=0)
+    def add (name,parse_method,key_parse,attribute,element_index=0,joiner=';')
       new_record=Record.new
       new_record.name=name
       new_record.method=parse_method
       new_record.key=key_parse
       new_record.attribute=attribute
       new_record.index=element_index
-      if new_record.valid?
-        @records.push(new_record)
-        @values.push('')
-      end
+      new_record.joiner=joiner
+      @records.push(new_record)
+      @values.push('')
     end
+    def names
+      @records.map{|record| record.name}
+    end
+
     def head_save_to_file(path_dir,name_file,encoding='UTF-8')
       file=file_name_valid(name_file)
       path=path_dir
@@ -79,13 +82,12 @@ module Robot
       @name=nil
       @method=nil
       @key=nil
-      @index=nil
       @attribute=nil
+      @index=0
+      @joiner=';'
+
     end
-    attr_accessor :name, :method, :key, :attribute, :index
-    def valid?
-      !(@name.nil?||@method.nil?||key.nil?||@attribute.nil?||@index.nil?)
-    end
+    attr_accessor :name, :method, :key, :attribute, :index, :joiner
   end
 
 end

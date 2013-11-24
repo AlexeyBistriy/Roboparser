@@ -21,7 +21,7 @@ module Robot
   dset.add('link','css','.b-post__title a','href')
   dset.add('price','css','.b-post__price','content')
   dset.add('task','css','.b-post__body','content')
-  dset.data_puts
+  #dset.data_puts
   loader=Loader.new
   loader.goto(url)
   parser=NokoParser.new
