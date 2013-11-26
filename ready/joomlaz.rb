@@ -31,31 +31,67 @@ module Robot
 
   dset=Data_set.new
   dset.add('title_shablon','css','h2 a','content')
+  dset.add('title','css','h2 a','content')
+  dset.add('tags','css','.cp_tag a','content',nil)
+  dset.add('description','xpath','//div[@class="item column-1"]/p[2]','content')
   dset.add('href_shablon','css','h2 a','href')
-  dset.add('tags','css','h2 a','href')
-  dset.add('min_img','css','.b-post__price','content')
-  dset.add('big_imj','css','.b-post__body','content')
-  dset.add('description','css','.b-post__body','content')
+  dset.add('min_img','css','a.thumbnail img','src')
+  dset.add('big_imj','css','a.thumbnail','href')
+
+
   loader=Loader.new
-  loader.goto(url)
   parser=NokoParser.new
+
+  loader2=Loader.new
+  parser2=NokoParser.new
+
+  attr2_record=Record.new
+  attr2_record.name='full_description'
+  attr2_record.method='xpath'
+  attr2_record.key='//div[@class="item-page"]/p[2]/following-sibling::*[@style="text-align: justify;"]'
+  attr2_record.index=nil
+  attr2_record.attribute='content'
+
+
+  loader.goto(url)
   parser.document(loader.html)
   page=parser.page
   nodesblocks=parser.nodes_by_record(page,block_record)
   nodesblocks.each do |node|
-    urls.push(parser.attribute_by_record(node,site_record))
+    dset.values=parser.attribute_by_data(node,dset)
+    #dset - 0
+    dset.values[0]=dset.values[0].scan(/^\s*([^-]*)\s-\s/).join()
+    #dset - 1
+    dset.values[1]=dset.values[1].scan(/^\s*[^-]*\s-\s(.*)/).join()
+    #dset - 2
+    #dset - 3
+    #dset - 4
+    loader2.goto(loader.url_valid(dset.values[4]))
+    parser2.document(loader2.html)
+    page2=parser2.page
+    dset.values[4]=parser2.attribute_by_record(page2,attr2_record)
+    #dset - 5
+    dset.values[5]=loader.url_valid(dset.values[5]).to_str
+    File.open('tmp.jpg', 'wb') do |f|
+      f.write(RestClient.get(dset.values[5]))
+    end
+    fin = File.open('tmp.jpg','rb')
+    dset.values[5] = fin.read
+    #dset - 6
+    dset.values[6]=loader.url_valid(dset.values[6]).to_str
+    puts dset.values.join('|||')
   end
-  next_href=parser.attribute_by_record(page,next_page)
-  next_url=loader.url_valid(next_href)
-  unless next_href==''
-    loader.goto(next_url)
-    parser=NokoParser.new
-    parser.document(loader.html)
-    page=parser.page
-
-    next_href=parser.attribute_by_record(page,next_page)
-    next_url=loader.url_valid(next_href)
-  end
+  #next_href=parser.attribute_by_record(page,next_page)
+  #next_url=loader.url_valid(next_href)
+  #unless next_href==''
+  #  loader.goto(next_url)
+  #  parser=NokoParser.new
+  #  parser.document(loader.html)
+  #  page=parser.page
+  #
+  #  next_href=parser.attribute_by_record(page,next_page)
+  #  next_url=loader.url_valid(next_href)
+  #end
 
 end
 
