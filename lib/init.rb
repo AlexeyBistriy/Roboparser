@@ -10,18 +10,9 @@ require 'csv'
 require 'addressable/uri'
 require 'rest-client'
 require 'fileutils'
+require 'mysql'
 require_relative 'robot'
 require_relative 'loader'
 require_relative 'parser'
 require_relative 'dataformat'
 
-module OpenSSL
-  module SSL
-    remove_const :VERIFY_PEER
-  end
-end
-OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
-module Robot
-  TRY_COUNT_LOAD=5
-  PATH=''
-end
