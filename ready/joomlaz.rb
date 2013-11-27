@@ -59,25 +59,25 @@ module Robot
   nodesblocks=parser.nodes_by_record(page,block_record)
   nodesblocks.each do |node|
     dset.values=parser.attribute_by_data(node,dset)
-    #dset - 0
+    #dset - 0 # VARCHAR(255)
     dset.values[0]=dset.values[0].scan(/^\s*([^-]*)\s-\s/).join()
-    #dset - 1
+    #dset - 1 # VARCHAR(255)
     dset.values[1]=dset.values[1].scan(/^\s*[^-]*\s-\s(.*)/).join()
-    #dset - 2
-    #dset - 3
-    #dset - 4
+    #dset - 2 #VARCHAR(255)
+    #dset - 3 #TEXT
+    #dset - 4 #TEXT
     loader2.goto(loader.url_valid(dset.values[4]))
     parser2.document(loader2.html)
     page2=parser2.page
     dset.values[4]=parser2.attribute_by_record(page2,attr2_record)
-    #dset - 5
+    #dset - 5 # BLOB
     dset.values[5]=loader.url_valid(dset.values[5]).to_str
     File.open('tmp.jpg', 'wb') do |f|
       f.write(RestClient.get(dset.values[5]))
     end
     fin = File.open('tmp.jpg','rb')
     dset.values[5] = fin.read
-    #dset - 6
+    #dset - 6 MEDIUMBLOB
     dset.values[6]=loader.url_valid(dset.values[6]).to_str
     puts dset.values.join('|||')
   end
