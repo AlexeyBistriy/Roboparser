@@ -1,100 +1,85 @@
-# coding: utf-8
-#SET NAMES utf8 COLLATE utf8_unicode_ci
+require 'mysql2'
 
-
-database='joomlaz'
-
-
-def create database
+def connect
   begin
-    client = Mysql2::Client.new(:host => "localhost", :username => "alexey", :password=>'', :port=>3306)
-    results = client.query('SET NAMES utf8 COLLATE utf8_unicode_ci;')
-    client.query("CREATE DATABASE IF NOT EXISTS #{database};")
-      #rescue
-      #  puts "eeeeeeee"
-
+    connection = Mysql2::Client.new(:host => "10.2.25.1", :username => "alexey", :password=>'', :port=>3306)
+    connection.query('SET NAMES utf8 COLLATE utf8_unicode_ci;')
+    return connection unless block_given?
+    yield connection
+  rescue =>e
+    puts e
   ensure
-    client.close if client
-  end
-end
-
-def drop(database)
-  begin
-    client = Mysql2::Client.new(:host => "localhost", :username => "alexey", :password=>'', :port=>3306)
-    results = client.query('SET NAMES utf8 COLLATE utf8_unicode_ci;')
-    results =client.query("DROP DATABASE IF EXISTS #{database};")
-      #rescue
-      #  puts "eeeeeeee"
-  ensure
-    client.close if client
+    connection.close if connection
   end
 end
 def show
-  begin
-    client = Mysql2::Client.new(:host => "localhost", :username => "alexey", :password=>'', :port=>3306)
-    results = client.query('SET NAMES utf8 COLLATE utf8_unicode_ci;')
-    results =client.query("SHOW DATABASES;")
+  connect do |con|
+    results =con.query("SHOW DATABASES;")
     results.each do |row|
       puts row
     end
-      #rescue
-      #  puts "eeeeeeee"
-  ensure
-    client.close if client
   end
+rescue =>e
+  puts e
 end
-
-def create_table database, table
-  begin
-
-    hash_fields={'title_shablon'=>'VARCHAR(255)','title'=>'VARCHAR(255)','tags'=>'VARCHAR(255)',
-                 'description'=>'TEXT','full_description'=>'TEXT','min_img'=>'BLOB',
-                 'max_img'=>'MEDIUMBLOB'}
-    fields=hash_fields.to_a.map{|key,value|key+' '+value}.join(',')
-
-    client = Mysql2::Client.new(:host => "localhost", :username => "alexey", :password=>'', :port=>3306,)
-    results = client.query('SET NAMES utf8 COLLATE utf8_unicode_ci;')
-    results = client.query("USE #{database}")
-    results = client.query("CREATE TABLE IF NOT EXISTS #{table} (#{fields});")
-
-      #results = client.query("DESCRIBE #{table};")
-      #results.each do |row|
-      #  puts row
-      #end
-
-      #rescue
-      #puts "eeeeeeee"
-  ensure
-    client.close if client
+def create(database)
+  connect do |con|
+    results =con.query("CREATE DATABASE IF NOT EXISTS #{database};")
   end
+rescue =>e
+  puts e
+end
+def drop(database)
+  connect do |con|
+    results =con.query("DROP DATABASE IF EXISTS #{database};")
+  end
+rescue =>e
+  puts e
+end
+def show_tables database
+  connect do |con|
+    results = con.query("USE #{database}")
+    results =con.query("SHOW TABLES;")
+    results.each do |row|
+      puts row.class
+    end
+  end
+rescue =>e
+  puts e
+end
+def create_table database, table, hash_fields
+  #Example -=hash_fields=-
+  #hash_fields={'title_shablon'=>'VARCHAR(255)',
+  #             'title'=>'VARCHAR(255)',
+  #             'tags'=>'VARCHAR(255)',
+  #             'description'=>'TEXT',
+  #             'full_description'=>'TEXT',
+  #             'namw_min_img'=>'VARCHAR(255)',
+  #             'name_max_img'=>'VARCHAR(255)'}
+
+  fields=hash_fields.to_a.map{|key,value|key+' '+value}.join(',')
+  connect do |con|
+    results =con.query("USE #{database}")
+    results =con.query("CREATE TABLE IF NOT EXISTS #{table} (#{fields});")
+  end
+rescue =>e
+  puts e
 end
 def del_table database, table
-  begin
-    client = Mysql2::Client.new(:host => "localhost", :username => "alexey", :password=>'', :port=>3306,)
-    results = client.query('SET NAMES utf8 COLLATE utf8_unicode_ci;')
-    results = client.query("USE #{database}")
-    results = client.query("DROP TABLE IF EXISTS #{table};")
-
-      #rescue
-      #puts "eeeeeeee"
-  ensure
-    client.close if client
+  connect do |con|
+    results = con.query("USE #{database}")
+    results = con.query("DROP TABLE IF EXISTS #{table};")
   end
+rescue =>e
+  puts e
 end
-def insert database, table, record
-  begin
-
-    fields=record.join(',')
-
-    client = Mysql2::Client.new(:host => "localhost", :username => "alexey", :password=>'', :port=>3306,)
-    results = client.query('SET NAMES utf8 COLLATE utf8_unicode_ci;')
-    results = client.query("USE #{database}")
-    results = client.query("INSERT INTO #{table} VALUES (#{fields});")
-
-      #rescue
-      #puts "eeeeeeee"
-  ensure
-    client.close if client
+def insert database, table, record_array
+  fields=record_array.join(',')
+  onnect do |con|
+    results = con.query("USE #{database}")
+    results = con.query("INSERT INTO #{table} VALUES (#{fields});")
   end
+rescue =>e
+  puts e
 end
 

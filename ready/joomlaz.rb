@@ -52,31 +52,45 @@ module Robot
   attr2_record.index=nil
   attr2_record.attribute='content'
 
+  hash_fields={'title_shablon'=>'VARCHAR(255)',
+               'title'=>'VARCHAR(255)',
+               'tags'=>'VARCHAR(255)',
+               'description'=>'TEXT',
+               'full_description'=>'TEXT',
+               'namw_min_img'=>'VARCHAR(255)',
+               'name_max_img'=>'VARCHAR(255)'}
 
   loader.goto(url)
   parser.document(loader.html)
   page=parser.page
   nodesblocks=parser.nodes_by_record(page,block_record)
   nodesblocks.each do |node|
+    record=[]
     dset.values=parser.attribute_by_data(node,dset)
     #dset - 0 # VARCHAR(255)
-    dset.values[0]=dset.values[0].scan(/^\s*([^-]*)\s-\s/).join()
+    record.push(dset.values[0].scan(/^\s*([^-]*)\s-\s/).join())
     #dset - 1 # VARCHAR(255)
-    dset.values[1]=dset.values[1].scan(/^\s*[^-]*\s-\s(.*)/).join()
+    record.push(dset.values[1].scan(/^\s*[^-]*\s-\s(.*)/).join())
     #dset - 2 #VARCHAR(255)
+    record.push(dset.values[2])
     #dset - 3 #TEXT
+    record.push(dset.values[3])
     #dset - 4 #TEXT
     loader2.goto(loader.url_valid(dset.values[4]))
     parser2.document(loader2.html)
     page2=parser2.page
-    dset.values[4]=parser2.attribute_by_record(page2,attr2_record)
+    record.push(parser2.attribute_by_record(page2,attr2_record))
     #dset - 5 # BLOB
     dset.values[5]=loader.url_valid(dset.values[5]).to_str
-    File.open('tmp.jpg', 'wb') do |f|
-      f.write(RestClient.get(dset.values[5]))
-    end
-    fin = File.open('tmp.jpg','rb')
-    dset.values[5] = fin.read
+    img=RestClient.get(dset.values[5])
+    #fl=File.open('c:\temp\img001.jpg', 'rb')
+    #img2=fl.read.unpack('H*')
+
+    puts img.class
+    puts img.encoding
+    puts img
+    fl.close
+    #record.push(img.unpack('H*'))
     #dset - 6 MEDIUMBLOB
     dset.values[6]=loader.url_valid(dset.values[6]).to_str
     puts dset.values.join('|||')
@@ -94,4 +108,3 @@ module Robot
   #end
 
 end
-
