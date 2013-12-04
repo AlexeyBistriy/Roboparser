@@ -27,7 +27,7 @@ module Robot
   block_record=Record.new
   block_record.name='block'
   block_record.method='css'
-  block_record.key='.items-row'
+  block_record.key='.items-row a'
   block_record.index=nil
   block_record.attribute=nil
 
@@ -64,14 +64,19 @@ module Robot
 
  #MySQL create database and table
 
-  create database
-  create_table database, table, hash_fields
+  create2 database
+  create_table2 database, table, hash_fields
 
   loader.goto(url)
   parser.document(loader.html)
   page=parser.page
+
+  #эту часть зациклить
+
   nodesblocks=parser.nodes_by_record(page,block_record)
   nodesblocks.each do |node|
+    puts '================================================'
+    puts node.to_s
     record=[]
     index_file+=1
     dset.values=parser.attribute_by_data(node,dset)
@@ -98,18 +103,55 @@ module Robot
       f.write(RestClient.get(loader.url_valid(dset.values[6]).to_str))
     end
     record.push('big'+index_file.to_s+'.jpg')
-    insert database, table, record
+    insert2 database, table, record
   end
-  #next_href=parser.attribute_by_record(page,next_page)
-  #next_url=loader.url_valid(next_href)
-  #unless next_href==''
-  #  loader.goto(next_url)
-  #  parser=NokoParser.new
-  #  parser.document(loader.html)
-  #  page=parser.page
-  #
-  #  next_href=parser.attribute_by_record(page,next_page)
-  #  next_url=loader.url_valid(next_href)
-  #end
+
+  next_href=parser.attribute_by_record(page,next_page)
+  next_url=loader.url_valid(next_href)
+  while next_href!=''
+    puts "load #{next_url}"
+    loader.goto(next_url)
+    parser=NokoParser.new
+    parser.document(loader.html)
+    page=parser.page
+
+
+
+    nodesblocks=parser.nodes_by_record(page,block_record)
+    nodesblocks.each do |node|
+      record=[]
+      index_file+=1
+      dset.values=parser.attribute_by_data(node,dset)
+      #dset - 0 # VARCHAR(255)
+      record.push(dset.values[0].scan(/^\s*([^-]*)\s-\s/).join())
+      #dset - 1 # VARCHAR(255)
+      record.push(dset.values[1].scan(/^\s*[^-]*\s-\s(.*)/).join())
+      #dset - 2 #VARCHAR(255)
+      record.push(dset.values[2])
+      #dset - 3 #TEXT
+      record.push(dset.values[3])
+      #dset - 4 #TEXT
+      loader2.goto(loader.url_valid(dset.values[4]))
+      parser2.document(loader2.html)
+      page2=parser2.page
+      record.push(parser2.attribute_by_record(page2,attr2_record))
+      #dset - 5 # VARCHAR(255)
+      File.open(path+'min'+index_file.to_s+'.jpg', 'wb') do |f|
+        f.write(RestClient.get(loader.url_valid(dset.values[5]).to_str))
+      end
+      record.push('min'+index_file.to_s+'.jpg')
+      #dset - 6 VARCHAR(255)
+      File.open(path+'big'+index_file.to_s+'.jpg', 'wb') do |f|
+        f.write(RestClient.get(loader.url_valid(dset.values[6]).to_str))
+      end
+      record.push('big'+index_file.to_s+'.jpg')
+      insert2 database, table, record
+    end
+
+    next_href=parser.attribute_by_record(page,next_page)
+    puts "next_href #{next_href}"
+    next_url=loader.url_valid(next_href)
+    puts "next_url #{next_url}"
+  end
 
 end

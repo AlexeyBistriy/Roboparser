@@ -1,8 +1,8 @@
 module Robot
-  #old gem mysql
-  def self.connect
+  # new gem mysql2
+  def self.connect2
     begin
-      connection = Mysql.new("localhost","alexey", '')
+      connection = Mysql2::Client.new(:host => "localhost", :username => "alexey", :password=>'', :port=>3306)
       connection.query('SET NAMES utf8 COLLATE utf8_unicode_ci;')
       return connection unless block_given?
       yield connection
@@ -12,8 +12,8 @@ module Robot
       connection.close if connection
     end
   end
-  def self.show
-    connect do |con|
+  def self.show2
+    connect2 do |con|
       results =con.query("SHOW DATABASES;")
       results.each do |row|
         puts row
@@ -22,22 +22,22 @@ module Robot
   rescue =>e
     puts e
   end
-  def self.create(database)
-    connect do |con|
+  def self.create2(database)
+    connect2 do |con|
       results =con.query("CREATE DATABASE IF NOT EXISTS #{database};")
     end
   rescue =>e
     puts e
   end
-  def self.drop(database)
-    connect do |con|
+  def self.drop2(database)
+    connect2 do |con|
       results =con.query("DROP DATABASE IF EXISTS #{database};")
     end
   rescue =>e
     puts e
   end
-  def self.show_tables database
-    connect do |con|
+  def self.show_tables2 database
+    connect2 do |con|
       results = con.query("USE #{database}")
       results =con.query("SHOW TABLES;")
       results.each do |row|
@@ -47,7 +47,7 @@ module Robot
   rescue =>e
     puts e
   end
-  def self.create_table database, table, hash_fields
+  def self.create_table2 database, table, hash_fields
     #Example -=hash_fields=-
     #hash_fields={'title_shablon'=>'VARCHAR(255)',
     #             'title'=>'VARCHAR(255)',
@@ -58,31 +58,28 @@ module Robot
     #             'name_max_img'=>'VARCHAR(255)'}
 
     fields=hash_fields.to_a.map{|key,value|key+' '+value}.join(',')
-    connect do |con|
+    connect2 do |con|
       results =con.query("USE #{database}")
       results =con.query("CREATE TABLE IF NOT EXISTS #{table} (#{fields});")
     end
   rescue =>e
     puts e
   end
-  def self.del_table database, table
-    connect do |con|
+  def self.del_table2 database, table
+    connect2 do |con|
       results = con.query("USE #{database}")
       results = con.query("DROP TABLE IF EXISTS #{table};")
     end
   rescue =>e
     puts e
   end
-  def self.insert database, table, record_array
-    fields=record_array.map{|element| '?'}.join(',')
-    connect do |con|
+  def self.insert2 database, table, record_array
+    connect2 do |con|
+      fields="'"+record_array.map{|element| con.escape(element)}.join("','")+"'"
       results = con.query("USE #{database}")
-      results = con.prepare("INSERT INTO #{table} VALUES (#{fields});")
-      results.execute *record_array
+      results = con.query("INSERT INTO #{table} VALUES (#{fields});")
     end
-    rescue
-      puts e
-
+  rescue
+    puts e
   end
-
 end
