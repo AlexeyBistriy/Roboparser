@@ -35,7 +35,7 @@ module Robot
   dset.add('title_shablon','css','h2 a','content')
   dset.add('title','css','h2 a','content')
   dset.add('tags','css','.cp_tag a','content',nil)
-  dset.add('description','xpath','//div[@class="item column-1"]/p[2]','content')
+  dset.add('description','xpath','.//div[@class="item column-1"]/p[2]','content')
   dset.add('href_shablon','css','h2 a','href')
   dset.add('min_img','css','a.thumbnail img','src')
   dset.add('big_imj','css','a.thumbnail','href')
@@ -75,6 +75,8 @@ module Robot
 
   nodesblocks=parser.nodes_by_record(page,block_record)
   nodesblocks.each do |node|
+    puts '================================================'
+    puts node.to_s
     record=[]
     index_file+=1
     dset.values=parser.attribute_by_data(node,dset)
@@ -107,7 +109,6 @@ module Robot
   next_href=parser.attribute_by_record(page,next_page)
   next_url=loader.url_valid(next_href)
   while next_href!=''
-    puts "load #{next_url}"
     loader.goto(next_url)
     parser=NokoParser.new
     parser.document(loader.html)
@@ -144,14 +145,9 @@ module Robot
       insert2 database, table, record
     end
 
-
-
-
-
     next_href=parser.attribute_by_record(page,next_page)
-    puts "next_href #{next_href}"
     next_url=loader.url_valid(next_href)
-    puts "next_url #{next_url}"
+
   end
 
 end
