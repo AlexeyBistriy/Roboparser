@@ -55,10 +55,6 @@ module Robot
             attribute(nodeset,record)
           when 'xpath'
             nodeset=doc_or_node.xpath(record.key)
-            puts "+++++++++++++++++++++++++++++++++++++++++++++++++++++"
-            puts "record.key = #{record.key}"
-            puts "doc_or_node = #{doc_or_node.to_s}"
-            puts nodeset.to_s
             attribute(nodeset,record)
           when "attribute"
             if record.attribute=='content'
