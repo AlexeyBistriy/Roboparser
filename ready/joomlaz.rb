@@ -75,8 +75,6 @@ module Robot
 
   nodesblocks=parser.nodes_by_record(page,block_record)
   nodesblocks.each do |node|
-    puts '================================================'
-    puts node.to_s
     record=[]
     index_file+=1
     dset.values=parser.attribute_by_data(node,dset)
