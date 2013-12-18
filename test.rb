@@ -25,3 +25,5 @@
 #http://rishionrails.wordpress.com/2013/08/03/writing-a-web-parseror-a-web-crawler-in-ruby/
 #http://www.skorks.com/2009/07/how-to-write-a-web-crawler-in-ruby/
 #http://jasonneylon.wordpress.com/2011/02/13/instagr-am-picture-previews-with-ruby/
+
+http://edu.hh.ru/company/list
