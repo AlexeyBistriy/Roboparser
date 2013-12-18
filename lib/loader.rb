@@ -115,7 +115,7 @@ module Robot
         cp='Windows-1251'
       end
 
-      @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
+      #@html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
       unless fail_trys
         true
       else
