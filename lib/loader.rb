@@ -26,31 +26,31 @@ module Robot
       fail_trys=TRY_COUNT_LOAD.times do
         break if go(url)
       end
-      case @header['content-type']
-        when /windows(:?-)?1251/i
-          cp='Windows-1251'
-        when /cp(:?-)?1251/i
-          cp='Windows-1251'
-        when /utf(:?-)?8/i
-          cp='UTF-8'
-        when  /koi8(:?-)?r/i
-          cp='KOI8-R'
-        when  /koi8(:?-)?u/i
-          cp='KOI8-U'
-        else
-          if utf8?(@html)
-            cp='UTF-8'
-          else
-            cp='Windows-1251'
-          end
-      end
+      #case @header['content-type']
+      #  when /windows(:?-)?1251/i
+      #    cp='Windows-1251'
+      #  when /cp(:?-)?1251/i
+      #    cp='Windows-1251'
+      #  when /utf(:?-)?8/i
+      #    cp='UTF-8'
+      #  when  /koi8(:?-)?r/i
+      #    cp='KOI8-R'
+      #  when  /koi8(:?-)?u/i
+      #    cp='KOI8-U'
+      #  else
+      #    if utf8?(@html)
+      #      cp='UTF-8'
+      #    else
+      #      cp='Windows-1251'
+      #    end
+      #end
       if utf8?(@html)
         cp='UTF-8'
       else
         cp='Windows-1251'
       end
 
-      @html.encode!(@encoding,cp) if @html.respond_to?("encode!") and cp!=@encoding
+      @html.encode!(@encoding,cp,invalid: :replace,undef: :replace) if @html.respond_to?("encode!") and cp!=@encoding
       !fail_trys
     end
     def utf8?(string)
