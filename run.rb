@@ -13,7 +13,8 @@ module Robot
   #table2='traning_unique'
 
   key=Key.new
-
+  pr=Proxy.new
+  proxys=pr.values
 
    hash_fields={'firma'=>'VARCHAR(255)',
                'email'=>'VARCHAR(255)',
@@ -87,12 +88,13 @@ module Robot
 
 
   key.key_search.each do |search|
+    proxy=proxys.pop
     key.key_domains.each do |domain|
       key.key_positions.each do |position|
         seach_url=url+"&q="+request+"+"+search+"+"+"site:"+domain+"&"+position
         puts seach_url
 
-        loader.goto(seach_url)
+        loader.goto(seach_url,proxy)
         parser.document(loader.html)
         page=parser.page
         #puts loader.html
@@ -101,11 +103,12 @@ module Robot
         nodesblocks.each do |node|
           #puts node.to_s
           next_href=parser.attribute_by_record(node,href_record)
-          host=next_href.scan(/^([^\/]*\/)/)[0][0]
+          host=next_href.scan(/^([^\/]*\/)/).join
           next_href='http://'+host
           host.gsub!(/^www\./,'')
+          puts host
           selector=select2 database, table, 'host', host
-          if selector.count==0
+          if selector.count==0 and host!=''
             firma=''
             email=''
             contact=''
@@ -116,19 +119,20 @@ module Robot
             page2=parser2.page
             title=page2.title.to_s.strip
 
-            h1=parser.attribute_by_record(page2,h1_record)
-            h2=parser.attribute_by_record(page2,h2_record)
-            h3=parser.attribute_by_record(page2,h3_record)
-            key_word=key.key_words.join('|')
-            if h1=~/#{key_word}/ui
-              firma=h1.strip
-            elsif h2=~/#{key_word}/ui
-              firma=h2.strip
-            elsif h3=~/#{key_word}/ui
-              firma=h3.strip
-            else
-              firma=''
-            end
+            #h1=parser.attribute_by_record(page2,h1_record)
+            #h2=parser.attribute_by_record(page2,h2_record)
+            #h3=parser.attribute_by_record(page2,h3_record)
+            #key_word=key.key_words.join('|')
+            #if h1=~/#{key_word}/ui
+            #  firma=h1.strip
+            #elsif h2=~/#{key_word}/ui
+            #  firma=h2.strip
+            #elsif h3=~/#{key_word}/ui
+            #  firma=h3.strip
+            #else
+            #  firma=''
+            #end
+            firma=''
 
             temp=Addressable::URI.parse(next_href).normalize
             nodeblock2=page2.css('a')
@@ -137,7 +141,7 @@ module Robot
                     #puts node2.to_s
                     unless node2[:href].nil?
                       contact=node2[:href]
-                      contact=temp.join(node2[:href]) unless node2[:href]=~/^http:\/\//
+                      contact=temp.join(node2[:href]) unless node2[:href]=~/^http(s)?:\/\//
                       loader3.goto(contact)
 
                       if email==''
@@ -189,9 +193,9 @@ end
 #
 ###
 ##
-#file=File.open('c:/temp/trcomua.csv', 'r:UTF-8')
+#file=File.open('c:/temp/google.csv', 'r:UTF-8')
 #tmp=file.read
 #file.close
 #puts tmp
 #tmp.encode!('Windows-1251', invalid: :replace , undef: :replace)
-#File.open('c:/temp/table_trcomua.csv', 'a:Windows-1251'){|file| file.write tmp}
+#File.open('c:/temp/table_google.csv', 'a:Windows-1251'){|file| file.write tmp}

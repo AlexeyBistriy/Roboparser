@@ -10,9 +10,9 @@ module Robot
       @encoding=encoding
     end
     attr_reader :uri,:html,:header
-    def go(url_)
+    def go(url_, proxy=nil)
       @uri=Addressable::URI.parse(url_).normalize
-      l=open(@uri,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")
+      l=open(@uri,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1", :proxy => proxy)
       @html=l.read
       @header=l.meta
       save_to_log(url_)
@@ -22,9 +22,9 @@ module Robot
       error_to_log(url_)
       false
     end
-    def goto(url)
+    def goto(url,proxy=nil)
       fail_trys=TRY_COUNT_LOAD.times do
-        break if go(url)
+        break if go(url,proxy)
       end
       #case @header['content-type']
       #  when /windows(:?-)?1251/i
