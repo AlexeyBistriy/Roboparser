@@ -10,12 +10,12 @@ module Robot
   file='google.csv'
   database='google'
   table='traning'
-  #table2='traning_unique'
+  table2='link'
 
   key=Key.new
-  pr=Proxy.new
-  proxys=pr.values
 
+
+   hash_link={'link'=>'VARCHAR(255)'}
    hash_fields={'firma'=>'VARCHAR(255)',
                'email'=>'VARCHAR(255)',
                'host'=>'VARCHAR(255)',
@@ -27,7 +27,7 @@ module Robot
   #drop2 database
   #create2 database
   #puts '1'
-  #create_table2 database, table, hash_fields
+  #create_table2 database, table2, hash_link
   #puts '2'
   #create_table2 database, table2, hash_fields
   #puts '3'
@@ -85,104 +85,118 @@ module Robot
 
   loader3=Loader.new #'Windows-1251'
   parser3=NokoParser.new
-
-
+  #
+  pr=Proxy.new
+  pr.count=120
   key.key_search.each do |search|
-    proxy=proxys.pop
     key.key_domains.each do |domain|
       key.key_positions.each do |position|
+
         seach_url=url+"&q="+request+"+"+search+"+"+"site:"+domain+"&"+position
-        puts seach_url
+        linker=select2 database, table2, 'link', seach_url
+        unless linker.count==0
+          puts "уже грузили #{seach_url}"
+        else
 
-        loader.goto(seach_url,proxy)
-        parser.document(loader.html)
-        page=parser.page
-        #puts loader.html
+          if pr.count<120
+             pr.count+=1
+          else
+            proxy=pr.get_proxy(seach_url)
+            pr.count=0
+          end
+          puts seach_url
+          link=[seach_url]
+          insert2 database, table2, link
+          loader.goto(seach_url,proxy)
+          parser.document(loader.html)
+          page=parser.page
+          puts loader.html
 
-        nodesblocks=parser.nodes_by_record(page,block_record)
-        nodesblocks.each do |node|
-          #puts node.to_s
-          next_href=parser.attribute_by_record(node,href_record)
-          host=next_href.scan(/^([^\/]*\/)/).join
-          next_href='http://'+host
-          host.gsub!(/^www\./,'')
-          puts host
-          selector=select2 database, table, 'host', host
-          if selector.count==0 and host!=''
-            firma=''
-            email=''
-            contact=''
-            title=''
-
-            loader2.goto(next_href)
-            parser2.document(loader2.html)
-            page2=parser2.page
-            title=page2.title.to_s.strip
-
-            #h1=parser.attribute_by_record(page2,h1_record)
-            #h2=parser.attribute_by_record(page2,h2_record)
-            #h3=parser.attribute_by_record(page2,h3_record)
-            #key_word=key.key_words.join('|')
-            #if h1=~/#{key_word}/ui
-            #  firma=h1.strip
-            #elsif h2=~/#{key_word}/ui
-            #  firma=h2.strip
-            #elsif h3=~/#{key_word}/ui
-            #  firma=h3.strip
-            #else
-            #  firma=''
-            #end
-            firma=''
-
-            temp=Addressable::URI.parse(next_href).normalize
-            nodeblock2=page2.css('a')
-            nodeblock2.each do |node2|
-               if node2.to_s=~/контакт|contact|нас найти|наши координаты/iu
-                    #puts node2.to_s
-                    unless node2[:href].nil?
-                      contact=node2[:href]
-                      contact=temp.join(node2[:href]) unless node2[:href]=~/^http(s)?:\/\//
-                      loader3.goto(contact)
-
-                      if email==''
-                        email=loader3.html.scan(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}\b/).join(';')
-                      else
-                        email=email+';'+loader3.html.scan(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}\b/).join(';')
-                      end
-                    end
-               end
-
-            end
-
-            mails=email.split(';')
-            mails.uniq!
-            email=mails.join(';')
-
-            puts firma
-            puts email
+          nodesblocks=parser.nodes_by_record(page,block_record)
+          nodesblocks.each do |node|
+            #puts node.to_s
+            next_href=parser.attribute_by_record(node,href_record)
+            host=next_href.scan(/^([^\/]*\/)/).join
+            next_href='http://'+host
+            host.gsub!(/^www\./,'')
             puts host
-            puts contact
-            puts title
+            selector=select2 database, table, 'host', host
+            if selector.count==0 and host!=''
+              firma=''
+              email=''
+              contact=''
+              title=''
 
-            puts '======================================================='
+              loader2.goto(next_href)
+              parser2.document(loader2.html)
+              page2=parser2.page
+              title=page2.title.to_s.strip
 
-            arr=[firma,email,host,contact.to_str,title]
+              #h1=parser.attribute_by_record(page2,h1_record)
+              #h2=parser.attribute_by_record(page2,h2_record)
+              #h3=parser.attribute_by_record(page2,h3_record)
+              #key_word=key.key_words.join('|')
+              #if h1=~/#{key_word}/ui
+              #  firma=h1.strip
+              #elsif h2=~/#{key_word}/ui
+              #  firma=h2.strip
+              #elsif h3=~/#{key_word}/ui
+              #  firma=h3.strip
+              #else
+              #  firma=''
+              #end
+              firma=''
 
-            record=[]
-            record.push(firma)
-            record.push(email)
-            record.push(host)
-            record.push(contact.to_str)
-            record.push(title)
-            insert2 database, table, record
+              temp=Addressable::URI.parse(next_href).normalize
+              nodeblock2=page2.css('a')
+              nodeblock2.each do |node2|
+                 if node2.to_s=~/контакт|contact|нас найти|наши координаты/iu
+                      #puts node2.to_s
+                      unless node2[:href].nil?
+                        contact=node2[:href]
+                        contact=temp.join(node2[:href]) unless node2[:href]=~/^http(s)?:\/\//
+                        loader3.goto(contact)
 
-            puts '++++++++++++++++++++++++++++++++++++++++++++'
-            CSV.open(path+file, 'a:UTF-8', {:col_sep=>";"})do |line|
-              line << arr
+                        if email==''
+                          email=loader3.html.scan(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}\b/).join(';')
+                        else
+                          email=email+';'+loader3.html.scan(/\b[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}\b/).join(';')
+                        end
+                      end
+                 end
+
+              end
+
+              mails=email.split(';')
+              mails.uniq!
+              email=mails.join(';')
+
+              puts firma
+              puts email
+              puts host
+              puts contact
+              puts title
+
+              puts '======================================================='
+
+              arr=[firma,email,host,contact.to_str,title]
+
+              record=[]
+              record.push(firma)
+              record.push(email)
+              record.push(host)
+              record.push(contact.to_str)
+              record.push(title)
+              insert2 database, table, record
+
+              puts '++++++++++++++++++++++++++++++++++++++++++++'
+              CSV.open(path+file, 'a:UTF-8', {:col_sep=>";"})do |line|
+                line << arr
+              end
             end
           end
-        end
 
+        end
       end
     end
   end
