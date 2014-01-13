@@ -4,14 +4,15 @@ module Robot
     def initialize
       @count=0
       @values=[
-              "http://95.6.59.17:80/",
-              "http://210.57.214.98:8080/",
-              "http://110.139.118.95:8080/",
-              "http://77.175.95.44:80/",
-              "http://203.128.68.146:8080/",
-              "http://156.154.112.47:80/",
-              "http://119.167.231.183:80/",
-              "http://118.195.65.247:80/",
+              "168.63.150.60:3128",
+              "95.6.59.17:80",
+              "210.57.214.98:8080",
+              "110.139.118.95:8080",
+              "77.175.95.44:80",
+              "203.128.68.146:8080",
+              "156.154.112.47:80",
+              "119.167.231.183:80",
+              "118.195.65.247:80",
               "http://219.243.221.77:8080/",
               "http://202.43.188.6:8080/",
               "http://156.154.112.232:80/",
@@ -80,16 +81,21 @@ module Robot
       proxy
     end
     def verify?(proxy,google_url)
-      ld=Loader.new
+      ld=LoaderWatir.new(proxy)
       ps=NokoParser.new
-      ld.goto(google_url,proxy)
+      ld.goto(google_url)
       ps.document(ld.html)
       pg=ps.page
-      if pg.title.to_s.strip=~/Google/
-        true
-      else
-        false
-      end
+      sleep 120
+      ld.close
+      #if pg.title.to_s.strip=~/Google/
+      #  true
+      #else
+      #  false
+      #end
+      ld=nil
+      ps=nil
+      true
     end
     attr_reader :values
     attr_accessor :count
