@@ -88,11 +88,12 @@ module Robot
   #
   pr=Proxy.new
   pr.count=120
-  key.key_search.each do |search|
-    key.key_domains.each do |domain|
-      key.key_positions.each do |position|
 
-        seach_url=url+"&q="+request+"+"+search+"+"+"site:"+domain+"&"+position
+    key.key_search.each do |search|
+      key.key_domains.each do |domain|
+        key.key_positions.each do |position|
+
+        seach_url=url+"&q=intitle:"+request+"+"+search+"+"+"site:"+domain+"&"+position
         linker=select2 database, table2, 'link', seach_url
         unless linker.count==0
           puts "уже грузили #{seach_url}"
