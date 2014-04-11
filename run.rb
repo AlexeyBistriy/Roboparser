@@ -1,101 +1,143 @@
-#coding: utf-8
+require 'fiber'
+# require 'eventmachine'
+require 'em-http-request'
+def http_get(url)
+  puts "1 step #{url}"
+  f = Fiber.current
+  http = EventMachine::HttpRequest.new(url).get
+  puts "2 step #{url}"
+  # resume fiber once http call is done
+  http.callback { f.resume(http) }
+  puts "3 step #{url}"
+  http.errback  { f.resume(http) }
+  puts "4 step #{url}"
 
-#require_relative './lib/init'
-#
-#
-#module Robot
-#  url='https://www.google.com/search?&client=google-csbe'
-#  request='Сало+мясо'
-#  path="./data/"
-#  file='google.csv'
-#  database='google'
-#  table='traning'
-#  table2='link'
-#
-#  key=Key.new
-#
-#
-#  hash_link={'link'=>'VARCHAR(255)'}
-#  hash_fields={'firma'=>'VARCHAR(255)',
-#               'email'=>'VARCHAR(255)',
-#               'host'=>'VARCHAR(255)',
-#               'site'=>'VARCHAR(255)',
-#               'title'=>'VARCHAR(255)'}
-#
-#
-#  #del_table2 database, table
-#  #drop2 database
-#  #create2 database
-#  #puts '1'
-#  #create_table2 database, table2, hash_link
-#  #puts '2'
-#  #create_table2 database, table2, hash_fields
-#  #puts '3'
-#  #
-#  #record=['myfirma','email','myhost','mysite','mytitle']
-#  #insert2 database, table, record
-#  # show2
-#
-#  starturi=Addressable::URI.parse('http://www.training.com.ua/').normalize
-#  baseuri=Addressable::URI.parse('http://www.training.com.ua/').normalize
-#
-#  block_record=Record.new
-#  block_record.name='block'
-#  block_record.method='xpath'
-#  block_record.key='.//cite[@class="vurls"]'
-#  block_record.index=nil
-#  block_record.attribute=nil
-#
-#  href_record=Record.new
-#  href_record.name='page'
-#  href_record.method='attribute'
-#  href_record.key=nil
-#  href_record.index=nil
-#  href_record.attribute='content'
-#
-#  pr=Proxy.new
-#  loader=Loader.new  #'Windows-1251'
-#  parser=NokoParser.new
-#
-#  loader2=LoaderWatir.new  #'Windows-1251'
-#  parser2=NokoParser.new
-#  pr.count=11
-#  key.key_search.each do |search|
-#    key.key_domains.each do |domain|
-#      key.key_positions.each do |position|
-#        seach_url=url+"&q="+request+"+"+search+"+"+"site:"+domain+"&"+position
-#        puts seach_url
-#        if pr.count>10
-#          proxy=pr.shift
-#          pr.verify?(proxy,seach_url)
-#          sleep 120
-#          pr.count=0
-#        else
-#          pr.count+=1
-#        end
-#        loader.goto(seach_url,proxy)
-#        parser.document(loader.html)
-#        page=parser.page
-#        puts title=page.title.to_s.strip
-#
-#          if title=~/sorry/iu
-#
-#          end
-#      end
-#    end
-#  end
-#end
-
-fiber = Fiber.new do
-  x, y = 0, 1
-  loop do
-    Fiber.yield y
-    x,y = y,x+y
-  end
+  return Fiber.yield
 end
 
-1000.times do
-  puts fiber.resume
+EventMachine.run do
+  Fiber.new{
+    puts '5 step '
+    page = http_get('https://www.google.com/')
+    #puts page.methods
+    #puts page.state
+    #state=
+    puts page.response
+    #response=
+    #    response_header
+    #error
+    #content_charset
+    #req
+    #cookies
+    #reset!
+    #last_effective_url
+    #redirects
+    #peer
+    #connection_completed
+    #on_request_complete
+    #continue?
+    #finished?
+    #redirect?
+    #unbind
+    #on_error
+    #close
+    #stream
+    #headers
+    #normalize_body
+    #build_request
+    #send_request
+    #on_body_data
+    #on_decoded_body_data
+    #parse_response_header
+    #escape
+    #unescape
+    #bytesize
+    #munge_header_keys
+    #encode_host
+    #encode_request
+    #encode_query
+    #encode_param
+    #form_encode_body
+    #encode_field
+    #encode_auth
+    #encode_headers
+    #encode_cookie
+    #callback
+    #cancel_callback
+    #errback
+    #cancel_errback
+    #set_deferred_status
+    #timeout
+    #cancel_timeout
+    #succeed
+    #set_deferred_success
+    #fail
+    #set_deferred_failure
+    #nil?
+    #===
+    #    =~
+    #    !~
+    #    eql?
+    #hash
+    #<=>
+    #    class
+    #    singleton_class
+    #      clone
+    #      dup
+    #      initialize_dup
+    #      initialize_clone
+    #      taint
+    #      tainted?
+    #      untaint
+    #      untrust
+    #      untrusted?
+    #      trust
+    #      freeze
+    #      frozen?
+    #      to_s
+    #      inspect
+    #      methods
+    #      singleton_methods
+    #      protected_methods
+    #      private_methods
+    #      public_methods
+    #      instance_variables
+    #      instance_variable_get
+    #      instance_variable_set
+    #      instance_variable_defined?
+    #      instance_of?
+    #      kind_of?
+    #      is_a?
+    #      tap
+    #      send
+    #      public_send
+    #      respond_to?
+    #      respond_to_missing?
+    #      extend
+    #      display
+    #      method
+    #      public_method
+    #      define_singleton_method
+    #      object_id
+    #      to_enum
+    #      enum_for
+    #      ==
+    #          equal?
+    #      !
+    #      !=
+    #          instance_eval
+    #      instance_exec
+    #      __send__
+    #      __id__
+    puts '6 step '
+    puts "Fetched page: #{page.response_header.status}"
+
+    if page
+      puts '7 step '
+      page = http_get('https://www.google.com/search?q=eventmachine')
+      puts page.response
+      puts '8 step '
+      puts "Fetched page 2: #{page.response_header.status}"
+    end
+  }.resume
 end
-
-

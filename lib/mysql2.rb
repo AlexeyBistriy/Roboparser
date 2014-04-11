@@ -2,7 +2,7 @@ module Robot
   # new gem mysql2
   def self.connect2
     begin
-      connection = Mysql2::Client.new(:host => "10.2.25.1", :username => "alexey", :password=>'hobbit', :port=>3306)
+      connection = Mysql2::Client.new(:host => "localhost", :username => "alexey", :password=>'', :port=>3306)
       connection.query('SET NAMES utf8 COLLATE utf8_unicode_ci;')
       return connection unless block_given?
       yield connection
