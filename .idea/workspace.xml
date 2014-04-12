@@ -1,16 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="facf3aa2-172b-4c2a-94b2-eff5b7d00d5c" name="Default" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ready/email/trcomua.rb" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/ready/email/trnua.rb" />
-      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\treko.rb" afterPath="$PROJECT_DIR$/ready/email/treko.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/init.rb" afterPath="$PROJECT_DIR$/lib/init.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/lib/loader.rb" afterPath="$PROJECT_DIR$/lib/loader.rb" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/run.rb" afterPath="$PROJECT_DIR$/run.rb" />
+    <list default="true" id="5b89337c-a533-464b-9293-acecdc19181b" name="Default" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/bin/run.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/features/page_hello_google.feature" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/features/suport/env.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/lib/roboparser.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/old/host/bitrix.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/old/host/forward_shop.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/old/host/karta.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/old/lib/converter.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/old/ready/email/google.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/old/run.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/old/stream.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spec/roboparser/logger_spec.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spec/roboparser/parser_spec.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spec/roboparser/reporter_spec.rb" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/spec/spec_helper.rb" />
+      <change type="DELETED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\run.rb" afterPath="" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\README" afterPath="$PROJECT_DIR$/old/README" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\autoinspector.rb" afterPath="$PROJECT_DIR$/old/autoinspector.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\desktop.ini" afterPath="$PROJECT_DIR$/old/desktop.ini" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\akva-mir.rb" afterPath="$PROJECT_DIR$/old/host/akva-mir.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\archiveorg.rb" afterPath="$PROJECT_DIR$/old/host/archiveorg.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\autoru.rb" afterPath="$PROJECT_DIR$/old/host/autoru.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\avito.rb" afterPath="$PROJECT_DIR$/old/host/avito.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\bitrix.rb" afterPath="$PROJECT_DIR$/lib/roboparser/logger.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\climateunion.rb" afterPath="$PROJECT_DIR$/old/host/climateunion.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\content.rb" afterPath="$PROJECT_DIR$/old/host/content.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\deti.rb" afterPath="$PROJECT_DIR$/old/host/deti.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\forward_shop.rb" afterPath="$PROJECT_DIR$/lib/roboparser/parser.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\gdway.rb" afterPath="$PROJECT_DIR$/old/host/gdway.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\google.rb" afterPath="$PROJECT_DIR$/old/host/google.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\imaxcorp.rb" afterPath="$PROJECT_DIR$/old/host/imaxcorp.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\instagram.rb" afterPath="$PROJECT_DIR$/old/host/instagram.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\karta.rb" afterPath="$PROJECT_DIR$/lib/roboparser/reporter.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\myviptime.rb" afterPath="$PROJECT_DIR$/old/host/myviptime.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\news.rb" afterPath="$PROJECT_DIR$/old/host/news.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\opencart.rb" afterPath="$PROJECT_DIR$/old/host/opencart.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\p8nt.rb" afterPath="$PROJECT_DIR$/old/host/p8nt.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\rabota.rb" afterPath="$PROJECT_DIR$/old/host/rabota.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\sait.rb" afterPath="$PROJECT_DIR$/old/host/sait.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\sima_land.rb" afterPath="$PROJECT_DIR$/old/host/sima_land.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\socialka.rb" afterPath="$PROJECT_DIR$/old/host/socialka.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\souz.rb" afterPath="$PROJECT_DIR$/old/host/souz.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\video.rb" afterPath="$PROJECT_DIR$/old/host/video.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\host\yml.rb" afterPath="$PROJECT_DIR$/old/host/yml.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\lib\antigate.rb" afterPath="$PROJECT_DIR$/old/lib/antigate.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\lib\constants.rb" afterPath="$PROJECT_DIR$/old/lib/constants.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\lib\dataformat.rb" afterPath="$PROJECT_DIR$/old/lib/dataformat.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\lib\init.rb" afterPath="$PROJECT_DIR$/old/lib/init.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\lib\key_words.rb" afterPath="$PROJECT_DIR$/old/lib/key_words.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\lib\loader.rb" afterPath="$PROJECT_DIR$/old/lib/loader.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\lib\mysql.rb" afterPath="$PROJECT_DIR$/old/lib/mysql.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\lib\mysql2.rb" afterPath="$PROJECT_DIR$/old/lib/mysql2.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\lib\parser.rb" afterPath="$PROJECT_DIR$/old/lib/parser.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\lib\proxy.rb" afterPath="$PROJECT_DIR$/old/lib/proxy.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\lib\robot.rb" afterPath="$PROJECT_DIR$/old/lib/robot.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\musor.rb" afterPath="$PROJECT_DIR$/old/musor.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\aliexpress.rb" afterPath="$PROJECT_DIR$/old/ready/aliexpress.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\email\trcomua.rb" afterPath="$PROJECT_DIR$/old/ready/email/trcomua.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\email\treko.rb" afterPath="$PROJECT_DIR$/old/ready/email/treko.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\email\trnua.rb" afterPath="$PROJECT_DIR$/old/ready/email/trnua.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\freelance.rb" afterPath="$PROJECT_DIR$/old/ready/freelance.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\freeln.rb" afterPath="$PROJECT_DIR$/old/ready/freeln.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\joomlaz.rb" afterPath="$PROJECT_DIR$/old/ready/joomlaz.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\kbb.rb" afterPath="$PROJECT_DIR$/old/ready/kbb.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\title.rb" afterPath="$PROJECT_DIR$/old/ready/title.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\wfreeln.rb" afterPath="$PROJECT_DIR$/old/ready/wfreeln.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\ready\yuotube.rb" afterPath="$PROJECT_DIR$/old/ready/yuotube.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\reports.rb" afterPath="$PROJECT_DIR$/old/reports.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\stream.rb" afterPath="$PROJECT_DIR$/old/Converter.rb" />
+      <change type="MOVED" beforePath="C:\Users\alexey\RubymineProjects\Roboparser\test.rb" afterPath="$PROJECT_DIR$/old/test.rb" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
-    <list id="8c9f0335-433b-4af0-bf87-59e4d398949c" name="Failed commit: Default" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;" />
+    <list id="51683e41-56bc-4527-ae0e-d7eeafad4b7a" name="New changelist" comment="" />
     <ignored path="Roboparser.iws" />
     <ignored path=".idea/workspace.xml" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -31,98 +95,7 @@
     <groupTables value="false" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="run.rb" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/run.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="250" column="4" selection-start="6187" selection-end="6187" vertical-scroll-proportion="0.8466819">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="platform.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://C:/Ruby193/lib/ruby/gems/1.9.1/gems/selenium-webdriver-2.37.0/lib/selenium/webdriver/common/platform.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="133" column="17" selection-start="2724" selection-end="2724" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="aliexpress.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ready/aliexpress.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="freelance.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ready/freelance.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="50" column="33" selection-start="1292" selection-end="1303" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="title.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/ready/title.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="49" column="33" selection-start="1155" selection-end="1155" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mysql.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/mysql.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mysql2.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/mysql2.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="4" column="95" selection-start="157" selection-end="157" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="parser.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/parser.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="134" column="0" selection-start="3776" selection-end="3776" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="loader.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/loader.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="53" column="0" selection-start="1299" selection-end="1299" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="init.rb" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/lib/init.rb">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="18" column="0" selection-start="392" selection-end="392" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf />
   </component>
   <component name="FindManager">
     <FindUsagesManager>
@@ -131,45 +104,39 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="52b6c69" />
-      </map>
-    </option>
   </component>
   <component name="GitLogSettings">
     <option name="myStructureFilterPaths" />
-    <option name="myShowDetails" value="false" />
   </component>
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/ready/antigate.rb" />
-        <option value="$PROJECT_DIR$/ready/freeln.rb" />
         <option value="$PROJECT_DIR$/lib/robot.rb" />
-        <option value="$PROJECT_DIR$/lib/dataformat.rb" />
-        <option value="$PROJECT_DIR$/lib/parser.rb" />
-        <option value="$PROJECT_DIR$/lib/mysql.rb" />
+        <option value="$PROJECT_DIR$/lib/constants.rb" />
         <option value="$PROJECT_DIR$/ready/joomlaz.rb" />
-        <option value="$PROJECT_DIR$/log.txt" />
-        <option value="$PROJECT_DIR$/ready/title.rb" />
-        <option value="$PROJECT_DIR$/ready/email/trnua.rb" />
-        <option value="$PROJECT_DIR$/ready/email/treko.rb" />
-        <option value="$PROJECT_DIR$/lib/loader.rb" />
+        <option value="$PROJECT_DIR$/lib/parser.rb" />
+        <option value="$PROJECT_DIR$/lib/dataformat.rb" />
+        <option value="$PROJECT_DIR$/ready/treko.rb" />
+        <option value="$PROJECT_DIR$/test.rb" />
         <option value="$PROJECT_DIR$/lib/init.rb" />
-        <option value="$PROJECT_DIR$/ready/email/trcomua.rb" />
-        <option value="$PROJECT_DIR$/run.rb" />
         <option value="$PROJECT_DIR$/lib/mysql2.rb" />
+        <option value="$PROJECT_DIR$/lib/mysql.rb" />
+        <option value="$PROJECT_DIR$/lib/key_words.rb" />
+        <option value="$PROJECT_DIR$/lib/converter.rb" />
+        <option value="$PROJECT_DIR$/ready/email/google.rb" />
+        <option value="$PROJECT_DIR$/lib/loader.rb" />
+        <option value="$PROJECT_DIR$/lib/proxy.rb" />
+        <option value="$PROJECT_DIR$/run.rb" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1296" />
-    <option name="height" value="816" />
+    <option name="width" value="1292" />
+    <option name="height" value="776" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="false">
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
     <OptionsSetting value="true" id="Remove" />
     <OptionsSetting value="true" id="Checkout" />
@@ -185,7 +152,7 @@
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
-      <showMembers />
+      <showMembers ProjectPane="true" />
       <showModules />
       <showLibraryContents />
       <hideEmptyPackages />
@@ -213,87 +180,105 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Roboparser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Roboparser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ready" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Roboparser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Roboparser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ready" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="email" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Roboparser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Roboparser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="lib" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Roboparser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="Roboparser" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="245" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="247" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="245" />
     <property name="recentsLimit" value="5" />
+    <property name="options.lastSelected" value="preferences.externalResources" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/spec" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="251" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="621" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="630" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="245" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="244" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
     <property name="restartRequiresConfirmation" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/run.rb" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\alexey\RubymineProjects\Roboparser\ready\email" />
-      <recent name="C:\Users\alexey\RubymineProjects\Roboparser\ready" />
-      <recent name="C:\Users\alexey\RubymineProjects\Roboparser\lib" />
-      <recent name="C:\Users\alexey\RubymineProjects\Roboparser" />
-      <recent name="C:\Users\alexey\RubymineProjects\Roboparser\data" />
+      <recent name="C:\Users\alexey\RubymineProjects\Roboparser\old" />
+      <recent name="C:\Documents and Settings\alexey.DONBASS.000\RubymineProjects\Roboparser" />
+      <recent name="C:\Documents and Settings\alexey.DONBASS.000\RubymineProjects\Roboparser\lib" />
+      <recent name="C:\Documents and Settings\alexey.DONBASS.000\RubymineProjects\Roboparser\ready" />
+      <recent name="C:\Documents and Settings\alexey.DONBASS.000\RubymineProjects\Roboparser\host" />
     </key>
   </component>
-  <component name="RunManager" selected="Ruby.My_ruby">
+  <component name="RunManager" selected="RSpec.Rspec">
+    <configuration default="false" name="run" type="RubyRunConfigurationType" factoryName="Ruby" temporary="true">
+      <module name="Roboparser" />
+      <RUBY_RUN_CONFIG NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <RUBY_RUN_CONFIG NAME="WORK DIR" VALUE="$PROJECT_DIR$" />
+      <RUBY_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="true" />
+      <RUBY_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="ruby-1.9.3-p385" />
+      <RUBY_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
+      <envs />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
+      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$PROJECT_DIR$/bin/run.rb" />
+      <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="" />
+      <RunnerSettings RunnerId="RubyCover" />
+      <RunnerSettings RunnerId="RubyDebugRunner" />
+      <RunnerSettings RunnerId="RubyRunner" />
+      <ConfigurationWrapper RunnerId="RubyCover" />
+      <ConfigurationWrapper RunnerId="RubyDebugRunner" />
+      <ConfigurationWrapper RunnerId="RubyRunner" />
+      <method />
+    </configuration>
+    <configuration default="true" type="RakeRunConfigurationType" factoryName="Rake">
+      <module name="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_NAME" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_ARGS" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_ATTACHED_TEST_FRAMEWORKS" VALUE="" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_TRACE" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_DRYRUN" VALUE="false" />
+      <RAKE_RUN_CONFIG_SETTINGS_ID NAME="RAKE_TASK_OPTION_PREREQS" VALUE="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="RailsRunConfigurationType" factoryName="Rails">
+      <predefined_log_file id="RUBY_RAILS_SERVER" enabled="true" />
+      <module name="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="SCRIPT_ARGS" VALUE="" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="PORT" VALUE="3000" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="IP" VALUE="127.0.0.1" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="DUMMY_APP" VALUE="test/dummy" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="RAILS_SERVER_TYPE" VALUE="Default" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="ENVIRONMENT_TYPE" VALUE="development" />
+      <RAILS_SERVER_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
+      <method />
+    </configuration>
     <configuration default="true" type="CapistranoRunConfigurationType" factoryName="Capistrano">
       <module name="" />
       <CAPISTRANO_RUN_CONFIGURATION NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
@@ -334,16 +319,16 @@
       <method />
     </configuration>
     <configuration default="true" type="RubyRunConfigurationType" factoryName="Ruby">
-      <module name="Roboparser" />
+      <module name="" />
       <RUBY_RUN_CONFIG NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
-      <RUBY_RUN_CONFIG NAME="WORK DIR" VALUE="$PROJECT_DIR$" />
-      <RUBY_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="true" />
-      <RUBY_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="ruby-1.9.3-p385" />
+      <RUBY_RUN_CONFIG NAME="WORK DIR" VALUE="" />
+      <RUBY_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RUBY_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="" />
       <RUBY_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
       <envs />
       <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
       <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
-      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$PROJECT_DIR$/init.rb" />
+      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="" />
       <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="" />
       <method />
     </configuration>
@@ -367,27 +352,160 @@
       <RTEST_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_OPTIONS" VALUE="" />
       <method />
     </configuration>
-    <configuration default="false" name="My_ruby" type="RubyRunConfigurationType" factoryName="Ruby">
-      <module name="Roboparser" />
-      <RUBY_RUN_CONFIG NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
-      <RUBY_RUN_CONFIG NAME="WORK DIR" VALUE="$PROJECT_DIR$" />
-      <RUBY_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="true" />
-      <RUBY_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="ruby-1.9.3-p385" />
-      <RUBY_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
+    <configuration default="true" type="IrbRunConfigurationType" factoryName="IRB console">
+      <module name="" />
+      <IRB_RUN_CONFIG NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <IRB_RUN_CONFIG NAME="WORK DIR" VALUE="" />
+      <IRB_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="false" />
+      <IRB_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="" />
+      <IRB_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
       <envs />
       <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
       <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
-      <RUBY_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="$PROJECT_DIR$/run.rb" />
-      <RUBY_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="" />
-      <RunnerSettings RunnerId="RubyDebugRunner" />
-      <RunnerSettings RunnerId="RubyRunner" />
-      <ConfigurationWrapper RunnerId="RubyDebugRunner" />
-      <ConfigurationWrapper RunnerId="RubyRunner" />
+      <IRB_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="" />
+      <IRB_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="" />
+      <IRB_RUN_CONFIG NAME="IS_RAILS_CONSOLE" VALUE="false" />
       <method />
     </configuration>
-    <list size="1">
-      <item index="0" class="java.lang.String" itemvalue="Ruby.My_ruby" />
+    <configuration default="true" type="RubyRemoteDebugConfigurationType" factoryName="Ruby remote debug">
+      <RUBY_REMOTE_DEBUG_CONFIG NAME="REMOTE_HOST" VALUE="localhost" />
+      <RUBY_REMOTE_DEBUG_CONFIG NAME="PORT" VALUE="1234" />
+      <RUBY_REMOTE_DEBUG_CONFIG NAME="DISPATCHER_PORT" VALUE="26162" />
+      <RUBY_REMOTE_DEBUG_CONFIG NAME="REMOTE_ROOT" VALUE="" />
+      <RUBY_REMOTE_DEBUG_CONFIG NAME="LOCAL_ROOT" VALUE="" />
+      <method />
+    </configuration>
+    <configuration default="true" type="CucumberRunConfigurationType" factoryName="Cucumber">
+      <predefined_log_file id="RUBY_CUCUMBER" enabled="true" />
+      <module name="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="ANSICON" value="" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*.feature" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="TEST_SCRIPT" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_TAGS_FILTER" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_NAME_FILTER" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_ARGS" VALUE="--color -r features" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="VERBOSE_OPTION" VALUE="false" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_RUNNER_PATH" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_RUNNER" VALUE="false" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="SETTINGS_VERSION" VALUE="2" />
+      <method />
+    </configuration>
+    <configuration default="true" type="RackRunConfigurationType" factoryName="Rack">
+      <module name="" />
+      <RACK_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <RACK_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="C:\Users\alexey\RubymineProjects\Roboparser" />
+      <RACK_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="false" />
+      <RACK_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="" />
+      <RACK_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
+      <RACK_CONFIG_SETTINGS_ID NAME="PORT" VALUE="9292" />
+      <RACK_CONFIG_SETTINGS_ID NAME="IP" VALUE="127.0.0.1" />
+      <RACK_CONFIG_SETTINGS_ID NAME="CONFIG_FILE" VALUE="" />
+      <RACK_CONFIG_SETTINGS_ID NAME="RACK_SERVER_TYPE" VALUE="Default" />
+      <RACK_CONFIG_SETTINGS_ID NAME="LAUNCH_JS" VALUE="false" />
+      <method />
+    </configuration>
+    <configuration default="true" type="SporkRunConfigurationType" factoryName="Spork DRb">
+      <module name="" />
+      <SPORK_RUN_CONFIG NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <SPORK_RUN_CONFIG NAME="WORK DIR" VALUE="" />
+      <SPORK_RUN_CONFIG NAME="SHOULD_USE_SDK" VALUE="false" />
+      <SPORK_RUN_CONFIG NAME="ALTERN_SDK_NAME" VALUE="" />
+      <SPORK_RUN_CONFIG NAME="myPassParentEnvs" VALUE="true" />
+      <envs />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
+      <SPORK_RUN_CONFIG NAME="SCRIPT_PATH" VALUE="" />
+      <SPORK_RUN_CONFIG NAME="SCRIPT_ARGS" VALUE="" />
+      <SPORK_RUN_CONFIG NAME="TEST_FRAMEWORK_ARGS" VALUE="RSPEC" />
+      <SPORK_RUN_CONFIG NAME="SPORK_RUN_CONFIG" VALUE="RSPEC" />
+      <method />
+    </configuration>
+    <configuration default="true" type="com.intellij.persistence.run.ConsoleRunConfigurationType" factoryName="Query Language Console">
+      <option name="VM_PARAMETERS" value="" />
+      <option name="USER_CFG_CLASS" />
+      <option name="CONTEXT_PROVIDER" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Cucumber" type="CucumberRunConfigurationType" factoryName="Cucumber">
+      <predefined_log_file id="RUBY_CUCUMBER" enabled="true" />
+      <module name="Roboparser" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="true" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="ruby-1.9.3-p385" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs>
+        <env name="ANSICON" value="" />
+      </envs>
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="ALL_IN_FOLDER" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="$PROJECT_DIR$/features" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_TAGS_FILTER" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="TEST_NAME_FILTER" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_ARGS" VALUE="--color -r features" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="1.3.11" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="VERBOSE_OPTION" VALUE="false" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="CUCUMBER_RUNNER_PATH" VALUE="" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_RUNNER" VALUE="false" />
+      <CUCUMBER_RUN_CONFIG_SETTINGS_ID NAME="SETTINGS_VERSION" VALUE="2" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Rspec" type="RSpecRunConfigurationType" factoryName="RSpec">
+      <predefined_log_file id="RUBY_RSPEC" enabled="true" />
+      <module name="Roboparser" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUBY_ARGS" VALUE="-e $stdout.sync=true;$stderr.sync=true;load($0=ARGV.shift)" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="WORK DIR" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SHOULD_USE_SDK" VALUE="true" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="ALTERN_SDK_NAME" VALUE="ruby-1.9.3-p385" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="myPassParentEnvs" VALUE="true" />
+      <envs />
+      <EXTENSION ID="BundlerRunConfigurationExtension" bundleExecEnabled="false" />
+      <EXTENSION ID="RubyCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" track_test_folders="true" runner="rcov" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TESTS_FOLDER_PATH" VALUE="$PROJECT_DIR$/spec" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_SCRIPT_PATH" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_RUNNER_PATH" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_FILE_MASK" VALUE="**/*_spec.rb" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_EXAMPLE_NAME" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="TEST_TEST_TYPE" VALUE="ALL_IN_FOLDER" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="SPEC_ARGS" VALUE="" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="RUNNER_VERSION" VALUE="2.14.8" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="USE_CUSTOM_SPEC_RUNNER" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="DRB" VALUE="false" />
+      <RSPEC_RUN_CONFIG_SETTINGS_ID NAME="FULL_BACKTRACE" VALUE="false" />
+      <method />
+    </configuration>
+    <list size="3">
+      <item index="0" class="java.lang.String" itemvalue="Cucumber.Cucumber" />
+      <item index="1" class="java.lang.String" itemvalue="RSpec.Rspec" />
+      <item index="2" class="java.lang.String" itemvalue="Ruby.run" />
     </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Ruby.run" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="ShelveChangesManager" show_recycled="false" />
   <component name="SvnConfiguration" maxAnnotateRevisions="500" myUseAcceleration="nothing" myAutoUpdateAfterCommit="false" cleanupOnStartRun="false">
@@ -410,175 +528,247 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="facf3aa2-172b-4c2a-94b2-eff5b7d00d5c" name="Default" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;" />
-      <changelist id="8c9f0335-433b-4af0-bf87-59e4d398949c" name="Failed commit: Default" comment="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;" />
-      <created>1370358876122</created>
-      <updated>1381859059264</updated>
+      <changelist id="5b89337c-a533-464b-9293-acecdc19181b" name="Default" comment="" />
+      <changelist id="51683e41-56bc-4527-ae0e-d7eeafad4b7a" name="New changelist" comment="" />
+      <created>1366221166540</created>
+      <updated>1366221166540</updated>
     </task>
-    <task id="LOCAL-00001" summary="04_04_2013&#10;">
-      <created>1370359677570</created>
-      <updated>1370359677570</updated>
+    <task id="LOCAL-00001" summary="test 17/05/2012">
+      <created>1368799049410</created>
+      <updated>1368799049410</updated>
     </task>
-    <task id="LOCAL-00002" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;">
-      <created>1370385226197</created>
-      <updated>1370385226197</updated>
+    <task id="LOCAL-00002" summary="test 17/05/2012">
+      <created>1368799417257</created>
+      <updated>1368799417257</updated>
     </task>
-    <task id="LOCAL-00003" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;">
-      <created>1370813018444</created>
-      <updated>1370813018444</updated>
+    <task id="LOCAL-00004" summary="test 17/05/2012">
+      <created>1368818463581</created>
+      <updated>1368818463581</updated>
     </task>
-    <task id="LOCAL-00004" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;">
-      <created>1370900424950</created>
-      <updated>1370900424950</updated>
+    <task id="LOCAL-00005" summary="test 21/05/2012">
+      <created>1369084113515</created>
+      <updated>1369084113515</updated>
     </task>
-    <task id="LOCAL-00005" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;">
-      <created>1370986173152</created>
-      <updated>1370986173152</updated>
+    <task id="LOCAL-00006" summary="test 21/05/2012">
+      <created>1369166474929</created>
+      <updated>1369166474929</updated>
     </task>
-    <task id="LOCAL-00006" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;">
-      <created>1370986358167</created>
-      <updated>1370986358167</updated>
+    <task id="LOCAL-00007" summary="test 21/05/2012">
+      <created>1369170221090</created>
+      <updated>1369170221090</updated>
     </task>
-    <task id="LOCAL-00007" summary="12_06_2013">
-      <created>1370986830908</created>
-      <updated>1370986830908</updated>
+    <task id="LOCAL-00008" summary="test 21/05/2012">
+      <created>1369170255830</created>
+      <updated>1369170255830</updated>
     </task>
-    <task id="LOCAL-00008" summary="12_06_2013">
-      <created>1370986956882</created>
-      <updated>1370986956882</updated>
+    <task id="LOCAL-00009" summary="test 21/05/2012">
+      <created>1369249111329</created>
+      <updated>1369249111329</updated>
     </task>
-    <task id="LOCAL-00009" summary="12_06_2013">
-      <created>1371070588405</created>
-      <updated>1371070588405</updated>
+    <task id="LOCAL-00010" summary="test 21/05/2012">
+      <created>1370341245687</created>
+      <updated>1370341245687</updated>
     </task>
-    <task id="LOCAL-00010" summary="12_06_2013">
-      <created>1371073538694</created>
-      <updated>1371073538694</updated>
+    <task id="LOCAL-00011" summary="test 21/05/2012">
+      <created>1370341552031</created>
+      <updated>1370341552031</updated>
     </task>
-    <task id="LOCAL-00011" summary="12_06_2013">
-      <created>1371422485415</created>
-      <updated>1371422485415</updated>
+    <task id="LOCAL-00012" summary="test 21/05/2012">
+      <created>1370347277984</created>
+      <updated>1370347277984</updated>
     </task>
-    <task id="LOCAL-00012" summary="14_10_2013">
-      <created>1381701597018</created>
-      <updated>1381701597018</updated>
+    <task id="LOCAL-00013" summary="test 21/05/2012">
+      <created>1370436174796</created>
+      <updated>1370436174796</updated>
     </task>
-    <task id="LOCAL-00013" summary="14_10_2013">
-      <created>1381850647591</created>
-      <updated>1381850647591</updated>
+    <task id="LOCAL-00014" summary="test 21/05/2012">
+      <created>1370520690828</created>
+      <updated>1370520690828</updated>
     </task>
-    <task id="LOCAL-00014" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;">
-      <created>1381850875157</created>
-      <updated>1381850875157</updated>
+    <task id="LOCAL-00015" summary="test 21/05/2012">
+      <created>1370868267359</created>
+      <updated>1370868267359</updated>
     </task>
-    <task id="LOCAL-00015" summary="15_10_2013 temp">
-      <created>1381856335262</created>
-      <updated>1381856335262</updated>
+    <task id="LOCAL-00016" summary="test 21/05/2012">
+      <created>1370868304375</created>
+      <updated>1370868304375</updated>
     </task>
-    <task id="LOCAL-00016" summary="15_10_2013 temp&#10;(cherry picked from commit e517523bab997e75fc4a0f2a1f0ed8f41fe43544)&#10;&#10;Conflicts:&#10;&#9;error.txt&#10;">
-      <created>1381859059108</created>
-      <updated>1381859059108</updated>
+    <task id="LOCAL-00017" summary="test 21/05/2012">
+      <created>1370955121078</created>
+      <updated>1370955121078</updated>
     </task>
-    <task id="LOCAL-00017" summary="Merge branch 'proba' into HEAD&#10;&#10;Conflicts:&#10;&#9;error.txt&#10;">
-      <created>1381859896044</created>
-      <updated>1381859896044</updated>
+    <task id="LOCAL-00018" summary="test 21/05/2012">
+      <created>1371010443609</created>
+      <updated>1371010443609</updated>
     </task>
-    <task id="LOCAL-00018" summary="Merge branch 'proba' into HEAD&#10;&#10;Conflicts:&#10;&#9;error.txt&#10;">
-      <created>1382124841749</created>
-      <updated>1382124841749</updated>
+    <task id="LOCAL-00019" summary="test 21/05/2012">
+      <created>1371041435500</created>
+      <updated>1371041435500</updated>
     </task>
-    <task id="LOCAL-00019" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1382125347597</created>
-      <updated>1382125347597</updated>
+    <task id="LOCAL-00020" summary="test 21/05/2012">
+      <created>1371124870546</created>
+      <updated>1371124870546</updated>
     </task>
-    <task id="LOCAL-00020" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1382303299727</created>
-      <updated>1382303299727</updated>
+    <task id="LOCAL-00021" summary="test 21/05/2012">
+      <created>1371449646531</created>
+      <updated>1371449646531</updated>
     </task>
-    <task id="LOCAL-00021" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1382390700517</created>
-      <updated>1382390700517</updated>
+    <task id="LOCAL-00022" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1371547333078</created>
+      <updated>1371547333078</updated>
     </task>
-    <task id="LOCAL-00022" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1382556894119</created>
-      <updated>1382556894119</updated>
+    <task id="LOCAL-00023" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1371549280578</created>
+      <updated>1371549280578</updated>
     </task>
-    <task id="LOCAL-00023" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1382629863767</created>
-      <updated>1382629863767</updated>
+    <task id="LOCAL-00024" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1381840613093</created>
+      <updated>1381840613093</updated>
     </task>
-    <task id="LOCAL-00024" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1382632542269</created>
-      <updated>1382632542269</updated>
+    <task id="LOCAL-00025" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1381840771031</created>
+      <updated>1381840771031</updated>
     </task>
-    <task id="LOCAL-00025" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1382647418099</created>
-      <updated>1382647418099</updated>
+    <task id="LOCAL-00026" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1382097889890</created>
+      <updated>1382097889890</updated>
     </task>
-    <task id="LOCAL-00026" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1382996957201</created>
-      <updated>1382996957201</updated>
+    <task id="LOCAL-00027" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1382446453015</created>
+      <updated>1382446453015</updated>
     </task>
-    <task id="LOCAL-00027" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1383083913110</created>
-      <updated>1383083913110</updated>
+    <task id="LOCAL-00028" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1382446497390</created>
+      <updated>1382446497390</updated>
     </task>
-    <task id="LOCAL-00028" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1383175624626</created>
-      <updated>1383175624626</updated>
+    <task id="LOCAL-00029" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1382613070953</created>
+      <updated>1382613070953</updated>
     </task>
-    <task id="LOCAL-00029" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1383513648372</created>
-      <updated>1383513648372</updated>
+    <task id="LOCAL-00030" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1382619249656</created>
+      <updated>1382619249656</updated>
     </task>
-    <task id="LOCAL-00030" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1383689153436</created>
-      <updated>1383689153436</updated>
+    <task id="LOCAL-00031" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1382701975515</created>
+      <updated>1382701975515</updated>
     </task>
-    <task id="LOCAL-00031" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;">
-      <created>1384272917298</created>
-      <updated>1384272917298</updated>
+    <task id="LOCAL-00032" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1383129091984</created>
+      <updated>1383129091984</updated>
     </task>
-    <task id="LOCAL-00032" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;">
-      <created>1384288354033</created>
-      <updated>1384288354033</updated>
+    <task id="LOCAL-00033" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1383561413859</created>
+      <updated>1383561413859</updated>
     </task>
-    <task id="LOCAL-00033" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;">
-      <created>1384291001057</created>
-      <updated>1384291001057</updated>
+    <task id="LOCAL-00034" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1383657078437</created>
+      <updated>1383657078437</updated>
     </task>
-    <task id="LOCAL-00034" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;">
-      <created>1384584848962</created>
-      <updated>1384584848962</updated>
+    <task id="LOCAL-00035" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1383741871734</created>
+      <updated>1383741871734</updated>
     </task>
-    <task id="LOCAL-00035" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;">
-      <created>1384724772002</created>
-      <updated>1384724772002</updated>
+    <task id="LOCAL-00036" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1383828851140</created>
+      <updated>1383828851140</updated>
     </task>
-    <task id="LOCAL-00036" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;">
-      <created>1385327221825</created>
-      <updated>1385327221825</updated>
+    <task id="LOCAL-00037" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1383828903453</created>
+      <updated>1383828903453</updated>
     </task>
-    <task id="LOCAL-00037" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;">
-      <created>1385503143580</created>
-      <updated>1385503143580</updated>
+    <task id="LOCAL-00038" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1383907177968</created>
+      <updated>1383907177968</updated>
     </task>
-    <task id="LOCAL-00038" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;">
-      <created>1385590629768</created>
-      <updated>1385590629768</updated>
+    <task id="LOCAL-00039" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1384174707062</created>
+      <updated>1384174707062</updated>
     </task>
-    <task id="LOCAL-00039" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;">
-      <created>1385934270839</created>
-      <updated>1385934270839</updated>
+    <task id="LOCAL-00040" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1384261645484</created>
+      <updated>1384261645484</updated>
     </task>
-    <task id="LOCAL-00040" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;">
-      <created>1387246998276</created>
-      <updated>1387246998276</updated>
+    <task id="LOCAL-00041" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1384341067062</created>
+      <updated>1384341067062</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00042" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1384507671687</created>
+      <updated>1384507671687</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1385024657312</created>
+      <updated>1385024657312</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1385024888187</created>
+      <updated>1385024888187</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1385025441750</created>
+      <updated>1385025441750</updated>
+    </task>
+    <task id="LOCAL-00046" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1385030867296</created>
+      <updated>1385030867296</updated>
+    </task>
+    <task id="LOCAL-00047" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1385039432531</created>
+      <updated>1385039432531</updated>
+    </task>
+    <task id="LOCAL-00048" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1385471034750</created>
+      <updated>1385471034750</updated>
+    </task>
+    <task id="LOCAL-00049" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1385557091531</created>
+      <updated>1385557091531</updated>
+    </task>
+    <task id="LOCAL-00050" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1385724782937</created>
+      <updated>1385724782937</updated>
+    </task>
+    <task id="LOCAL-00051" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1386161156656</created>
+      <updated>1386161156656</updated>
+    </task>
+    <task id="LOCAL-00052" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1386161882265</created>
+      <updated>1386161882265</updated>
+    </task>
+    <task id="LOCAL-00053" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1386161914093</created>
+      <updated>1386161914093</updated>
+    </task>
+    <task id="LOCAL-00054" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1387285898406</created>
+      <updated>1387285898406</updated>
+    </task>
+    <task id="LOCAL-00055" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1387369690250</created>
+      <updated>1387369690250</updated>
+    </task>
+    <task id="LOCAL-00056" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1387374842421</created>
+      <updated>1387374842421</updated>
+    </task>
+    <task id="LOCAL-00057" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1387804271562</created>
+      <updated>1387804271562</updated>
+    </task>
+    <task id="LOCAL-00058" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1387889781718</created>
+      <updated>1387889781718</updated>
+    </task>
+    <task id="LOCAL-00059" summary="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;">
+      <created>1389606720187</created>
+      <updated>1389606720187</updated>
+    </task>
+    <option name="localTasksCounter" value="60" />
     <servers />
   </component>
-  <component name="TodoView" selected-index="2">
+  <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
       <are-packages-shown value="false" />
       <are-modules-shown value="false" />
@@ -599,25 +789,26 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1296" height="816" extended-state="0" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1292" height="776" extended-state="0" />
+    <editor active="false" />
     <layout>
-      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29268292" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298217" sideWeight="0.44207317" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.29659644" sideWeight="0.19207317" order="1" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36709887" sideWeight="0.7240854" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38567072" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.22713415" sideWeight="0.49756888" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27591464" sideWeight="0.49675852" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.54375" sideWeight="0.4404591" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328877" sideWeight="0.47417504" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298217" sideWeight="0.6720779" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34505022" sideWeight="0.2433155" order="1" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.38536584" sideWeight="0.45625" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.38770053" sideWeight="0.48134863" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34505022" sideWeight="0.36898395" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25668448" sideWeight="0.56671447" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25802138" sideWeight="0.428264" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2540107" sideWeight="0.4426112" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3292683" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328877" sideWeight="0.4913917" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32954547" sideWeight="0.49675852" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.328877" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
@@ -657,7 +848,7 @@
     <option name="SHOW_VCS_ERROR_NOTIFICATIONS" value="true" />
     <option name="FORCE_NON_EMPTY_COMMENT" value="false" />
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="false" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="false" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="false" />
     <option name="CHECK_FILES_UP_TO_DATE_BEFORE_COMMIT" value="false" />
@@ -670,199 +861,72 @@
     <option name="UPDATE_GROUP_BY_CHANGELIST" value="false" />
     <option name="SHOW_FILE_HISTORY_AS_TREE" value="false" />
     <option name="FILE_HISTORY_SPLITTER_PROPORTION" value="0.6" />
-    <MESSAGE value="04_04_2013&#10;" />
-    <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;" />
-    <MESSAGE value="12_06_2013" />
-    <MESSAGE value="14_10_2013" />
-    <MESSAGE value="&#10;" />
-    <MESSAGE value="15_10_2013 temp" />
-    <MESSAGE value="15_10_2013 temp&#10;(cherry picked from commit e517523bab997e75fc4a0f2a1f0ed8f41fe43544)&#10;&#10;Conflicts:&#10;&#9;error.txt&#10;" />
-    <MESSAGE value="Merge branch 'proba' into HEAD&#10;&#10;Conflicts:&#10;&#9;error.txt&#10;" />
-    <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;" />
-    <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;init.rb&#10;&#9;parser.rb&#10;" />
+    <MESSAGE value="test 17/05/2012" />
+    <MESSAGE value="test 21/05/2012" />
+    <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;Conflicts:&#10;&#9;parser.rb&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/lib/parser.rb</url>
-          <line>35</line>
+          <url>file://$PROJECT_DIR$/lib/loader.rb</url>
+          <line>52</line>
         </line-breakpoint>
         <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/lib/parser.rb</url>
-          <line>36</line>
+          <url>file://$PROJECT_DIR$/lib/loader.rb</url>
+          <line>54</line>
         </line-breakpoint>
         <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/lib/parser.rb</url>
-          <line>37</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/lib/parser.rb</url>
-          <line>38</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/lib/parser.rb</url>
-          <line>39</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/lib/parser.rb</url>
-          <line>40</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/lib/parser.rb</url>
-          <line>43</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/run.rb</url>
-          <line>216</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/run.rb</url>
-          <line>214</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/lib/mysql2.rb</url>
-          <line>4</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/lib/mysql2.rb</url>
-          <line>6</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/lib/mysql2.rb</url>
-          <line>7</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/lib/mysql2.rb</url>
-          <line>5</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/run.rb</url>
-          <line>181</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/run.rb</url>
-          <line>182</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/run.rb</url>
-          <line>183</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/run.rb</url>
-          <line>184</line>
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="ruby-line">
-          <url>file://$PROJECT_DIR$/run.rb</url>
-          <line>185</line>
+          <url>file://$PROJECT_DIR$/lib/mysql.rb</url>
+          <line>24</line>
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://C:/Ruby193/lib/ruby/gems/1.9.1/gems/addressable-2.3.5/lib/addressable/uri.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1713" column="0" selection-start="56254" selection-end="56254" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ready/kbb.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="60" column="11" selection-start="1360" selection-end="1655" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ready/email/trnua.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="144" column="35" selection-start="3276" selection-end="4327" vertical-scroll-proportion="0.0">
-          <folding />
+    <entry file="uml://Ruby/Robot">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Ruby</ID>
+          <OriginalElement>Robot</OriginalElement>
+          <nodes>
+            <node x="0.0" y="0.0">Robot</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="-180.0" y="44.0" />
+          <SelectedNodes>
+            <node>Robot</node>
+          </SelectedNodes>
+          <Categories />
+          <SCOPE>All</SCOPE>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/ready/email/treko.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="116" column="35" selection-start="2805" selection-end="2895" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ready/joomlaz.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="37" selection-start="4651" selection-end="4682" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ready/email/trcomua.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="39" selection-start="3130" selection-end="3130" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/mysql.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/init.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="18" column="0" selection-start="392" selection-end="392" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/parser.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="134" column="0" selection-start="3776" selection-end="3776" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ready/title.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="33" selection-start="1155" selection-end="1155" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ready/aliexpress.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/ready/freelance.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="50" column="33" selection-start="1292" selection-end="1303" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/loader.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="53" column="0" selection-start="1299" selection-end="1299" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://C:/Ruby193/lib/ruby/gems/1.9.1/gems/selenium-webdriver-2.37.0/lib/selenium/webdriver/common/platform.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="133" column="17" selection-start="2724" selection-end="2724" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/lib/mysql2.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="4" column="95" selection-start="157" selection-end="157" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/run.rb">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="250" column="4" selection-start="6187" selection-end="6187" vertical-scroll-proportion="0.8466819">
-          <folding />
+    <entry file="uml://Ruby/Robot::Menu">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>Ruby</ID>
+          <OriginalElement>Robot::Menu</OriginalElement>
+          <nodes>
+            <node x="" y="">Robot::LoaderWatir</node>
+            <node x="" y="">Robot</node>
+            <node x="" y="">Robot::NokoParser</node>
+            <node x="" y="">ParserWatir</node>
+            <node x="" y="">Robot::Record</node>
+            <node x="" y="">Robot::Menu</node>
+            <node x="" y="">Robot::Loader</node>
+            <node x="" y="">Robot::Data_set</node>
+          </nodes>
+          <notes />
+          <edges />
+          <settings layout="Hierarchic Group" zoom="1.0" x="470.0" y="286.0" />
+          <SelectedNodes />
+          <Categories>
+            <Category>Fields</Category>
+            <Category>Methods</Category>
+          </Categories>
+          <SCOPE>All</SCOPE>
         </state>
       </provider>
     </entry>

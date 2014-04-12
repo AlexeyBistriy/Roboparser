@@ -15,6 +15,7 @@ module Robot
       l=open(@uri,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1", :proxy => proxy)
       @html=l.read
       @header=l.meta
+      l.close
       save_to_log(url_)
       true
     rescue
@@ -82,15 +83,25 @@ module Robot
   end
 
   class LoaderWatir < Loader
-    def initialize(encoding='UTF-8')
+    def initialize(proxy=nil,encoding='UTF-8')
       @uri=nil
       @html=nil
       @header=nil
       client = Selenium::WebDriver::Remote::Http::Default.new
       client.timeout = 300
-      @watirff = Watir::Browser.new :ff, :http_client => client
-      @encoding=encoding
+      if proxy.nil?
+        @watirff = Watir::Browser.new :ff, :http_client => client
+        @encoding=encoding
+      else
+        profile = Selenium::WebDriver::Firefox::Profile.new
+        profile.proxy = Selenium::WebDriver::Proxy.new :http => proxy, :ssl => proxy
+        @watirff = Watir::Browser.new :ff, :http_client => client, :profile => profile
+        @encoding=encoding
+      end
 
+    end
+    def close
+      @watirff.close
     end
     def go(url_)
       #url=Addressable::URI.parse(url_)

@@ -2,7 +2,7 @@ module Robot
   #old gem mysql
   def self.connect
     begin
-      connection = Mysql.new("localhost","alexey", '')
+      connection = Mysql.new("10.2.25.1","alexey",'')
       connection.query('SET NAMES utf8 COLLATE utf8_unicode_ci;')
       return connection unless block_given?
       yield connection
