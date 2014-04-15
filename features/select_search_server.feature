@@ -25,15 +25,17 @@ Feature: Select search server
 #      | Bing  | https://www.bing.com/ |
 #      | DuckDuckGo | https://duckduckgo.com/ |
 #
-    Scenario: Verification of the available server.
+    Scenario Outline: Verification of the available server.
 
-      Given a name servers "Google" with url "https://www.google.com/"
-      When I connect to the "https://www.google.com/"
-      When server available
-      Then I should see "server <url> is available"
+      Given a server "<name>" with "<url>"
+#      When I connect to the "<url>"
+#      And server available
+#      Then I should see "server <url> is available"
+#      And I should see "Welcome in <name>"
 
-
-
+    Scenarios: Search Server
+      | name | url |
+      | Google | https://www.google.com |
 
 
 
