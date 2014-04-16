@@ -28,17 +28,17 @@ Feature: Select search server
     Scenario Outline: Verification of the available server.
 
       Given a server "<name>" with "<url>"
-      When I try to visit to the "<url>"
-      And server available
-      Then I should see "server <url> is available"
-      And I should see "Welcome in <name>"
+      When I try to visit to the server
+#      And server available
+#      Then I should see "server <url> is available"
+#      And I should see "Welcome in <name>"
 
     Scenarios: Search Server
       | name | url |
       | Google | https://www.google.com/ |
-      | google | www.google.com         |
-      | Google | http://www.google.com  |
-      | Google | https://www.google.com.ua/search?q=t|
+#      | google | www.google.com         |
+#      | Google | http://www.google.com  |
+#      | Google | https://www.google.com.ua/search?q=t|
 
 
 
