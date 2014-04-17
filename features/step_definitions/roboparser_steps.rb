@@ -5,11 +5,10 @@
 
 
 Given(/^a server "(.*?)" with "(.*?)"$/) do |arg1, arg2|
-  @loader=Roboparser::Loader.new
-  @loader.host_name=arg1
-  @loader.host_url=arg2
+  @host=Roboparser::Host.new(name:arg1,url:arg2)
 end
 
 When(/^I try to visit to the server$/) do
-  @loader.visit
+  @loader=Roboparser::Loader.new
+  @loader.visit(@host)
 end

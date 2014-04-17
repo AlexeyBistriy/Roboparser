@@ -14,31 +14,20 @@ require 'spec_helper'
 
 
 module Roboparser
-
-  describe Loader do
-
-    befor(:each) do
-      @loader=Loader.new
+  describe Host do
+    before(:each) do
+      @host=Host.new(name:'Google',url:'http://www.google.com/')
     end
-    context "#host_name" do
+    context "#name" do
       it "name" do
-        @loader.host_name="Google"
-        @loader.host_name.should == "Google"
+        @host.name.should == "Google"
       end
     end
-    context "#host_url" do
+    context "#url" do
       it "url" do
-        @loader.host_url="http://www.google.com/"
-        @loader.host_url.should == "http://www.google.com/"
+        @host.url.should == "http://www.google.com/"
       end
     end
-    context "#visit" do
-      it  do
-
-      end
-
-    end
-
   end
 end
 
