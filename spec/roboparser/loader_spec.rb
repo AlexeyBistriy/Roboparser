@@ -29,6 +29,20 @@ module Roboparser
       end
     end
   end
+  describe Loader do
+    before(:each) do
+      @host=Host.new(name:'Google',url:'http://www.google.com/')
+
+    end
+    context '#visit' do
+      it 'server available' do
+        stub_request(:get,@host).to
+      end
+      it "server unavailable" do
+
+      end
+    end
+  end
 end
 
 
