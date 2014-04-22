@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'spec_helper'
 
 #describe "#list_servers" do
@@ -14,33 +15,24 @@ require 'spec_helper'
 
 
 module Roboparser
-  describe Host do
+ describe Loader do
     before(:each) do
-      @host=Host.new(name:'Google',url:'http://www.google.com/')
-    end
-    context "#name" do
-      it "name" do
-        @host.name.should == "Google"
-      end
-    end
-    context "#url" do
-      it "url" do
-        @host.url.should == "http://www.google.com/"
-      end
-    end
-  end
-  describe Loader do
-    before(:each) do
-      @host=Host.new(name:'Google',url:'http://www.google.com/')
 
+      @loader=Loader.new
     end
     context '#visit' do
       it 'server available' do
-        stub_request(:get,@host).to
+         @host=Host.new(name:'Yandex',url:'http://yandex.ua/yandsearch?lr=142&text=привет')
+         canned_response = File.new 'yandex_200.yaml'
+         stub_request(:get, "http://yandex.ua/yandsearch?lr=142&text=привет").to_return(canned_response)
+         @loader.visit(@host)
+         @loader.status_code.should =~ /20./
       end
-      it "server unavailable" do
+      it 'server unavailable' do
+        expect{@loader.visit(@host)}.to raise_error("Error")
+        @loader.status_code.should =~ /40./
+      end
 
-      end
     end
   end
 end
