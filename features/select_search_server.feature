@@ -29,7 +29,7 @@ Feature: Select search server
 
       Given a server "<name>" with "<url>"
       When I try to visit to the server
-#     And server available
+      And server available
 #      Then I should see "server <url> is available"
 #      And I should see "Welcome in <name>"
 
