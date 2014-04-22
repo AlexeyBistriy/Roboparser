@@ -1,3 +1,4 @@
+
 Feature: Select search server
   As a internet user
   I want to choose a search server and know that it is available

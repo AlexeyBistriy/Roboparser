@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'webmock/rspec'
 module WebMockWorld
   include WebMock
