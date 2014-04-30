@@ -8,18 +8,23 @@ module Roboparser
       @base_uri=nil
     end
     attr_reader :meta,:html,:status,:base_uri
-    def visit(host,&pro)
-      yiald true
-      open(host.uri,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")do |f|
-        @status=f.status
-        @html=f.read
-        @meta=f.meta
-        @base_uri=f.base_uri
-      end
+  def visit(host)
+
+    open(host.uri,'User-Agent'=>"Mozilla/5.0 (Windows NT 6.0; rv:12.0) Gecko/20100101 Firefox/12.0 FirePHP/0.7.1")do |f|
+      @status=f.status
+      @html=f.read
+      @meta=f.meta
+      @base_uri=f.base_uri
+
+    end
     rescue SocketError=>e
-      puts e
+      puts "server #{host.name} not availeble. Exception #{e}"
+
     rescue OpenURI::HTTPError=>e
-      puts e
+      @status=["205", "OK"]
+      puts "status #{@status}"
+      puts "page #{host.url} not found.Exception #{e}"
+
     end
   end
 end
