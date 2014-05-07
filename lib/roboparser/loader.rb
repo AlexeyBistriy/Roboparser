@@ -20,10 +20,10 @@ module Roboparser
     rescue SocketError=>e
       puts "server #{host.name} not availeble. Exception #{e}"
 
-    rescue OpenURI::HTTPError=>e
-      @status=["205", "OK"]
-      puts "status #{@status}"
-      puts "page #{host.url} not found.Exception #{e}"
+    #rescue OpenURI::HTTPError=>e
+    #  @status=["205", "Ok"]
+    #  puts "status #{@status}"
+    #  puts "page #{host.url} not found.Exception #{e}"
 
     end
   end

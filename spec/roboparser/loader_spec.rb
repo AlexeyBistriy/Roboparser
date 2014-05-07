@@ -27,14 +27,15 @@ module Roboparser
          VCR.use_cassette('yandex_hello') do
             @loader.visit(@host)
          end
-         expect(@loader.status) == ["200", "OK"]
+         expect(@loader.status).to eq(["200", "Ok"])
        end
       it 'load page not found' do
 
         @host=Host.new(name:'Yandex',url:'http://www.yandex.ru/rupt')
         VCR.use_cassette('yandex_OpenURI_HTTPError') do
-          @loader.visit(@host)
-          expect(@loader.status)==["203", "OK"]
+          expect(lambda{@loader.visit(@host)}).to raise_error(OpenURI::HTTPError)
+          #expect(@loader.status).to eq(["205", "Ok"])
+
         end
       end
     end
